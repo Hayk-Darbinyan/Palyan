@@ -1,8 +1,33 @@
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "../atom/Button";
 import round from "@/assets/icons/round.svg";
 import Header from "../layouts/Header";
+import hero from "@/assets/images/hero.png";
+import cart from "@/assets/images/cart.jpg";
+import news from "@/assets/images/news.jpg";
+import catalog from "@/assets/images/cart.jpg";
+import faq from "@/assets/images/faq.jpg";
+import { useLocation } from "react-router";
+import ContactModal from "./ContactModal";
 
 const Hero = ({ isHome }: { isHome: boolean }) => {
+  const { t } = useTranslation();
+  const location = useLocation();
+  const pathname = location.pathname.split("/")[1];
+  const [showContactModal, setShowContactModal] = useState(false);
+
+  const bg = isHome
+    ? hero
+    : pathname === "cart"
+    ? cart
+    : pathname === "news"
+    ? news
+    : pathname === "catalog"
+    ? catalog
+    : pathname === "faq"
+    ? faq
+    : "";
 
   return (
     <>
@@ -43,9 +68,12 @@ const Hero = ({ isHome }: { isHome: boolean }) => {
         </div>
 
         <div className="hidden xl:block absolute right-0 top-0 w-[223px] h-[100px] bg-[#F8F7F0] rounded-bl-[30px]">
-          <Button className="absolute top-5 left-[19px] w-[209px] h-[60px] gap-px bg-[#efd45c] rounded-[30px] hover:bg-[#efd45c]/90 transition-colors flex items-center justify-center">
+          <Button
+            onClick={() => setShowContactModal(true)}
+            className="absolute top-5 left-[19px] w-[209px] h-[60px] gap-px bg-[#efd45c] rounded-[30px] hover:bg-[#efd45c]/90 transition-colors flex items-center justify-center cursor-pointer"
+          >
             <span className="font-normal text-[#404a3d] text-base tracking-[0] leading-6 whitespace-nowrap">
-              Կոնտակտներ
+              {t("header.contact.button")}
             </span>
             <img
               className="w-[22.38px] h-6"
@@ -63,8 +91,7 @@ const Hero = ({ isHome }: { isHome: boolean }) => {
           <div
             className="w-full rounded-[30px] pb-5 overflow-hidden min-h-[500px] md:min-h-[unset]"
             style={{
-              background:
-                "url(https://c.animaapp.com/mj34pxy3r3iOgt/img/background.png) 50% 50% / cover",
+              background: `url(${bg}) 50% 50% / cover`,
             }}
           >
             <Header />
@@ -75,7 +102,7 @@ const Hero = ({ isHome }: { isHome: boolean }) => {
                   className="w-[201px] h-[30px] bg-transparent mt-10 rounded-[50px] border border-solid border-white animate-fade-in opacity-0 pointer-events-none"
                 >
                   <p className="font-normal text-white text-xs  leading-[22px] whitespace-nowrap">
-                    ԲԱՐՁՐՈՐԱԿ ՏԵՍԱԿԱՆԻ
+                    {t("hero.button")}
                   </p>
                 </Button>
 
@@ -84,7 +111,7 @@ const Hero = ({ isHome }: { isHome: boolean }) => {
                   // style={{ "--animation-delay": "400ms" }}
                 >
                   <div className="flex items-center justify-center w-[931px] font-semibold sm:font-normal text-white text-[24px] sm:text-[50px] tracking-[0] leading-[60px]">
-                    Շուկայում պահանջված անասնաբուժական դեղերի լայն ընտրանի
+                    {t("hero.title")}
                   </div>
                 </div>
 
@@ -93,16 +120,17 @@ const Hero = ({ isHome }: { isHome: boolean }) => {
                   // style={{ "--animation-delay": "600ms" }}
                 >
                   <div className="flex items-center justify-center mt-[7px] font-normal text-white text-lg leading-7">
-                    Մշտական պահեստային պաշար և արագ առաքում
+                    {t("hero.subtitle")}
                   </div>
                 </div>
 
                 <Button
-                  className="w-[177px] h-12 mt-[25px] gap-[3px] bg-white rounded-[30px] hover:bg-white/90 transition-colors animate-fade-in opacity-0 flex items-center justify-center"
+                  onClick={() => setShowContactModal(true)}
+                  className="w-[177px] h-12 mt-[25px] gap-[3px] bg-white rounded-[30px] hover:bg-white/90 transition-colors animate-fade-in opacity-0 flex items-center justify-center cursor-pointer"
                   // style={{ "--animation-delay": "800ms" }}
                 >
                   <span className="font-normal text-[#404a3d] text-base tracking-[0] leading-6 whitespace-nowrap">
-                    Կապ Մեզ Հետ
+                    {t("hero.contactUs")}
                   </span>
                   <img
                     className="w-[22px] h-[21px]"
@@ -117,19 +145,24 @@ const Hero = ({ isHome }: { isHome: boolean }) => {
           <div
             className="w-full rounded-[30px] pb-5 overflow-hidden min-h-[300px] md:min-h-[unset]"
             style={{
-              background:
-                "url(https://c.animaapp.com/mj34pxy3r3iOgt/img/background.png) 50% 50% / cover",
+              background: `url(${bg}) 50% 50% / cover`,
             }}
           >
             <Header />
             <div className="my-10 md:mb-[78px] md:ml-[9%] w-full max-w-[1863px] flex px-5">
               <p className="text-2xl sm:text-[50px] leading-15 text-white">
-                Կատալոգ
+                {t("header.nav." + pathname)}
               </p>
             </div>
           </div>
         )}
       </div>
+
+      {/* Contact Modal */}
+      <ContactModal
+        isOpen={showContactModal}
+        onClose={() => setShowContactModal(false)}
+      />
     </>
   );
 };

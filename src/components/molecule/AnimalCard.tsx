@@ -1,5 +1,6 @@
 import shape from "@/assets/images/animalCardShape.png";
 import type { AnimalCardType } from "@/types/animalCard";
+import { animalIcons } from "@/constants/animalIcons";
 
 const AnimalCard = ({ animal }: { animal: AnimalCardType }) => {
   return (
@@ -14,7 +15,7 @@ const AnimalCard = ({ animal }: { animal: AnimalCardType }) => {
         <div className="flex gap-3 sm:gap-4 items-center mb-4">
           <div className="h-16 w-16 sm:h-[72px] sm:w-[72px] md:h-20 md:w-20 rounded-full bg-[#0E99A2] flex justify-center items-center shrink-0 transition-transform duration-300 group-hover:scale-110">
             <img
-              src={animal?.icon}
+              src={animalIcons[animal.key as keyof typeof animalIcons]}
               alt={animal?.name}
               className="w-8 h-8 sm:w-9 sm:h-9 md:w-[37px] md:h-[39px] object-contain"
             />
@@ -28,7 +29,7 @@ const AnimalCard = ({ animal }: { animal: AnimalCardType }) => {
 
         {/* Description */}
         <div className="border-t border-[#404A3D1A] pt-4 sm:pt-5 md:pt-6 flex-1">
-          <p className="text-sm sm:text-base leading-relaxed text-[#666666] line-clamp-3">
+          <p className="text-sm sm:text-base leading-relaxed text-[#666666] line-clamp-2">
             {animal?.description}
           </p>
         </div>

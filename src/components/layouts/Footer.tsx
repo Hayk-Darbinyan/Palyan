@@ -1,4 +1,6 @@
 import React from "react";
+import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 import { navigationItems } from "@/constants/headerMenu";
 import mail from "@/assets/icons/mail.svg";
 import phone from "@/assets/icons/phone.svg";
@@ -9,6 +11,8 @@ import ig from "@/assets/icons/ig.svg";
 import linkedin from "@/assets/icons/in.svg";
 
 const Footer = () => {
+  const navigate = useNavigate();
+  const { t } = useTranslation();
   return (
     <footer>
       {/* Top Section - Teal Background */}
@@ -21,13 +25,16 @@ const Footer = () => {
               <div className="hidden md:flex items-center justify-center lg:justify-start gap-3 sm:gap-4 md:gap-6">
                 {navigationItems.map((item, index) => (
                   <React.Fragment key={index}>
-                    <button className="text-xs sm:text-sm md:text-[14px] leading-6 md:leading-[25px] whitespace-nowrap flex items-center justify-center hover:opacity-80 transition-opacity">
+                    <button
+                      className="text-xs sm:text-sm md:text-[14px] leading-6 md:leading-[25px] whitespace-nowrap flex items-center justify-center hover:opacity-80 transition-opacity"
+                      onClick={() => navigate(item.route)}
+                    >
                       <span
                         className={
                           item.active ? "text-[#efd45c]" : "text-white"
                         }
                       >
-                        {item.text}
+                        {t(item.text)}
                       </span>
                     </button>
                     {index < navigationItems.length - 1 && (
@@ -41,13 +48,16 @@ const Footer = () => {
               <div className="flex md:hidden flex-col items-center gap-3 w-full">
                 {navigationItems.map((item, index) => (
                   <React.Fragment key={index}>
-                    <button className="text-sm leading-6 whitespace-nowrap hover:opacity-80 transition-opacity">
+                    <button
+                      className="text-sm leading-6 whitespace-nowrap hover:opacity-80 transition-opacity"
+                      onClick={() => navigate(item.route)}
+                    >
                       <span
                         className={
                           item.active ? "text-[#efd45c]" : "text-white"
                         }
                       >
-                        {item.text}
+                        {t(item.text)}
                       </span>
                     </button>
                     {index < navigationItems.length - 1 && (
@@ -101,9 +111,7 @@ const Footer = () => {
 
               {/* Description */}
               <p className="text-sm md:text-[14px] leading-relaxed md:leading-8 text-[#666666]">
-                Ընկերությունը հիմնադրվել է 2025 թվականին, ընկերության
-                աշխատակիցները այս ոլորտում ունեն երկար տարիների փորձ և
-                հմտություններ։
+                {t("footer.description")}
               </p>
 
               {/* Social Media */}
@@ -143,7 +151,7 @@ const Footer = () => {
             <div className="w-full lg:w-2/3 flex flex-col gap-6 md:gap-8">
               {/* Motto */}
               <h3 className="text-2xl md:text-3xl leading-tight md:leading-[42px] text-[#404A3D] font-semibold">
-                Ընկերության կարգախոսը
+                {t("footer.slogan")}
               </h3>
 
               {/* Three Columns */}
@@ -151,7 +159,7 @@ const Footer = () => {
                 {/* Menu Column */}
                 <div className="flex flex-col gap-4">
                   <h4 className="text-base md:text-[18px] leading-6 md:leading-[26px] text-[#404A3D] font-medium">
-                    Մենյու
+                    {t("footer.menu")}
                   </h4>
                   <nav className="flex flex-col items-start gap-3">
                     {navigationItems.map((item, index) => (
@@ -159,7 +167,7 @@ const Footer = () => {
                         key={index}
                         className="text-left text-sm md:text-[15px] leading-6 md:leading-[26px] text-[#666666] hover:text-[#0E99A2] transition-colors"
                       >
-                        {item.text}
+                        {t(item.text)}
                       </button>
                     ))}
                   </nav>
@@ -168,14 +176,17 @@ const Footer = () => {
                 {/* Working Hours Column */}
                 <div className="flex flex-col gap-4">
                   <h4 className="text-base md:text-[18px] leading-6 md:leading-[26px] text-[#404A3D] font-medium">
-                    Աշխատանքային ժամեր
+                    {t("footer.workHours")}
                   </h4>
                   <div className="flex flex-col items-start gap-3">
                     <p className="text-sm md:text-[15px] leading-6 md:leading-[26px] text-[#666666]">
-                      Երկ. - ուրբ. ` 10:00-20:00
+                      {t("footer.workDays")}
                     </p>
                     <p className="text-sm md:text-[15px] leading-6 md:leading-[26px] text-[#666666]">
-                      Շաբաթ` 10:00 - 20:00
+                      {t("footer.sat")}
+                    </p>
+                    <p className="text-sm md:text-[15px] leading-6 md:leading-[26px] text-[#666666]">
+                      {t("footer.sun")}
                     </p>
                   </div>
                 </div>
@@ -183,14 +194,14 @@ const Footer = () => {
                 {/* Address Column */}
                 <div className="flex flex-col gap-4">
                   <h4 className="text-base md:text-[18px] leading-6 md:leading-[26px] text-[#404A3D] font-medium">
-                    Մեր Հասցեները
+                    {t("footer.ourAddres")}
                   </h4>
                   <div className="flex flex-col items-start gap-3">
                     <a
                       href="#"
                       className="text-sm md:text-[15px] leading-6 md:leading-[26px] text-[#666666] hover:text-[#0E99A2] transition-colors"
                     >
-                      ք. Երևան, Կենտրոն, Փողոց 1
+                      {t("footer.addres")}
                     </a>
                   </div>
                 </div>

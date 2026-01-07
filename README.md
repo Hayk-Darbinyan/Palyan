@@ -71,3 +71,141 @@ export default defineConfig([
   },
 ])
 ```
+
+```
+Palyan
+├─ .qodo
+│  ├─ agents
+│  └─ workflows
+├─ components.json
+├─ eslint.config.js
+├─ index.html
+├─ package-lock.json
+├─ package.json
+├─ public
+│  └─ vite.svg
+├─ README.md
+├─ src
+│  ├─ app
+│  │  ├─ App.tsx
+│  │  └─ styles
+│  │     ├─ index.css
+│  │     ├─ reset.css
+│  │     └─ variables
+│  │        └─ global.css
+│  ├─ assets
+│  │  ├─ icons
+│  │  │  ├─ am.svg
+│  │  │  ├─ arrow.svg
+│  │  │  ├─ beef.svg
+│  │  │  ├─ bird.svg
+│  │  │  ├─ calendar.svg
+│  │  │  ├─ collapse.svg
+│  │  │  ├─ fb.svg
+│  │  │  ├─ horse.svg
+│  │  │  ├─ ig.svg
+│  │  │  ├─ in.svg
+│  │  │  ├─ leaf.svg
+│  │  │  ├─ life.svg
+│  │  │  ├─ mail.svg
+│  │  │  ├─ pass.svg
+│  │  │  ├─ phish.svg
+│  │  │  ├─ phone.svg
+│  │  │  ├─ pig.svg
+│  │  │  ├─ rabbit.svg
+│  │  │  ├─ round.svg
+│  │  │  ├─ search.svg
+│  │  │  ├─ sheep.svg
+│  │  │  ├─ spider.svg
+│  │  │  ├─ trash.svg
+│  │  │  ├─ w.svg
+│  │  │  └─ x.svg
+│  │  └─ images
+│  │     ├─ animalCardShape.png
+│  │     ├─ basket.png
+│  │     ├─ catalog.png
+│  │     ├─ dirofen.png
+│  │     ├─ faq.png
+│  │     ├─ hero.png
+│  │     ├─ logo.svg
+│  │     ├─ logoWhite.svg
+│  │     ├─ medicine.png
+│  │     ├─ news1.png
+│  │     ├─ news2.png
+│  │     ├─ news3.png
+│  │     ├─ partner1.png
+│  │     ├─ partner2.png
+│  │     ├─ partner3.png
+│  │     ├─ partner4.png
+│  │     ├─ partner5.png
+│  │     ├─ productShape.png
+│  │     ├─ service1.png
+│  │     ├─ service2.png
+│  │     ├─ serviceShape.png
+│  │     ├─ slogan.jpg
+│  │     ├─ target.png
+│  │     └─ we.png
+│  ├─ components
+│  │  ├─ atom
+│  │  │  ├─ Button.tsx
+│  │  │  ├─ Card.tsx
+│  │  │  ├─ StatCard.tsx
+│  │  │  ├─ Toaster.tsx
+│  │  │  └─ Tooltip.tsx
+│  │  ├─ layouts
+│  │  │  ├─ Footer.tsx
+│  │  │  ├─ Header.tsx
+│  │  │  └─ Sidebar.tsx
+│  │  ├─ molecule
+│  │  │  ├─ AnimalCard.tsx
+│  │  │  ├─ Benefits.tsx
+│  │  │  ├─ CartItem.tsx
+│  │  │  ├─ FilterPanel.tsx
+│  │  │  ├─ Hero.tsx
+│  │  │  ├─ OrderSummary.tsx
+│  │  │  ├─ ProductCard.tsx
+│  │  │  ├─ ServiceCard.tsx
+│  │  │  └─ SubsectionPanel.tsx
+│  │  ├─ organism
+│  │  │  └─ ProductFilterSystem.tsx
+│  │  └─ pages
+│  │     ├─ AdminDashboard.tsx
+│  │     ├─ CartPage.tsx
+│  │     ├─ Catalog.tsx
+│  │     ├─ Home.tsx
+│  │     ├─ News.tsx
+│  │     ├─ NewsDetails.tsx
+│  │     └─ ProductDetails.tsx
+│  ├─ constants
+│  │  ├─ animalTypes.ts
+│  │  ├─ catalog.ts
+│  │  ├─ headerMenu.ts
+│  │  └─ services.ts
+│  ├─ hooks
+│  ├─ i18n
+│  │  ├─ i18n.ts
+│  │  └─ locales
+│  │     ├─ en.json
+│  │     ├─ hy.json
+│  │     └─ ru.json
+│  ├─ main.tsx
+│  ├─ routes
+│  │  └─ Routes.tsx
+│  ├─ stores
+│  │  ├─ useCartStore.ts
+│  │  └─ useFilterStore.ts
+│  ├─ types
+│  │  ├─ animalCard.ts
+│  │  ├─ cart.ts
+│  │  ├─ catalog.ts
+│  │  ├─ headerMenu.ts
+│  │  └─ serviceCard.ts
+│  └─ utils
+│     └─ cn.ts
+├─ tsconfig.app.json
+├─ tsconfig.json
+├─ tsconfig.node.json
+├─ vite.config.js
+└─ vite.config.ts
+
+```

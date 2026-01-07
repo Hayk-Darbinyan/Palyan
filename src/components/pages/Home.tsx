@@ -1,7 +1,7 @@
+import { useTranslation } from "react-i18next";
 import AnimalCard from "../molecule/AnimalCard";
 import Hero from "../molecule/Hero";
-import { animalTypes } from "@/constants/animalTypes";
-import we from "@/assets/images/we.jpg";
+import we from "@/assets/images/we.png";
 import round from "@/assets/icons/round.svg";
 import leaf from "@/assets/icons/leaf.svg";
 import { Button } from "../atom/Button";
@@ -13,10 +13,18 @@ import StatsCard from "../atom/StatCard";
 import Footer from "../layouts/Footer";
 
 const Home = () => {
+  const { t } = useTranslation();
   const stats = [
-    { percentage: 90, label: "Որակյալ արտադրանք" },
-    { percentage: 78, label: "Գոհ հաճախորդներ" },
+    { percentage: 90, label: t("target.target1") },
+    { percentage: 78, label: t("target.target2") },
   ];
+  const animalTypes = t("animalType.animals", {
+    returnObjects: true,
+  }) as Array<{
+    key: string;
+    name: string;
+    description: string;
+  }>;
   return (
     <div className="bg-[#f8f7f0] pt-7">
       <section className="w-full px-5">
@@ -27,7 +35,7 @@ const Home = () => {
       <section className="w-full px-5 mt-10">
         <div className="flex flex-col gap-10">
           <span className="text-[30px] leading-[50px] text-[#99999999]">
-            Կենդանատեսակ
+            {t("animalType.title")}
           </span>
 
           <div className="flex flex-wrap gap-4 justify-center">
@@ -77,45 +85,15 @@ const Home = () => {
             </div>
 
             {/* Content Section */}
-            <div className="w-full lg:w-1/2 flex flex-col gap-8 pt-0 lg:pt-[70px]">
-              {/* Badge */}
-              <div>
-                <Button
-                  variant="default"
-                  className="inline-flex items-center gap-2 px-6 py-2 h-[30px] rounded-full bg-white shadow-sm border border-gray-200 pointer-events-none text-sm leading-6 text-[#666666] font-normal"
-                  aria-label="Section label"
-                >
-                  <img
-                    src={leaf}
-                    alt=""
-                    className="w-5 h-5"
-                    aria-hidden="true"
-                  />
-                  <span>Ով ենք մենք</span>
-                </Button>
-              </div>
-
+            <div className="w-full lg:w-1/2 flex flex-col  gap-8 pt-0">
               {/* Heading */}
               <h2 className="text-4xl lg:text-5xl xl:text-[55px] leading-tight lg:leading-[60px] text-[#404A3D] font-semibold">
-                Ո՞վ ենք մենք
+                {t("whoWeAre.title")}
               </h2>
 
               {/* Description */}
               <div className="text-base lg:text-lg leading-relaxed text-[#666666] space-y-4">
-                <p>
-                  «Պալյան» սահմանափակ պատասխանատվությամբ ընկերությունը (ՍՊԸ)
-                  մասնագիտացված է անասնաբուժական պատվաստանյութերի,
-                  անասնաբուժական դեղերի, ախտահանիչների, կենդանիների կերային
-                  հավելումների ներկրման և իրացման ոլորտում՝ առաջարկելով
-                  համաշխարհային արտադրողների կողմից հաստատված, բարձրորակ և
-                  անվտանգ ապրանքատեսակներ, քանի որ համոզված ենք, որ կենդանիների
-                  առողջությունը սկսվում է ճիշտ կանխարգելիչ միջոցառումներից։
-                </p>
-                <p>
-                  Ներմուծում ենք այնպիսի ապրանքատեսականի, որոնք անցել են որակի
-                  միջազգային ստանդարտներ և հաստատված են փորձառու մասնագետների
-                  կողմից։
-                </p>
+                <p>{t("whoWeAre.description")}</p>
               </div>
             </div>
           </div>
@@ -132,16 +110,16 @@ const Home = () => {
               aria-label="Section label"
             >
               <img src={leaf} alt="" className="w-5 h-5" aria-hidden="true" />
-              <span>Ծառայություններ</span>
+              <span>{t("services.title")}</span>
             </Button>
 
             <p className="text-4xl sm:text-[55px] leading-15 text-white">
-              Ի՞ՆՉ ԵՆՔ ԱՌԱՋԱՐԿՈՒՄ
+              {t("services.description")}
             </p>
 
             <div className="flex flex-col mx-auto xl:flex-row gap-8">
               {services.map((service) => (
-                <ServiceCard key={service.service} service={service} />
+                <ServiceCard key={service.title} service={service} />
               ))}
             </div>
           </div>
@@ -155,21 +133,18 @@ const Home = () => {
             <div className="flex flex-col gap-2">
               <Button
                 variant="default"
-                className="w-[162px] inline-flex items-center gap-2 px-6 py-2 h-[30px] rounded-full bg-white shadow-sm border border-gray-200 pointer-events-none text-sm leading-6 text-[#666666] font-normal"
+                className="w-full max-w-56 inline-flex items-center gap-2 px-6 py-2 h-[30px] rounded-full bg-white shadow-sm border border-gray-200 pointer-events-none text-sm leading-6 text-[#666666] font-normal"
                 aria-label="Section label"
               >
                 <img src={leaf} alt="" className="w-5 h-5" aria-hidden="true" />
-                <span>ԻՆՉՈՒ՞ ՄԵՆՔ</span>
+                <span>{t("benefits.iconText")}</span>
               </Button>
               <div className="flex flex-col gap-8 lg:flex-row justify-between">
                 <p className="lg:w-1/2 text-3xl sm:text-[45px] leading-15 text-[#404A3D]">
-                  Մեր հիմնական առավելություններն են
+                  {t("benefits.title")}
                 </p>
                 <p className="pt-2.5 lg:w-1/2 text-base leading-6.5 text-[#666666]">
-                  Համագործակցում ենք անասնաբուժական կլինիկաների, ֆերմերների,
-                  անասնաբույժ մասնագետների, վերամշակող արտադրամասերի հետ՝
-                  ապահովելով շուկայի պահանջներին համապատասխան արդյունավետ
-                  լուծումներ։
+                  {t("benefits.description")}
                 </p>
               </div>
             </div>
@@ -210,7 +185,7 @@ const Home = () => {
                     className="w-4 h-4 sm:w-5 sm:h-5"
                     aria-hidden="true"
                   />
-                  <span>ՄԵՐ ՆՊԱՏԱԿԸ</span>
+                  <span>{t("target.iconText")}</span>
                 </Button>
               </div>
 
@@ -219,7 +194,7 @@ const Home = () => {
                 className="mt-6 sm:mt-8 md:mt-10 font-semibold text-white text-2xl sm:text-3xl md:text-4xl xl:text-[40px] tracking-tight leading-tight md:leading-normal -translate-y-4 animate-fade-in opacity-0"
                 // style={{ "--animation-delay": "400ms" }}
               >
-                Ո՞ՐՆ Է ՄԵՐ ԸՆԿԵՐՈՒԹՅԱՆ ՆՊԱՏԱԿԸ
+                {t("target.title")}
               </h2>
 
               {/* Description */}
@@ -227,9 +202,7 @@ const Home = () => {
                 className="mt-4 sm:mt-5 md:mt-6 font-normal text-white text-sm sm:text-base leading-relaxed md:leading-[1.6] -translate-y-4 animate-fade-in opacity-0"
                 // style={{ "--animation-delay": "600ms" }}
               >
-                Մեր նպատակն է բարձրացնել կենդանիների առողջության մակարդակը՝
-                ապահովելով որակյալ և հասանելի անասնաբուժական ապրանքատեսականիներ
-                ողջ Հայաստանի Հանրապետության տարածքում։
+                {t("target.description")}
               </p>
 
               {/* Stats */}

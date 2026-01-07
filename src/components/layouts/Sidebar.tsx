@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { navigationItems } from "@/constants/headerMenu";
-import { sections } from "@/constants/catalog";
 import { useFilterStore } from "@/stores/useFilterStore";
-import type { CatalogType } from "@/types/catalog";
+import { useTranslation } from "react-i18next";
+import LanguageSelector from "../molecule/LanguageSelector";
+import { useCategoryStore } from "@/stores/useCategoryStore";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -15,7 +16,11 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   const [expandedSection, setExpandedSection] = useState<number | null>(null);
 
   const navigate = useNavigate();
-  const { toggleFilter } = useFilterStore();
+  const { toggleSection: toggleSectionFilter, toggleSubsection } = useFilterStore();
+  const { t } = useTranslation();
+  
+  // Get sections from the store
+  const sections = useCategoryStore((state) => state.sections);
 
   const toggleCatalog = () => {
     setShowCatalog(!showCatalog);
@@ -24,23 +29,26 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
     }
   };
 
-  const toggleSection = (index: number) => {
-    if (sections[index].subsections.length > 0) {
+  const toggleSectionUI = (index: number) => {
+    if (sections[index]?.subsections.length > 0) {
       setExpandedSection(expandedSection === index ? null : index);
     } else {
       onClose();
     }
   };
 
-  const handleCategoryClick = (section: CatalogType) => {
+  const handleCategoryClick = (section: (typeof sections)[0]) => {
     navigate("/catalog");
-    toggleFilter("sections", section.section);
+    toggleSectionFilter(section.id);
     onClose();
   };
 
-  const handleSubsectionClick = (section: string, subsection: string) => {
+  const handleSubsectionClick = (
+    _section: (typeof sections)[0], 
+    subsection: { id: number; name: string }
+  ) => {
     navigate("/catalog");
-    toggleFilter("subsections", subsection, section);
+    toggleSubsection(subsection.id);
     onClose();
   };
 
@@ -93,7 +101,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                 {item.hasMenu ? (
                   <button className="w-full flex items-center justify-between py-3 text-left font-medium text-[#404A3D] hover:text-[#0E99A2] transition-colors">
                     <span onClick={() => handleNavigationClick(item.route)}>
-                      {item.text}
+                      {t(item.text)}
                     </span>
                     <svg
                       width="20"
@@ -119,7 +127,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                     onClick={() => handleNavigationClick(item.route)}
                     className="w-full py-3 text-left font-medium text-[#404A3D] hover:text-[#0E99A2] transition-colors"
                   >
-                    {item.text}
+                    {t(item.text)}
                   </button>
                 )}
 
@@ -127,7 +135,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                 {item.hasMenu && showCatalog && (
                   <div className="pl-4 mt-2 space-y-2">
                     {sections.map((section, sectionIndex) => (
-                      <div key={sectionIndex}>
+                      <div key={section.id}>
                         <button
                           className={`w-full flex items-center justify-between py-2 text-left text-sm transition-colors ${
                             section.active
@@ -135,9 +143,9 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                               : "text-[#999999] hover:text-[#404A3D]"
                           }`}
                         >
-                          <span
-                          onClick={() => handleCategoryClick(section)}
-                          >{section.section}</span>
+                          <span onClick={() => handleCategoryClick(section)}>
+                            {section.section}
+                          </span>
                           {section.subsections.length > 0 && (
                             <svg
                               width="16"
@@ -150,7 +158,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                                   ? "rotate-180"
                                   : ""
                               }`}
-                              onClick={() => toggleSection(sectionIndex)}
+                              onClick={() => toggleSectionUI(sectionIndex)}
                             >
                               <path
                                 d="M5 7.5L10 12.5L15 7.5"
@@ -167,18 +175,18 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                           expandedSection === sectionIndex && (
                             <div className="pl-4 mt-2 space-y-2">
                               {section.subsections.map(
-                                (subsection, subIndex) => (
+                                (subsection) => (
                                   <button
-                                    key={subIndex}
+                                    key={subsection.id}
                                     onClick={() =>
                                       handleSubsectionClick(
-                                        section.section,
+                                        section,
                                         subsection
                                       )
                                     }
                                     className="w-full py-2 text-left text-sm text-[#999999] hover:text-[#404A3D] transition-colors"
                                   >
-                                    {subsection}
+                                    {subsection.name}
                                   </button>
                                 )
                               )}
@@ -216,36 +224,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10">
-                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                  <rect width="40" height="40" rx="20" fill="#0E99A2" />
-                  <text
-                    x="20"
-                    y="26"
-                    textAnchor="middle"
-                    fill="white"
-                    fontSize="14"
-                    fontWeight="600"
-                  >
-                    ՀԱՅ
-                  </text>
-                </svg>
-              </div>
-              <div className="w-10 h-10">
-                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                  <rect width="40" height="40" rx="20" fill="#0E99A2" />
-                  <text
-                    x="20"
-                    y="26"
-                    textAnchor="middle"
-                    fill="white"
-                    fontSize="14"
-                    fontWeight="600"
-                  >
-                    EN
-                  </text>
-                </svg>
-              </div>
+              <LanguageSelector variant="mobile" />
             </div>
           </div>
         </div>

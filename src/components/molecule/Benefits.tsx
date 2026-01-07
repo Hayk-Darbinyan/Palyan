@@ -1,27 +1,29 @@
-const Benefits = () => {
-  const benefits = [
-    {
-      number: "01",
-      title: "Մեծ Տեսականի",
-      description: "Շուկայում պահանջված անասնաբուժական դեղերի լայն տեսականի",
-    },
-    {
-      number: "02",
-      title: "Պահշար և առաքում",
-      description: "Մշտական պահեստային պաշար և արագ առաքում",
-    },
-    {
-      number: "03",
-      title: "Պրոֆեսիոնալիզմ",
-      description: "Մասնագիտական խորհրդատվություն և պատասխանատու մոտեցում",
-    },
-    {
-      number: "04",
-      title: "Կուտակորդներ",
-      description: "Հավատարիմ գործընկերների արտադրողների հետ",
-    },
-  ];
+import { useTranslation } from "react-i18next";
 
+const benefits = [
+  {
+    number: "01",
+    title: "benefits.benefits.0.title",
+    description: "benefits.benefits.0.description",
+  },
+  {
+    number: "02",
+    title: "benefits.benefits.1.title",
+    description: "benefits.benefits.1.description",
+  },
+  {
+    number: "03",
+    title: "benefits.benefits.2.title",
+    description: "benefits.benefits.2.description",
+  },
+  {
+    number: "04",
+    title: "benefits.benefits.3.title",
+    description: "benefits.benefits.3.description",
+  },
+];
+const Benefits = () => {
+  const { t } = useTranslation();
   return (
     <section className="w-full py-12 md:py-16 lg:py-20 overflow-hidden">
       {/* Container with max-width */}
@@ -56,12 +58,12 @@ const Benefits = () => {
 
                 {/* Title */}
                 <h4 className="text-xl sm:text-2xl md:text-[26px] font-semibold leading-tight text-[#404A3D] mb-3 sm:mb-4">
-                  {step.title}
+                  {t(step.title)}
                 </h4>
 
                 {/* Description */}
                 <p className="text-sm sm:text-base leading-relaxed text-[#666666]">
-                  {step.description}
+                  {t(step.description)}
                 </p>
               </div>
             ))}

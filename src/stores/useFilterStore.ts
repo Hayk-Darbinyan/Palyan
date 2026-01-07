@@ -1,75 +1,69 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-interface CatalogItem {
-  section: string;
-  subsections: string[];
-}
-
 interface FilterState {
+  // ID-based filtering
+  selectedSectionId: number | null;
+  selectedSubsectionIds: number[];
   creators: string[];
-  sections: string[];
-  subsections: Record<string, string[]>;
-
-  catalog: CatalogItem[];
-
-  toggleFilter: (
-    category: "creators" | "sections" | "subsections",
-    value: string,
-    sectionName?: string
-  ) => void;
+  
+  // Methods
+  toggleSection: (sectionId: number) => void;
+  toggleSubsection: (subsectionId: number) => void;
+  toggleCreator: (creatorName: string) => void;
   clearFilters: () => void;
-  setCatalog: (catalog: CatalogItem[]) => void;
 }
 
 export const useFilterStore = create<FilterState>()(
   persist(
     (set) => ({
+      selectedSectionId: null,
+      selectedSubsectionIds: [],
       creators: [],
-      sections: [],
-      subsections: {},
-      catalog: [],
 
-      toggleFilter: (category, value, sectionName) =>
+      toggleSection: (sectionId) =>
         set((state) => {
-          if (category === "subsections" && sectionName) {
-            const currentSubsections = state.subsections[sectionName] || [];
-            const newSubsections = currentSubsections.includes(value)
-              ? currentSubsections.filter((v) => v !== value)
-              : [...currentSubsections, value];
-
+          // If clicking the same section, deselect it
+          if (state.selectedSectionId === sectionId) {
             return {
-              subsections: {
-                ...state.subsections,
-                [sectionName]: newSubsections,
-              },
+              selectedSectionId: null,
+              selectedSubsectionIds: [],
             };
           }
+          
+          // Select new section and clear subsections
+          return {
+            selectedSectionId: sectionId,
+            selectedSubsectionIds: [],
+          };
+        }),
 
-          if (category === "sections") {
-            const newSections = state.sections.includes(value) ? [] : [value];
-            return {
-              ...state,
-              [category]: newSections,
-            };
-          }
+      toggleSubsection: (subsectionId) =>
+        set((state) => {
+          const newSubsectionIds = state.selectedSubsectionIds.includes(subsectionId)
+            ? state.selectedSubsectionIds.filter((id) => id !== subsectionId)
+            : [...state.selectedSubsectionIds, subsectionId];
+            
+          return {
+            selectedSubsectionIds: newSubsectionIds,
+          };
+        }),
 
-          const currentArray = state[category] as string[];
-          const newArray = currentArray.includes(value)
-            ? currentArray.filter((v) => v !== value)
-            : [...currentArray, value];
-
-          return { [category]: newArray };
+      toggleCreator: (creatorName) =>
+        set((state) => {
+          const newCreators = state.creators.includes(creatorName)
+            ? state.creators.filter((name) => name !== creatorName)
+            : [...state.creators, creatorName];
+            
+          return { creators: newCreators };
         }),
 
       clearFilters: () =>
         set({
+          selectedSectionId: null,
+          selectedSubsectionIds: [],
           creators: [],
-          sections: [],
-          subsections: {},
         }),
-
-      setCatalog: (catalog) => set({ catalog }),
     }),
     {
       name: "product-filters-storage",

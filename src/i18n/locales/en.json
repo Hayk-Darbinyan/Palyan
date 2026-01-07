@@ -1,0 +1,215 @@
+{
+  "header": {
+    "nav": {
+      "home": "Home",
+      "cart": "Cart",
+      "catalog": "Catalog",
+      "news": "News",
+      "faq": "FAQ"
+    },
+    "contact": {
+      "call": "Call",
+      "button": "Contacts"
+    }
+  },
+  "hero": {
+    "button": "High-quality assortment",
+    "title": "A wide selection of veterinary drugs in demand on the market",
+    "subtitle": " Permanent stock availability and fast delivery",
+    "contactUs": "Contact us"
+  },
+  "animalType": {
+    "title": "Animal types",
+    "animals": [
+      {
+        "key": "beef",
+        "name": "Cattle",
+        "description": "Large ruminant"
+      },
+      {
+        "key": "sheep",
+        "name": "Small ruminants",
+        "description": "Sheep and goats"
+      },
+      {
+        "key": "bird",
+        "name": "Poultry",
+        "description": "Chickens"
+      },
+      {
+        "key": "pig",
+        "name": "Pigs",
+        "description": "Medications for pigs"
+      },
+      {
+        "key": "horse",
+        "name": "Horses",
+        "description": "Medications for horses"
+      },
+      {
+        "key": "fish",
+        "name": "Fish",
+        "description": "Medications for fish"
+      },
+      {
+        "key": "rabbit",
+        "name": "Small companion animals",
+        "description": "Dogs, cats"
+      },
+      {
+        "key": "spider",
+        "name": "Decorative animals",
+        "description": "Rabbits, guinea pigs, hamsters, chinchillas, birds"
+      }
+    ]
+  },
+  "manufacturer": "manufacturer",
+  "whoWeAre": {
+    "title": "Who We Are",
+    "description": " \"Palyan\" Limited Liability Company (LLC) specializes in the wholesale import and sale of veterinary vaccines and drugs, offering high-quality and safe products approved by global manufacturers, as we are convinced that animal health begins with the right medication. We import only those veterinary drugs that have passed international quality standards and are approved by experienced specialists. We collaborate with veterinary clinics, farms, and veterinary specialists, providing effective solutions in line with market demands.",
+    "clients": "satisfied customers"
+  },
+  "services": {
+    "title": "SERVICES",
+    "description": "WHAT WE OFFER",
+    "services": [
+      {
+        "subtitle": "THE BEST FOR ANIMALS",
+        "description": "With certified products, we support effective animal care and a healthy lifestyle, providing professionals with reliable supply and long-term cooperation."
+      },
+      {
+        "subtitle": "PROFESSIONAL APPROACH",
+        "description": "We operate with professional responsibility, relying on science and best practices, offering partners tailored solutions, clear terms, and reliable cooperation."
+      }
+    ]
+  },
+  "benefits": {
+    "iconText": "WHY US?",
+    "title": "Our main advantages are",
+    "description": "We cooperate with veterinary clinics, farmers, veterinary specialists, and processing plants, providing effective solutions in line with market requirements.",
+    "benefits": [
+      {
+        "title": "Large assortment",
+        "description": "A wide selection of veterinary drugs in demand and certified on the market"
+      },
+      {
+        "title": "Stock and delivery",
+        "description": "Permanent stock and fast delivery"
+      },
+      {
+        "title": "Professionalism",
+        "description": "Professional advice and responsible approach"
+      },
+      {
+        "title": "Manufacturers",
+        "description": "Cooperation with leading manufacturers"
+      }
+    ]
+  },
+  "target": {
+    "iconText": "Our target",
+    "title": "What is the company's target?",
+    "description": "The main objectives of  Palyan LLC are multifaceted, with its core mission being the protection and maintenance of animal health. The company aims to import and supply high-quality, safe, and effective veterinary medicines, vaccines, and animal care products, ensuring the health and well-being of both farm animals and pets.",
+    "target1": "lorem",
+    "target2": "lorem"
+  },
+  "footer": {
+    "description": "The company was founded in 2025, and its employees have many years of experience and expertise in this field.",
+    "slogan": "Healthy animals - sustainable business",
+    "menu": "Menu",
+    "workHours": "Working hours",
+    "workDays": "Mon - Fri: 09:00 - 17:00",
+    "sat": "Sat. non working day",
+    "sun": "Sun. non working day",
+    "ourAddres": "Our address",
+    "addres": "Yerevan, Malatia-Sebastia district"
+  },
+  "newsDetails": {
+    "backToNews": "Նորություններ",
+    "publishedAt": "Հրապարակման ամսաթիվ",
+    "author": "Հեղինակ",
+    "share": "Կիսվել"
+  },
+  "cart": {
+    "each": "Յուրաքանչյուրը",
+    "orderSummary": "Վերջնահաշվարկ",
+    "items": "Պրոդուկտներ",
+    "deliveryFee": "Առաքում",
+    "total": "Ընդհանուր",
+    "enterEmail": "Ձեր էլ․ հասցեն",
+    "goToCheckout": "Ուղարկել հարցում",
+    "emptyTitle": "Զամբյուղը դատարկ է",
+    "browseProducts": "Ավելացնել պրոդուկտներ"
+  },
+  "products": {
+    "title": "Կատալոգ",
+    "clearAll": "Մաքրել բոլորը",
+    "noResults": "Պրոդուկտներ չեն գտնվել"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to your questions",
+    "mainQuestions": "Main questions",
+    "otherQuestions": "Other questions",
+    "searchPlaceholder": "Search questions...",
+    "contactTitle": "Didn't find the answer to your question?",
+    "contactText": "Contact us and we will help you",
+    "contactButton": "CONTACT US",
+
+    "questions": {
+      "whoCanUse": "Who can use your services",
+      "whoCanUseAnswer": "Our services are designed for veterinary clinics, pharmacies, farms, and licensed professionals in the field.",
+
+      "wholesaleOnly": "Do you only sell wholesale",
+      "wholesaleOnlyAnswer": "Yes, we carry out wholesale sales exclusively for legal entities and individual entrepreneurs.",
+
+      "certified": "Is the product offered certified",
+      "certifiedAnswer": "Yes, all our veterinary medicines are certified and comply with current legislative and international requirements.",
+
+      "productRange": "What kind of products are included in your range",
+      "productRangeAnswer": "Our range includes veterinary medicines, vaccines, vitamins and supplements, as well as disinfectants, detergents and cleaning products.",
+
+      "placeOrder": "How can I place an order",
+      "placeOrderAnswer": "You can place an order by contacting our sales department by phone, email, or through the website.",
+
+      "delivery": "Do you provide delivery",
+      "deliveryAnswer": "Yes, we provide delivery under pre-agreed terms and conditions.",
+
+      "consultation": "Can I get professional advice",
+      "consultationAnswer": "Yes, our specialists provide advice on product selection and application.",
+
+      "becomePartner": "How can I become your partner",
+      "becomePartnerAnswer": "You can contact us to become a partner.",
+
+      "documents": "Do you provide accompanying documents for each product",
+      "documentsAnswer": "Yes, each supplied product is accompanied by the necessary documents.",
+
+      "storage": "How are the storage conditions for medicines ensured",
+      "storageAnswer": "The storage process is carried out in accordance with the manufacturer's instructions and current standards, ensuring appropriate temperature and hygienic conditions.",
+
+      "vaccineStorage": "Are vaccines stored under refrigerated conditions",
+      "vaccineStorageAnswer": "Yes, vaccines are maintained under complete cold storage control throughout the entire supply chain.",
+
+      "deliveryTime": "What are the delivery times",
+      "deliveryTimeAnswer": "Delivery times are determined after order confirmation, depending on the order volume and delivery location.",
+
+      "minOrder": "What is the minimum order quantity",
+      "minOrderAnswer": "The minimum order quantity is set individually and depends on the product type and terms of cooperation.",
+
+      "discounts": "Are there discounts for bulk purchases",
+      "discountsAnswer": "Yes, special pricing conditions and discount policies apply for large orders.",
+
+      "regions": "Do you work in the regions",
+      "regionsAnswer": "Yes, we deliver both in the capital and in the regions of the Republic of Armenia.",
+
+      "startCoopDocs": "What documents are needed to start a partnership",
+      "startCoopDocsAnswer": "To start a collaboration, the legal details of the organization are required.",
+
+      "customOrder": "Is it possible to make a custom order or special import",
+      "customOrderAnswer": "Yes, for some products it is possible to arrange an individual order or special import with a prepayment.",
+
+      "contactSpecialist": "How can I contact the responsible specialist",
+      "contactSpecialistAnswer": "You can contact our sales department by phone, email, or through the website contact form."
+    }
+  }
+}

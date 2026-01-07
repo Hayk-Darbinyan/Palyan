@@ -3,18 +3,20 @@ import { useNavigate } from "react-router";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import leaf from "@/assets/icons/leaf.svg";
 import { useFilterStore } from "@/stores/useFilterStore";
+import { useCategoryStore } from "@/stores/useCategoryStore";
 import SubsectionPanel from "./SubsectionPanel";
 
 type FilterCategory = "creators" | "sections";
 
 interface FilterPanelProps {
   title: string;
-  items: string[];
+  items: Array<{ id: number; name: string }>;
   category: FilterCategory;
   isMobile?: boolean;
-  onSectionSelect?: (section: string) => void;
-  selectedSection?: string;
+  onSectionSelect?: (sectionId: number | null) => void;
+  selectedSectionId?: number | null;
   details?: boolean;
+  onCategoryClick?: (categoryId: number) => void;
 }
 
 const FilterPanel = ({
@@ -23,45 +25,48 @@ const FilterPanel = ({
   category,
   isMobile = false,
   onSectionSelect,
-  selectedSection,
+  selectedSectionId,
   details,
+  onCategoryClick,
 }: FilterPanelProps) => {
   const [expanded, setExpanded] = useState(true);
-  const { creators, sections, subsections, toggleFilter } = useFilterStore();
-
-  const getCurrentFilters = () => {
-    switch (category) {
-      case "creators":
-        return creators;
-      case "sections":
-        return sections;
-      default:
-        return [];
-    }
-  };
-
-  const currentFilters = getCurrentFilters();
+  const { selectedSectionId: storeSelectedSectionId, toggleSection, toggleCreator } = useFilterStore();
+  const sections = useCategoryStore((state) => state.sections);
   const navigate = useNavigate();
 
-  const handleItemClick = (item: string) => {
-    if (category === "sections" && onSectionSelect) {
-      const isCurrentlySelected = currentFilters.includes(item);
-      onSectionSelect(isCurrentlySelected ? "" : item);
+  const currentSectionId = selectedSectionId ?? storeSelectedSectionId;
+
+  const handleItemClick = (itemId: number, itemName?: string) => {
+    if (category === "sections") {
+      const isCurrentlySelected = currentSectionId === itemId;
+      onSectionSelect?.(isCurrentlySelected ? null : itemId);
+
+      if (onCategoryClick && details) {
+        onCategoryClick(itemId);
+        return;
+      } else if (!details) {
+        toggleSection(itemId);
+      }
+    } else if (category === "creators") {
+      toggleCreator(itemName || "");
     }
-    toggleFilter(category, item);
 
     if (details) {
       navigate("/catalog");
     }
   };
 
-  const isSelected = (item: string) => {
+  const isSelected = (itemId: number) => {
     if (category === "sections") {
-      return currentFilters.length > 0 && currentFilters[0] === item;
+      return currentSectionId === itemId;
     }
-    return currentFilters.includes(item);
+    return false;
   };
 
+  const getSubsectionCount = (sectionId: number) => {
+    const section = sections.find((s) => s.id === sectionId);
+    return section ? section.subsections.length : 0;
+  };
   return (
     <div className="bg-white rounded-[30px] p-7.5 flex flex-col gap-4">
       <button
@@ -89,41 +94,34 @@ const FilterPanel = ({
           }`}
         >
           <div className="flex flex-col">
-            {items.map((item, idx) => (
-              <div key={idx} className="flex flex-col">
+            {items.map((item) => (
+              <div key={item.id} className="flex flex-col">
                 <div className="border-b border-[#EFEFEF] py-3 flex justify-between items-center group hover:bg-gray-50 transition-colors">
                   <div className="flex items-center gap-3">
                     <div className="w-[7px] h-[7px] rounded-full bg-[#EFD45C] shrink-0"></div>
                     <button
-                      onClick={() => handleItemClick(item)}
+                      onClick={() => handleItemClick(item.id, item.name)}
                       className={`leading-5.5 text-left transition-colors ${
-                        isSelected(item)
+                        isSelected(item.id)
                           ? "text-[#0E99A2] font-medium"
-                          : category === "sections" && selectedSection === item
-                          ? "text-[#404A3D] font-medium"
                           : "text-[#999999]"
-                      } group-hover:text-[#404A3D]`}
+                      } group-hover:text-[#404A3D] cursor-pointer`}
                     >
-                      {item}
+                      {item.name}
                     </button>
                   </div>
-                  {subsections[item] && subsections[item].length > 0 ? (
+                  {category === "sections" && (
                     <div className="shrink-0 min-w-5 h-5 px-1.5 bg-[#0E99A2] rounded-full flex items-center justify-center font-medium text-[11px] leading-0.5 text-[#FFFFFF]">
-                      {subsections[item].length}
+                      {getSubsectionCount(item.id)}
                     </div>
-                  ) : (
-                    <div className="w-5 h-5 shrink-0 rounded-full bg-transparent"></div>
                   )}
                 </div>
 
-                {/* Conditionally render SubsectionPanel */}
-                {category === "sections" &&
-                  selectedSection === item &&
-                  subsections[item]?.length > 0 && (
-                    <div className="block xl:hidden">
-                      <SubsectionPanel sectionName={item} />
-                    </div>
-                  )}
+                {category === "sections" && currentSectionId === item.id && !details && (
+                  <div className="block xl:hidden">
+                    <SubsectionPanel sectionId={item.id} />
+                  </div>
+                )}
               </div>
             ))}
           </div>

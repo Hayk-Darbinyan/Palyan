@@ -1,5 +1,6 @@
 import type { CatalogType } from "@/types/catalog";
 
+// This is legacy data - actual data comes from backend via useCategoryStore
 export const sections: CatalogType[] = [
   {
     section: "Կաթի փոխարինիչներ, պրեմիքսներ, կերային հավելումներ",
@@ -74,4 +75,4 @@ export const sections: CatalogType[] = [
     active: false,
     subsections: [],
   },
-];
+] as any;

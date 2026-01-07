@@ -1,21 +1,14 @@
-import { useState } from "react";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 import { useCartStore } from "@/stores/useCartStore";
 import CartItem from "@/components/molecule/CartItem";
 import OrderSummary from "@/components/molecule/OrderSummary";
 import Hero from "../molecule/Hero";
 
 const CartPage = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { items } = useCartStore();
-  const [promoCode, setPromoCode] = useState("");
-
-  const handleApplyPromo = () => {
-    if (promoCode) {
-      alert(`Promo code "${promoCode}" applied!`);
-      setPromoCode("");
-    }
-  };
 
   const handleCheckout = () => {
     navigate("/checkout");
@@ -26,16 +19,18 @@ const CartPage = () => {
   };
 
   return (
-    <div className="pt-7 px-2 sm:px-6 flex flex-col gap-8 bg-[#F8F7F0]">
+    <div className="pt-7 px-2 sm:px-6 flex flex-col gap-8 bg-[#F8F7F0] min-h-screen">
       <Hero isHome={false} />
       <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8 justify-between">
           {/* Cart Items Section */}
-          <div className="flex-2/3">
-            <div className="bg-white rounded-xl shadow-sm p-6">
+          <div className="lg:w-2/3">
+            <div className="bg-white rounded-2xl shadow-sm p-4 lg:p-6">
               <div className="space-y-6">
                 {items.length > 0 ? (
-                  items.map((item) => <CartItem key={item.id} item={item} />)
+                  items.map((item) => (
+                    <CartItem key={item.id} item={item} />
+                  ))
                 ) : (
                   <div className="text-center py-12">
                     <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -53,17 +48,14 @@ const CartPage = () => {
                         />
                       </svg>
                     </div>
-                    <h3 className="text-xl font-medium text-gray-500 mb-2">
-                      Your cart is empty
+                    <h3 className="text-xl font-medium text-gray-500 mb-10">
+                      {t('cart.emptyTitle')}
                     </h3>
-                    <p className="text-gray-400 mb-6">
-                      Add some products to get started
-                    </p>
                     <button
                       onClick={handleContinueShopping}
-                      className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+                      className="bg-[#0E99A2] text-white px-6 py-3 rounded-full hover:bg-[#0d8a92] transition-colors"
                     >
-                      Browse Products
+                      {t('cart.browseProducts')}
                     </button>
                   </div>
                 )}
@@ -72,11 +64,8 @@ const CartPage = () => {
           </div>
 
           {/* Order Summary Section */}
-          <div className="">
+          <div className="lg:w-1/3">
             <OrderSummary
-              promoCode={promoCode}
-              onPromoCodeChange={setPromoCode}
-              onApplyPromo={handleApplyPromo}
               onCheckout={handleCheckout}
             />
           </div>
