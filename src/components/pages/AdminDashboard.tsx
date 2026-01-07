@@ -23,7 +23,8 @@ const AdminDashboard = () => {
     if (!loading && !isAuthenticated) {
       setShowAuthModal(true);
     }
-  }, [isAuthenticated, loading, setShowAuthModal]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, loading]);
 
   const handleAuthSuccess = () => {
     setShowAuthModal(false);
@@ -161,8 +162,9 @@ const AdminDashboard = () => {
 
           {activeView === "edit" &&
             activeTab === "products" &&
-            selectedItem && (
-              <AddProductForm product={selectedItem as Product} />
+            selectedItem && 
+            "stock" in selectedItem && (
+              <AddProductForm product={selectedItem} />
             )}
 
           {activeView === "edit" && activeTab === "news" && selectedItem && (

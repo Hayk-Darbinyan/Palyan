@@ -181,7 +181,7 @@ const FaqPage = () => {
               </a>
               
               <a
-                href="mailto:info@example.com"
+                href="mailto:info@palyan.am"
                 className="flex items-center gap-4 px-6 py-4 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow group w-full lg:w-auto"
               >
                 <div className="w-10 h-10 lg:w-12 lg:h-12 bg-[#5B8C51] rounded-full flex items-center justify-center group-hover:bg-[#4a7a43] transition-colors shrink-0">
@@ -189,7 +189,7 @@ const FaqPage = () => {
                 </div>
                 <div className="text-left">
                   <p className="text-sm text-gray-500">Email us</p>
-                  <p className="text-base lg:text-lg font-semibold text-[#404A3D]">info@example.com</p>
+                  <p className="text-base lg:text-lg font-semibold text-[#404A3D]">info@palyan.am</p>
                 </div>
               </a>
             </div>

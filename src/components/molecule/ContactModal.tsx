@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Loader, Mail, Phone } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+import { useTranslation } from 'react-i18next';
 import { EMAILJS_CONFIG } from '@/config/emailjsConfig';
 
 interface ContactModalProps {
@@ -18,6 +19,7 @@ interface FormData {
 }
 
 const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -42,12 +44,12 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
     info: {
       email: 'info@palyan.am',
       phone: '+374 (00) 000-000',
-      label: 'General Information',
+      label: t('contact.generalInfo'),
     },
     sales: {
       email: 'sales@palyan.am',
       phone: '+374 (11) 111-111',
-      label: 'Sales Department',
+      label: t('contact.salesDept'),
     },
   };
 
@@ -69,7 +71,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
 
     // Check if EmailJS is configured
     if (!EMAILJS_CONFIG.publicKey || EMAILJS_CONFIG.publicKey === 'YOUR_PUBLIC_KEY_HERE') {
-      setError('Email service is not configured. Please contact support for assistance.');
+      setError(t('contact.errorConfig'));
       setLoading(false);
       return;
     }
@@ -127,7 +129,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
       <div className="bg-white rounded-2xl shadow-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="sticky top-0 bg-white border-b border-gray-200 flex items-center justify-between p-6">
-          <h2 className="text-2xl font-bold text-[#404A3D]">Contact Us</h2>
+          <h2 className="text-2xl font-bold text-[#404A3D]">{t('contact.title')}</h2>
           <button
             onClick={onClose}
             className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
@@ -157,10 +159,10 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                 </svg>
               </div>
               <h3 className="text-lg font-semibold text-[#404A3D] mb-2">
-                Message Sent Successfully!
+                {t('contact.successTitle')}
               </h3>
               <p className="text-gray-600">
-                Thank you for reaching out. We'll get back to you soon.
+                {t('contact.successText')}
               </p>
             </div>
           ) : (
@@ -168,13 +170,13 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
               {/* Left Column - Contact Info */}
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-[#404A3D] mb-6">
-                  Contact Information
+                  {t('contact.contactInfo')}
                 </h3>
 
                 {/* Contact Type Selection */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Department
+                    {t('contact.department')}
                   </label>
                   <select
                     name="contactType"
@@ -183,8 +185,8 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                     disabled={loading}
                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0E99A2] focus:border-transparent disabled:opacity-50"
                   >
-                    <option value="info">General Information</option>
-                    <option value="sales">Sales Department</option>
+                    <option value="info">{t('contact.generalInfo')}</option>
+                    <option value="sales">{t('contact.salesDept')}</option>
                   </select>
                 </div>
 
@@ -193,7 +195,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                   <div className="flex items-start gap-3">
                     <Mail className="w-5 h-5 text-[#0E99A2] shrink-0 mt-1" />
                     <div>
-                      <p className="text-sm text-gray-600">Email</p>
+                      <p className="text-sm text-gray-600">{t('contact.email')}</p>
                       <p className="font-medium text-gray-900">
                         {selectedContact.email}
                       </p>
@@ -203,7 +205,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                   <div className="flex items-start gap-3">
                     <Phone className="w-5 h-5 text-[#0E99A2] shrink-0 mt-1" />
                     <div>
-                      <p className="text-sm text-gray-600">Phone</p>
+                      <p className="text-sm text-gray-600">{t('contact.phone')}</p>
                       <p className="font-medium text-gray-900">
                         {selectedContact.phone}
                       </p>
@@ -214,8 +216,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                 {/* Additional Info */}
                 <div className="bg-gray-50 rounded-xl p-4 text-sm text-gray-600 mt-6">
                   <p>
-                    You can also reach us directly using the contact information
-                    above. We typically respond within 24 hours.
+                    {t('contact.additionalInfo')}
                   </p>
                 </div>
               </div>
@@ -225,7 +226,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                 {/* Name */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Full Name *
+                    {t('contact.fullName')} *
                   </label>
                   <input
                     type="text"
@@ -233,7 +234,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                     value={formData.name}
                     onChange={handleInputChange}
                     disabled={loading}
-                    placeholder="Your name"
+                    placeholder={t('contact.fullNamePlaceholder')}
                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0E99A2] focus:border-transparent disabled:opacity-50"
                     required
                   />
@@ -242,7 +243,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                 {/* Email */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address *
+                    {t('contact.emailAddress')} *
                   </label>
                   <input
                     type="email"
@@ -250,7 +251,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                     value={formData.email}
                     onChange={handleInputChange}
                     disabled={loading}
-                    placeholder="your@email.com"
+                    placeholder={t('contact.emailPlaceholder')}
                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0E99A2] focus:border-transparent disabled:opacity-50"
                     required
                   />
@@ -259,7 +260,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                 {/* Phone */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Phone Number
+                    {t('contact.phoneNumber')}
                   </label>
                   <input
                     type="tel"
@@ -267,7 +268,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                     value={formData.phone}
                     onChange={handleInputChange}
                     disabled={loading}
-                    placeholder="+374 (00) 000-000"
+                    placeholder={t('contact.phonePlaceholder')}
                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0E99A2] focus:border-transparent disabled:opacity-50"
                   />
                 </div>
@@ -275,7 +276,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                 {/* Subject */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Subject *
+                    {t('contact.subject')} *
                   </label>
                   <input
                     type="text"
@@ -283,7 +284,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                     value={formData.subject}
                     onChange={handleInputChange}
                     disabled={loading}
-                    placeholder="How can we help?"
+                    placeholder={t('contact.subjectPlaceholder')}
                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0E99A2] focus:border-transparent disabled:opacity-50"
                     required
                   />
@@ -292,14 +293,14 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                 {/* Message */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Message *
+                    {t('contact.message')} *
                   </label>
                   <textarea
                     name="message"
                     value={formData.message}
                     onChange={handleInputChange}
                     disabled={loading}
-                    placeholder="Your message here..."
+                    placeholder={t('contact.messagePlaceholder')}
                     rows={4}
                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0E99A2] focus:border-transparent disabled:opacity-50 resize-none"
                     required
@@ -322,10 +323,10 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                   {loading ? (
                     <>
                       <Loader className="w-4 h-4 animate-spin" />
-                      Sending...
+                      {t('contact.sending')}
                     </>
                   ) : (
-                    'Send Message'
+                    t('contact.sendMessage')
                   )}
                 </button>
               </form>

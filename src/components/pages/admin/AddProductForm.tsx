@@ -81,10 +81,9 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product, onSuccess }) =
   useEffect(() => {
     if (categories && product?.category_id) {
       const found = categories.find((cat: BackendCategory) => cat.id === product.category_id);
-      if (found) {
-        setSelectedCategory(found);
-      }
+      setSelectedCategory(found || null);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categories, product?.category_id]);
 
   const handleInputChange = (field: keyof Omit<FormData, 'name' | 'description' | 'features'>, value: string | number) => {
