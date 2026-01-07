@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import emailjs from "@emailjs/browser";
@@ -6,71 +7,101 @@ import CartItem from "@/components/molecule/CartItem";
 import OrderSummary from "@/components/molecule/OrderSummary";
 import Hero from "../molecule/Hero";
 import { EMAILJS_CONFIG } from "@/config/emailjsConfig";
-import { useState } from "react";
 
 const CartPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { items } = useCartStore();
+  const { items, clearCart } = useCartStore();
   const [checkoutLoading, setCheckoutLoading] = useState(false);
-  const [checkoutMessage, setCheckoutMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [checkoutMessage, setCheckoutMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
-  const handleCheckout = async () => {
+  const handleCheckout = async (userEmail: string) => {
     setCheckoutLoading(true);
     setCheckoutMessage(null);
 
     try {
       // Initialize EmailJS if not already initialized
-      if (EMAILJS_CONFIG.publicKey && EMAILJS_CONFIG.publicKey !== 'YOUR_PUBLIC_KEY_HERE') {
+      if (
+        EMAILJS_CONFIG.publicKey &&
+        EMAILJS_CONFIG.publicKey !== "YOUR_PUBLIC_KEY_HERE"
+      ) {
         emailjs.init(EMAILJS_CONFIG.publicKey);
 
         // Prepare cart data
         const cartContent = items
           .map(
             (item) =>
-              `${item.product.name}\nPrice: $${item.product.price}\nQuantity: ${item.quantity}\nSubtotal: $${item.product.price * item.quantity}`
+              `${item.product.name}\nPrice: $${item.product.price}\nQuantity: ${
+                item.quantity
+              }\nSubtotal: $${(item.product.price * item.quantity).toFixed(2)}`
           )
-          .join('\n\n');
+          .join("\n\n");
 
-        const totalPrice = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+        const totalPrice = items.reduce(
+          (sum, item) => sum + item.product.price * item.quantity,
+          0
+        );
 
-        // Prepare email parameters
+        // Prepare email parameters with all fields
         const templateParams = {
-          to_email: 'sales@palyan.am',
-          subject: t('contact.checkoutEmail'),
-          cart_items: cartContent,
-          total_price: totalPrice.toFixed(2),
-          items_count: items.length,
-          message: `Order from ${new Date().toLocaleDateString()}\n\nTotal: $${totalPrice.toFixed(2)}\n\nItems:\n${cartContent}`,
-        };
+          // Email routing
+          to_email: "sales@palyan.am",
+          from_name: "Palyan Store",
 
+          // Subject line (if using variable in template)
+          subject: `New Order - ${items.length} items - $${totalPrice.toFixed(
+            2
+          )}`,
+
+          // Template variables
+          order_date: new Date().toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+          items_count: items.length,
+          total_price: totalPrice.toFixed(2),
+          cart_items: cartContent,
+          user_email: userEmail,
+
+          // Additional info (optional)
+          message: `Order received on ${new Date().toLocaleString()}\n\nCustomer Email: ${userEmail}`,
+        };
         // Send email
         await emailjs.send(
           EMAILJS_CONFIG.serviceId,
-          EMAILJS_CONFIG.templateId,
+          EMAILJS_CONFIG.confirmationTemplateId,
           templateParams
         );
 
         setCheckoutMessage({
-          type: 'success',
-          text: t('contact.checkoutSuccess'),
+          type: "success",
+          text: t("contact.checkoutSuccess"),
         });
 
-        // Clear cart and redirect after 2 seconds
+        // Clear cart after successful order
+        clearCart();
+
+        // Redirect after 2 seconds
         setTimeout(() => {
-          navigate('/');
-        }, 2000);
+          navigate("/");
+        }, 5000);
       } else {
         setCheckoutMessage({
-          type: 'error',
-          text: t('contact.errorConfig'),
+          type: "error",
+          text: t("contact.errorConfig"),
         });
       }
     } catch (error) {
-      console.error('Error sending checkout email:', error);
+      console.error("Error sending checkout email:", error);
       setCheckoutMessage({
-        type: 'error',
-        text: t('contact.checkoutError'),
+        type: "error",
+        text: t("contact.checkoutError"),
       });
     } finally {
       setCheckoutLoading(false);
@@ -91,9 +122,7 @@ const CartPage = () => {
             <div className="bg-white rounded-2xl shadow-sm p-4 lg:p-6">
               <div className="space-y-6">
                 {items.length > 0 ? (
-                  items.map((item) => (
-                    <CartItem key={item.id} item={item} />
-                  ))
+                  items.map((item) => <CartItem key={item.id} item={item} />)
                 ) : (
                   <div className="text-center py-12">
                     <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -112,13 +141,13 @@ const CartPage = () => {
                       </svg>
                     </div>
                     <h3 className="text-xl font-medium text-gray-500 mb-10">
-                      {t('cart.emptyTitle')}
+                      {t("cart.emptyTitle")}
                     </h3>
                     <button
                       onClick={handleContinueShopping}
                       className="bg-[#0E99A2] text-white px-6 py-3 rounded-full hover:bg-[#0d8a92] transition-colors"
                     >
-                      {t('cart.browseProducts')}
+                      {t("cart.browseProducts")}
                     </button>
                   </div>
                 )}
@@ -129,8 +158,20 @@ const CartPage = () => {
           {/* Order Summary Section */}
           <div className="lg:w-1/3">
             {checkoutMessage && (
-              <div className={`mb-4 p-4 rounded-lg ${checkoutMessage.type === 'success' ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}>
-                <p className={checkoutMessage.type === 'success' ? 'text-green-700' : 'text-red-700'}>
+              <div
+                className={`mb-4 p-4 rounded-lg ${
+                  checkoutMessage.type === "success"
+                    ? "bg-green-50 border border-green-200"
+                    : "bg-red-50 border border-red-200"
+                }`}
+              >
+                <p
+                  className={
+                    checkoutMessage.type === "success"
+                      ? "text-green-700"
+                      : "text-red-700"
+                  }
+                >
                   {checkoutMessage.text}
                 </p>
               </div>

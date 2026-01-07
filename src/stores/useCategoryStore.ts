@@ -18,7 +18,6 @@ const convertToSections = (
   language: Language,
   activeId: number | null
 ): CatalogType[] => {
-  console.log(categories, language)
   return categories.map((category) => ({
     id: category.id,
     section: category.name[language],

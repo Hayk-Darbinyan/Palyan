@@ -17,7 +17,6 @@ const NewsDetails = () => {
   const navigate = useNavigate();
   if (!data) return null;
 
-  console.log(data);
   return (
     <div className="min-h-screen bg-[#F8F7F0] pt-7 px-2 sm:px-4 lg:px-6">
       <Hero isHome={false} />

@@ -112,7 +112,6 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
         }, 2000);
       }
     } catch (error) {
-      console.error('Error sending email:', error);
       const errorMessage = error instanceof Error ? error.message : 'Failed to send message. Please try again or contact us directly.';
       setError(errorMessage);
     } finally {

@@ -8,7 +8,6 @@ export const useGetProducts = () => {
     queryKey: ["products"],
     queryFn: async () => {
       const response = await api.get("/products");
-      console.log("useGetProducts - API response:", response.data);
       return response.data;
     },
     placeholderData: keepPreviousData,
@@ -31,7 +30,7 @@ export const useCreateProduct = () => {
 
   return useMutation({
     mutationFn: async (newProduct: Omit<Product, 'id' | 'created_at'>) => {
-      const response = await api.post("/products", newProduct);
+      const response = await api.post("/admin/products", newProduct);
       return response.data;
     },
     onSuccess: () => {
@@ -45,7 +44,7 @@ export const useUpdateProduct = () => {
 
   return useMutation({
     mutationFn: async ({ id, ...product }: Product) => {
-      const response = await api.put(`/products/${id}`, product);
+      const response = await api.put(`/admin/products/${id}`, product);
       return response.data;
     },
     onSuccess: (data) => {
@@ -60,7 +59,7 @@ export const useDeleteProduct = () => {
 
   return useMutation({
     mutationFn: async (id: number) => {
-      await api.delete(`/products/${id}`);
+      await api.delete(`/admin/products/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });

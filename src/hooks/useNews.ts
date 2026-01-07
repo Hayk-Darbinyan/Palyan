@@ -63,7 +63,7 @@ export const useCreateNews = () => {
 
   return useMutation({
     mutationFn: async (newNews: Partial<GetNewsResponse>) => {
-      const response = await api.post("/news", newNews);
+      const response = await api.post("/admin/news", newNews);
       return response.data;
     },
     onSuccess: () => {
@@ -77,7 +77,7 @@ export const useUpdateNews = () => {
 
   return useMutation({
     mutationFn: async ({ id, ...news }: Partial<GetNewsResponse> & { id: number }) => {
-      const response = await api.put(`/news/${id}`, news);
+      const response = await api.put(`/admin/news/${id}`, news);
       return response.data;
     },
     onSuccess: (data) => {
@@ -92,7 +92,7 @@ export const useDeleteNews = () => {
 
   return useMutation({
     mutationFn: async (id: number) => {
-      await api.delete(`/news/${id}`);
+      await api.delete(`/admin/news/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["news"] });

@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 interface OrderSummaryProps {
-  onCheckout: () => void;
+  onCheckout: (email: string) => void | Promise<void>;
   isLoading?: boolean;
 }
 
@@ -20,7 +20,12 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ onCheckout, isLoading = fal
       return;
     }
 
-    onCheckout();
+    if (!email) {
+      toast.error("Please enter your email address");
+      return;
+    }
+
+    onCheckout(email);
   };
 
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);

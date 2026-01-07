@@ -55,7 +55,7 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>(news?.image || '');
   const [authorImageFile, setAuthorImageFile] = useState<File | null>(null);
-  const [authorImagePreview, setAuthorImagePreview] = useState<string>(news?.author.image || '');
+  const [authorImagePreview, setAuthorImagePreview] = useState<string>(news?.author?.image || '');
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState('');
 
