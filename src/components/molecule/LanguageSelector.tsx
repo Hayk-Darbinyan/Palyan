@@ -1,9 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { ChevronDown, Globe } from "lucide-react";
-import am from "@/assets/icons/am.svg";
-import ru from "@/assets/icons/am.svg";
-import en from "@/assets/icons/am.svg";
 import { useCategoryStore } from "@/stores/useCategoryStore";
 import type { Language } from "@/types/catalog";
 
@@ -23,9 +20,9 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const languages = [
-    { code: "hy", name: variant === "mobile" ? "ՀԱՅ" : "Հայ", icon: am },
-    { code: "ru", name: variant === "mobile" ? "РУС" : "Ру", icon: ru },
-    { code: "en", name: variant === "mobile" ? "ENG" : "En", icon: en },
+    { code: "hy", name: variant === "mobile" ? "ՀԱՅ" : "Հայ", icon: "https://flagcdn.com/am.svg" },
+    { code: "ru", name: variant === "mobile" ? "РУС" : "Ру", icon: "https://flagcdn.com/ua.svg" },
+    { code: "en", name: variant === "mobile" ? "ENG" : "En", icon: "https://flagcdn.com/gb.svg" },
   ];
 
   const currentLanguage =
@@ -79,11 +76,11 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
-              <div className="w-5 h-5">
+              <div className="w-5 h-3.75">
                 <img
                   src={language.icon}
                   alt={language.code.toUpperCase()}
-                  className="w-full h-full object-contain"
+                  className="w-full h-full"
                 />
               </div>
               <span className="text-sm font-medium">{language.name}</span>
