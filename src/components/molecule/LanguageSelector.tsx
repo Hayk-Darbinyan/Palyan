@@ -21,7 +21,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
 
   const languages = [
     { code: "hy", name: variant === "mobile" ? "ՀԱՅ" : "Հայ", icon: "https://flagcdn.com/am.svg" },
-    { code: "ru", name: variant === "mobile" ? "РУС" : "Ру", icon: "https://flagcdn.com/ua.svg" },
+    { code: "ru", name: variant === "mobile" ? "РУС" : "Ру", icon: "https://flagcdn.com/ru.svg" },
     { code: "en", name: variant === "mobile" ? "ENG" : "En", icon: "https://flagcdn.com/gb.svg" },
   ];
 

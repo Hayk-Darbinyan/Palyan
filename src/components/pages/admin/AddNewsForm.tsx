@@ -1,90 +1,85 @@
-import React, { useState } from 'react';
-import { Save, Upload, Plus, Trash2, X, Calendar, Tag, User } from 'lucide-react';
-import type { News } from '@/types/admin';
-import TranslationField from '../admin/TranslationField';
+import React, { useState } from "react";
+import {
+  Save,
+  Upload,
+  Plus,
+  Trash2,
+  X,
+  Calendar,
+  Tag,
+  User,
+} from "lucide-react";
+import type { News } from "@/types/admin";
+import TranslationField from "../admin/TranslationField";
 
 interface AddNewsFormProps {
   news?: News;
 }
 
 const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
-  const [formData, setFormData] = useState<News>(news || {
-    id: '',
-    title: {
-      hy: '',
-      ru: '',
-      en: ''
-    },
-    image: '',
-    author: {
-      name: {
-        hy: '',
-        ru: '',
-        en: ''
-      },
-      position: {
-        hy: '',
-        ru: '',
-        en: ''
-      },
-      bio: {
-        hy: '',
-        ru: '',
-        en: ''
-      },
-      image: ''
-    },
-    date: new Date().toISOString().split('T')[0],
-    features: [{ 
-      id: '1', 
-      title: {
-        hy: '',
-        ru: '',
-        en: ''
-      },
-      description: {
-        hy: '',
-        ru: '',
-        en: ''
-      }
-    }],
-    createdAt: '',
-    updatedAt: ''
-  });
+const [formData, setFormData] = useState<News>({
+  id: news?.id || '',
+  title: news?.title || { hy: '', ru: '', en: '' },
+  image: news?.image || '',
+  author: {
+    name: news?.author?.name || { hy: '', ru: '', en: '' },
+    position: news?.author?.position || { hy: '', ru: '', en: '' },
+    bio: news?.author?.bio || { hy: '', ru: '', en: '' },
+    image: news?.author?.image || ''
+  },
+  date: news?.date || new Date().toISOString().split('T')[0],
+  features: news?.features || [{ 
+    id: '1', 
+    title: { hy: '', ru: '', en: '' },
+    description: { hy: '', ru: '', en: '' }
+  }],
+  createdAt: news?.createdAt || '',
+  updatedAt: news?.updatedAt || ''
+});
 
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>(news?.image || '');
+  const [imagePreview, setImagePreview] = useState<string>(news?.image || "");
   const [authorImageFile, setAuthorImageFile] = useState<File | null>(null);
-  const [authorImagePreview, setAuthorImagePreview] = useState<string>(news?.author?.image || '');
+  const [authorImagePreview, setAuthorImagePreview] = useState<string>(
+    news?.author?.image || ""
+  );
   const [tags, setTags] = useState<string[]>([]);
-  const [tagInput, setTagInput] = useState('');
+  const [tagInput, setTagInput] = useState("");
 
   const handleInputChange = (field: keyof News, value: string | number) => {
     setFormData({ ...formData, [field]: value });
   };
 
-  const handleTextChange = (field: 'title' | 'image' | 'date', lang: 'hy' | 'ru' | 'en' | '', value: string) => {
-    if (field === 'image' || field === 'date') {
+  const handleTextChange = (
+    field: "title" | "image" | "date",
+    lang: "hy" | "ru" | "en" | "",
+    value: string
+  ) => {
+    if (field === "image" || field === "date") {
       setFormData({ ...formData, [field]: value });
     } else {
       setFormData({
         ...formData,
         [field]: {
           ...formData[field],
-          [lang]: value
-        }
+          [lang]: value,
+        },
       });
     }
   };
 
-  const handleAuthorChange = (field: 'name' | 'position' | 'bio' | 'image', lang: 'hy' | 'ru' | 'en' | '', value: string) => {
-    if (field === 'image') {
+  const handleAuthorChange = (
+    field: "name" | "position" | "bio" | "image",
+    lang: "hy" | "ru" | "en" | "",
+    value: string
+  ) => {
+    if (field === "image") {
       setFormData({
         ...formData,
         author: {
           ...formData.author,
-          [field]: value
-        }
+          [field]: value,
+        },
       });
     } else {
       setFormData({
@@ -93,21 +88,26 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
           ...formData.author,
           [field]: {
             ...formData.author[field],
-            [lang]: value
-          }
-        }
+            [lang]: value,
+          },
+        },
       });
     }
   };
 
-  const handleSubtitleChange = (index: number, field: 'title' | 'description', lang: 'hy' | 'ru' | 'en', value: string) => {
+  const handleSubtitleChange = (
+    index: number,
+    field: "title" | "description",
+    lang: "hy" | "ru" | "en",
+    value: string
+  ) => {
     const newSubtitles = [...formData.features];
     newSubtitles[index] = {
       ...newSubtitles[index],
       [field]: {
         ...newSubtitles[index][field],
-        [lang]: value
-      }
+        [lang]: value,
+      },
     };
     setFormData({ ...formData, features: newSubtitles });
   };
@@ -115,19 +115,22 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
   const addSubtitle = () => {
     setFormData({
       ...formData,
-      features: [...formData.features, { 
-        id: Date.now().toString(), 
-        title: {
-          hy: '',
-          ru: '',
-          en: ''
+      features: [
+        ...formData.features,
+        {
+          id: Date.now().toString(),
+          title: {
+            hy: "",
+            ru: "",
+            en: "",
+          },
+          description: {
+            hy: "",
+            ru: "",
+            en: "",
+          },
         },
-        description: {
-          hy: '',
-          ru: '',
-          en: ''
-        }
-      }]
+      ],
     });
   };
 
@@ -136,19 +139,22 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
     setFormData({ ...formData, features: newSubtitles });
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, type: 'news' | 'author') => {
+  const handleImageUpload = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    type: "news" | "author"
+  ) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        if (type === 'news') {
+        if (type === "news") {
           setImageFile(file);
           setImagePreview(reader.result as string);
-          handleTextChange('image', '', reader.result as string);
+          handleTextChange("image", "", reader.result as string);
         } else {
           setAuthorImageFile(file);
           setAuthorImagePreview(reader.result as string);
-          handleAuthorChange('image', '', reader.result as string);
+          handleAuthorChange("image", "", reader.result as string);
         }
       };
       reader.readAsDataURL(file);
@@ -156,11 +162,11 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
   };
 
   const handleAddTag = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && tagInput.trim()) {
+    if (e.key === "Enter" && tagInput.trim()) {
       e.preventDefault();
       const newTags = [...tags, tagInput.trim()];
       setTags(newTags);
-      setTagInput('');
+      setTagInput("");
     }
   };
 
@@ -171,16 +177,27 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('News data:', formData, 'Image files:', imageFile, authorImageFile, 'Tags:', tags);
+    console.log(
+      "News data:",
+      formData,
+      "Image files:",
+      imageFile,
+      authorImageFile,
+      "Tags:",
+      tags
+    );
     // API call here
-    alert(news ? 'News updated successfully!' : 'News added successfully!');
+    alert(news ? "News updated successfully!" : "News added successfully!");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-2xl lg:rounded-[30px] p-6 lg:p-8 shadow-sm">
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white rounded-2xl lg:rounded-[30px] p-6 lg:p-8 shadow-sm"
+    >
       <div className="mb-8">
         <h2 className="text-2xl lg:text-3xl font-bold text-[#404A3D] mb-2">
-          {news ? 'Edit News Article' : 'Add News Article'}
+          {news ? "Edit News Article" : "Add News Article"}
         </h2>
       </div>
 
@@ -201,9 +218,9 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
                 <button
                   type="button"
                   onClick={() => {
-                    setImagePreview('');
+                    setImagePreview("");
                     setImageFile(null);
-                    handleTextChange('image', '', '');
+                    handleTextChange("image", "", "");
                   }}
                   className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600"
                 >
@@ -220,7 +237,7 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
                     type="file"
                     className="hidden"
                     accept="image/*"
-                    onChange={(e) => handleImageUpload(e, 'news')}
+                    onChange={(e) => handleImageUpload(e, "news")}
                   />
                 </label>
                 <p className="text-gray-500 text-sm mt-3">PNG, JPG up to 5MB</p>
@@ -237,9 +254,9 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
             value={formData.title.hy}
             valueRu={formData.title.ru}
             valueEn={formData.title.en}
-            onChange={(value) => handleTextChange('title', 'hy', value)}
-            onChangeRu={(value) => handleTextChange('title', 'ru', value)}
-            onChangeEn={(value) => handleTextChange('title', 'en', value)}
+            onChange={(value) => handleTextChange("title", "hy", value)}
+            onChangeRu={(value) => handleTextChange("title", "ru", value)}
+            onChangeEn={(value) => handleTextChange("title", "en", value)}
             placeholder="Enter news title in Armenian"
             placeholderRu="Enter news title in Russian"
             placeholderEn="Enter news title in English"
@@ -257,7 +274,7 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
             <input
               type="date"
               value={formData.date}
-              onChange={(e) => handleInputChange('date', e.target.value)}
+              onChange={(e) => handleInputChange("date", e.target.value)}
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0E99A2] focus:border-transparent"
               required
             />
@@ -270,7 +287,7 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
             <User className="w-5 h-5" />
             Author Information
           </h3>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Author Image */}
             <div>
@@ -288,9 +305,9 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
                     <button
                       type="button"
                       onClick={() => {
-                        setAuthorImagePreview('');
+                        setAuthorImagePreview("");
                         setAuthorImageFile(null);
-                        handleAuthorChange('image', '', '');
+                        handleAuthorChange("image", "", "");
                       }}
                       className="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
                     >
@@ -306,7 +323,7 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
                         type="file"
                         className="hidden"
                         accept="image/*"
-                        onChange={(e) => handleImageUpload(e, 'author')}
+                        onChange={(e) => handleImageUpload(e, "author")}
                       />
                     </label>
                   </div>
@@ -318,12 +335,12 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
             <div className="space-y-4">
               <TranslationField
                 label="Author Name"
-                value={formData.author.name.hy}
-                valueRu={formData.author.name.ru}
-                valueEn={formData.author.name.en}
-                onChange={(value) => handleAuthorChange('name', 'hy', value)}
-                onChangeRu={(value) => handleAuthorChange('name', 'ru', value)}
-                onChangeEn={(value) => handleAuthorChange('name', 'en', value)}
+                value={formData.author?.name.hy}
+                valueRu={formData.author?.name.ru}
+                valueEn={formData.author?.name.en}
+                onChange={(value) => handleAuthorChange("name", "hy", value)}
+                onChangeRu={(value) => handleAuthorChange("name", "ru", value)}
+                onChangeEn={(value) => handleAuthorChange("name", "en", value)}
                 placeholder="Author name in Armenian"
                 placeholderRu="Author name in Russian"
                 placeholderEn="Author name in English"
@@ -331,12 +348,18 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
 
               <TranslationField
                 label="Position"
-                value={formData.author.position.hy}
-                valueRu={formData.author.position.ru}
-                valueEn={formData.author.position.en}
-                onChange={(value) => handleAuthorChange('position', 'hy', value)}
-                onChangeRu={(value) => handleAuthorChange('position', 'ru', value)}
-                onChangeEn={(value) => handleAuthorChange('position', 'en', value)}
+                value={formData.author?.position.hy}
+                valueRu={formData.author?.position.ru}
+                valueEn={formData.author?.position.en}
+                onChange={(value) =>
+                  handleAuthorChange("position", "hy", value)
+                }
+                onChangeRu={(value) =>
+                  handleAuthorChange("position", "ru", value)
+                }
+                onChangeEn={(value) =>
+                  handleAuthorChange("position", "en", value)
+                }
                 placeholder="e.g., Անասնաբույժ"
                 placeholderRu="e.g., Ветеринар"
                 placeholderEn="e.g., Veterinarian"
@@ -344,12 +367,12 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
 
               <TranslationField
                 label="Bio / Mini About"
-                value={formData.author.bio.hy}
-                valueRu={formData.author.bio.ru}
-                valueEn={formData.author.bio.en}
-                onChange={(value) => handleAuthorChange('bio', 'hy', value)}
-                onChangeRu={(value) => handleAuthorChange('bio', 'ru', value)}
-                onChangeEn={(value) => handleAuthorChange('bio', 'en', value)}
+                value={formData.author?.bio.hy}
+                valueRu={formData.author?.bio.ru}
+                valueEn={formData.author?.bio.en}
+                onChange={(value) => handleAuthorChange("bio", "hy", value)}
+                onChangeRu={(value) => handleAuthorChange("bio", "ru", value)}
+                onChangeEn={(value) => handleAuthorChange("bio", "en", value)}
                 placeholder="e.g., 10+ տարի փորձ անասնաբուժության ոլորտում"
                 placeholderRu="e.g., 10+ лет опыта в ветеринарии"
                 placeholderEn="e.g., 10+ years of experience in veterinary medicine"
@@ -393,7 +416,9 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0E99A2] focus:border-transparent"
             placeholder="Type Armenian tag and press Enter"
           />
-          <p className="text-gray-500 text-sm mt-2">Press Enter to add tags (Armenian only)</p>
+          <p className="text-gray-500 text-sm mt-2">
+            Press Enter to add tags (Armenian only)
+          </p>
         </div>
 
         {/* News Subtitles Section */}
@@ -414,9 +439,14 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
 
           <div className="space-y-6">
             {formData.features.map((subtitle, index) => (
-              <div key={subtitle.id} className="border border-gray-200 rounded-2xl p-6">
+              <div
+                key={subtitle.id}
+                className="border border-gray-200 rounded-2xl p-6"
+              >
                 <div className="flex justify-between items-center mb-4">
-                  <span className="text-sm font-medium text-gray-600">Section {index + 1}</span>
+                  <span className="text-sm font-medium text-gray-600">
+                    Section {index + 1}
+                  </span>
                   {formData.features.length > 1 && (
                     <button
                       type="button"
@@ -427,7 +457,7 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
                     </button>
                   )}
                 </div>
-                
+
                 <div className="space-y-4">
                   {/* Subtitle Title with translations */}
                   <TranslationField
@@ -435,9 +465,15 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
                     value={subtitle.title.hy}
                     valueRu={subtitle.title.ru}
                     valueEn={subtitle.title.en}
-                    onChange={(value) => handleSubtitleChange(index, 'title', 'hy', value)}
-                    onChangeRu={(value) => handleSubtitleChange(index, 'title', 'ru', value)}
-                    onChangeEn={(value) => handleSubtitleChange(index, 'title', 'en', value)}
+                    onChange={(value) =>
+                      handleSubtitleChange(index, "title", "hy", value)
+                    }
+                    onChangeRu={(value) =>
+                      handleSubtitleChange(index, "title", "ru", value)
+                    }
+                    onChangeEn={(value) =>
+                      handleSubtitleChange(index, "title", "en", value)
+                    }
                     placeholder="e.g., Պարազիտների դեմ պայքարի ժամանակակից մեթոդներ"
                     placeholderRu="e.g., Современные методы борьбы с паразитами"
                     placeholderEn="e.g., Modern methods of parasite control"
@@ -449,9 +485,15 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
                     value={subtitle.description.hy}
                     valueRu={subtitle.description.ru}
                     valueEn={subtitle.description.en}
-                    onChange={(value) => handleSubtitleChange(index, 'description', 'hy', value)}
-                    onChangeRu={(value) => handleSubtitleChange(index, 'description', 'ru', value)}
-                    onChangeEn={(value) => handleSubtitleChange(index, 'description', 'en', value)}
+                    onChange={(value) =>
+                      handleSubtitleChange(index, "description", "hy", value)
+                    }
+                    onChangeRu={(value) =>
+                      handleSubtitleChange(index, "description", "ru", value)
+                    }
+                    onChangeEn={(value) =>
+                      handleSubtitleChange(index, "description", "en", value)
+                    }
                     placeholder="Enter description in Armenian..."
                     placeholderRu="Enter description in Russian..."
                     placeholderEn="Enter description in English..."
@@ -471,7 +513,7 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
             className="w-full flex items-center justify-center gap-3 bg-[#5B8C51] text-white py-4 px-6 rounded-full hover:bg-[#4a7a43] transition-colors font-medium"
           >
             <Save className="w-5 h-5" />
-            {news ? 'Update News Article' : 'Publish News Article'}
+            {news ? "Update News Article" : "Publish News Article"}
           </button>
         </div>
       </div>

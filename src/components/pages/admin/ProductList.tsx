@@ -100,7 +100,7 @@ const ProductList: React.FC<ProductListProps> = ({ onEdit }) => {
                   <div className="flex items-center gap-2">
                     <DollarSign className="w-4 h-4 text-gray-400" />
                     <span className="font-medium">
-                      {product.price.toLocaleString()} ֏
+                      {product.price?.toLocaleString()} ֏
                     </span>
                   </div>
                 </td>
