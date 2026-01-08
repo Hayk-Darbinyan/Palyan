@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import logo from "@/assets/images/logoWhite.svg";
-import w from "@/assets/icons/w.svg";
-import phone from "@/assets/icons/phone.svg";
 import { Card, CardContent } from "../atom/Card";
 import { navigationItems } from "@/constants/headerMenu";
 import Sidebar from "./Sidebar";
@@ -10,6 +8,7 @@ import { useFilterStore } from "@/stores/useFilterStore";
 import LanguageSelector from "../molecule/LanguageSelector";
 import { useTranslation } from "react-i18next";
 import { useCategoryStore } from "@/stores/useCategoryStore";
+import { PhoneCall } from "lucide-react";
 
 const Header = () => {
   const [showMenus, setShowMenus] = useState(false);
@@ -218,13 +217,9 @@ const Header = () => {
         <div className="hidden xl:flex h-[43px] gap-4 mr-[236px]">
           <LanguageSelector variant="desktop" />
 
-          <div className="w-[33px] h-[33px]">
-            <img src={w} alt="W" />
-          </div>
-
           <div className="flex gap-4">
             <div className="w-[35px] h-[33px]">
-              <img src={phone} alt="Phone" />
+              <PhoneCall className="text-[#efd45c] w-full h-full stroke-1" />
             </div>
 
             <div>

@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Save, Upload, Plus, Trash2, X, Loader } from 'lucide-react';
-import { useCategories } from '@/hooks/useCategories';
-import { useCreateProduct, useUpdateProduct } from '@/hooks/useProducts';
-import type { Product as BackendProduct } from '@/types/product';
-import type { BackendCategory } from '@/types/catalog';
-import TranslationField from '../admin/TranslationField';
+import React, { useState, useEffect } from "react";
+import { Save, Upload, Plus, Trash2, X, Loader } from "lucide-react";
+import { useCategories } from "@/hooks/useCategories";
+import { useCreateProduct, useUpdateProduct } from "@/hooks/useProducts";
+import type { Product as BackendProduct } from "@/types/product";
+import type { BackendCategory } from "@/types/catalog";
+import TranslationField from "../admin/TranslationField";
+import { uploadToCloudinary } from "@/utils/cloudinaryUpload";
 
 interface AddProductFormProps {
   product?: BackendProduct;
@@ -26,9 +27,9 @@ interface FormData {
   };
   manufacturer: string;
   image_url: string;
-  category_id: number | '';
-  subcategory_id: number | '';
-  types_id: number | '';
+  category_id: number | "";
+  subcategory_id: number | "";
+  types_id: number | "";
   features: Array<{
     id?: number;
     title: {
@@ -44,87 +45,116 @@ interface FormData {
   }>;
 }
 
-const AddProductForm: React.FC<AddProductFormProps> = ({ product, onSuccess }) => {
+const AddProductForm: React.FC<AddProductFormProps> = ({
+  product,
+  onSuccess,
+}) => {
   const { data: categories, isLoading: categoriesLoading } = useCategories();
   const createProduct = useCreateProduct();
   const updateProduct = useUpdateProduct();
 
   const [formData, setFormData] = useState<FormData>({
     name: {
-      hy: product?.name.hy || '',
-      ru: product?.name.ru || '',
-      en: product?.name.en || ''
+      hy: product?.name.hy || "",
+      ru: product?.name.ru || "",
+      en: product?.name.en || "",
     },
     price: product?.price || 0,
     stock: product?.stock || 0,
     description: {
-      hy: product?.description.hy || '',
-      ru: product?.description.ru || '',
-      en: product?.description.en || ''
+      hy: product?.description.hy || "",
+      ru: product?.description.ru || "",
+      en: product?.description.en || "",
     },
-    manufacturer: product?.manufacturer || '',
-    image_url: product?.image_url || '',
-    category_id: product?.category_id || '',
-    subcategory_id: product?.subcategory_id || '',
-    types_id: product?.types_id || '',
-    features: product?.features?.length ? product.features : [{ 
-      title: { hy: '', ru: '', en: '' },
-      description: { hy: '', ru: '', en: '' }
-    }]
+    manufacturer: product?.manufacturer || "",
+    image_url: product?.image_url || "",
+    category_id: product?.category_id || "",
+    subcategory_id: product?.subcategory_id || "",
+    types_id: product?.types_id || "",
+    features: product?.features?.length
+      ? product.features
+      : [
+          {
+            title: { hy: "", ru: "", en: "" },
+            description: { hy: "", ru: "", en: "" },
+          },
+        ],
   });
 
-  const [imagePreview, setImagePreview] = useState<string>(product?.image_url || '');
-  const [selectedCategory, setSelectedCategory] = useState<BackendCategory | null>(
-    categories?.find((cat: BackendCategory) => cat.id === product?.category_id) || null
+  const [imagePreview, setImagePreview] = useState<string>(
+    product?.image_url || ""
   );
+  const [selectedCategory, setSelectedCategory] =
+    useState<BackendCategory | null>(
+      categories?.find(
+        (cat: BackendCategory) => cat.id === product?.category_id
+      ) || null
+    );
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
 
   useEffect(() => {
     if (categories && product?.category_id) {
-      const found = categories.find((cat: BackendCategory) => cat.id === product.category_id);
+      const found = categories.find(
+        (cat: BackendCategory) => cat.id === product.category_id
+      );
       setSelectedCategory(found || null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categories, product?.category_id]);
 
-  const handleInputChange = (field: keyof Omit<FormData, 'name' | 'description' | 'features'>, value: string | number) => {
+  const handleInputChange = (
+    field: keyof Omit<FormData, "name" | "description" | "features">,
+    value: string | number
+  ) => {
     setFormData({ ...formData, [field]: value });
   };
 
-  const handleTextChange = (field: 'name' | 'description', lang: 'hy' | 'ru' | 'en', value: string) => {
+  const handleTextChange = (
+    field: "name" | "description",
+    lang: "hy" | "ru" | "en",
+    value: string
+  ) => {
     setFormData({
       ...formData,
       [field]: {
         ...formData[field],
-        [lang]: value
-      }
+        [lang]: value,
+      },
     });
   };
 
   const handleCategoryChange = (categoryId: number) => {
-    const category = categories?.find((c: BackendCategory) => c.id === categoryId);
+    const category = categories?.find(
+      (c: BackendCategory) => c.id === categoryId
+    );
     setSelectedCategory(category || null);
     setFormData({
       ...formData,
       category_id: categoryId,
-      subcategory_id: ''
+      subcategory_id: "",
     });
   };
 
   const handleSubcategoryChange = (subcategoryId: number) => {
     setFormData({
       ...formData,
-      subcategory_id: subcategoryId
+      subcategory_id: subcategoryId,
     });
   };
 
-  const handleFeatureChange = (index: number, field: 'title' | 'description', lang: 'hy' | 'ru' | 'en', value: string) => {
+  const handleFeatureChange = (
+    index: number,
+    field: "title" | "description",
+    lang: "hy" | "ru" | "en",
+    value: string
+  ) => {
     const newFeatures = [...formData.features];
     newFeatures[index] = {
       ...newFeatures[index],
       [field]: {
         ...newFeatures[index][field],
-        [lang]: value
-      }
+        [lang]: value,
+      },
     };
     setFormData({ ...formData, features: newFeatures });
   };
@@ -132,10 +162,13 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product, onSuccess }) =
   const addFeature = () => {
     setFormData({
       ...formData,
-      features: [...formData.features, { 
-        title: { hy: '', ru: '', en: '' },
-        description: { hy: '', ru: '', en: '' }
-      }]
+      features: [
+        ...formData.features,
+        {
+          title: { hy: "", ru: "", en: "" },
+          description: { hy: "", ru: "", en: "" },
+        },
+      ],
     });
   };
 
@@ -144,49 +177,107 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product, onSuccess }) =
     setFormData({ ...formData, features: newFeatures });
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      try {
+        setIsUploadingImage(true);
+        const imageUrl = await uploadToCloudinary(file);
+        setImagePreview(imageUrl);
+        setFormData({ ...formData, image_url: imageUrl });
+      } catch (error) {
+        console.error("Image upload failed:", error);
+        alert("Failed to upload image. Please try again.");
+      } finally {
+        setIsUploadingImage(false);
+      }
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
+    // Validate required fields
+    if (!formData.name.hy || !formData.name.ru || !formData.name.en) {
+      alert("Please fill in the product name in all languages");
+      return;
+    }
+
+    if (!formData.image_url) {
+      alert("Please upload a product image");
+      return;
+    }
+
+    if (formData.price <= 0) {
+      alert("Please enter a valid price");
+      return;
+    }
+
+    if (formData.stock < 0) {
+      alert("Stock quantity cannot be negative");
+      return;
+    }
+
+    if (!formData.category_id) {
+      alert("Please select a category");
+      return;
+    }
+
+    if (
+      !formData.description.hy ||
+      !formData.description.ru ||
+      !formData.description.en
+    ) {
+      alert("Please fill in the description in all languages");
+      return;
+    }
+
+    if (
+      formData.features.some((f) => !f.title.hy || !f.title.ru || !f.title.en)
+    ) {
+      alert("Please fill in feature titles in all languages");
+      return;
+    }
+
     try {
       const submitData = {
         ...formData,
         category_id: Number(formData.category_id),
-        subcategory_id: formData.subcategory_id ? Number(formData.subcategory_id) : null,
-        types_id: formData.types_id ? Number(formData.types_id) : 1
+        subcategory_id: formData.subcategory_id
+          ? Number(formData.subcategory_id)
+          : null,
+        types_id: formData.types_id ? Number(formData.types_id) : 1,
       };
 
       if (product?.id) {
         await updateProduct.mutateAsync({
           ...submitData,
           id: product.id,
-          created_at: product.created_at
+          created_at: product.created_at,
         } as BackendProduct);
+        alert("Product updated successfully!");
       } else {
-        await createProduct.mutateAsync(submitData as Omit<BackendProduct, 'id' | 'created_at'>);
+        await createProduct.mutateAsync(
+          submitData as Omit<BackendProduct, "id" | "created_at">
+        );
+        alert("Product created successfully!");
       }
 
       onSuccess?.();
     } catch (error) {
-      console.error('Error submitting product:', error);
+      console.error("Error submitting product:", error);
+      alert("Failed to submit product. Please try again.");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-2xl lg:rounded-[30px] p-6 lg:p-8 shadow-sm">
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white rounded-2xl lg:rounded-[30px] p-6 lg:p-8 shadow-sm"
+    >
       <div className="mb-8">
         <h2 className="text-2xl lg:text-3xl font-bold text-[#404A3D] mb-2">
-          {product ? 'Edit Product' : 'Add New Product'}
+          {product ? "Edit Product" : "Add New Product"}
         </h2>
       </div>
 
@@ -209,8 +300,8 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product, onSuccess }) =
                   <button
                     type="button"
                     onClick={() => {
-                      setImagePreview('');
-                      setFormData({ ...formData, image_url: '' });
+                      setImagePreview("");
+                      setFormData({ ...formData, image_url: "" });
                     }}
                     className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600"
                   >
@@ -220,17 +311,26 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product, onSuccess }) =
               ) : (
                 <div>
                   <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <label className="cursor-pointer inline-flex items-center gap-2 bg-[#0E99A2] text-white px-6 py-3 rounded-full hover:bg-[#0d8a92] transition-colors">
+                  <label
+                    className="cursor-pointer inline-flex items-center gap-2 bg-[#0E99A2] text-white px-6 py-3 rounded-full hover:bg-[#0d8a92] transition-colors"
+                    style={{
+                      opacity: isUploadingImage ? 0.5 : 1,
+                      cursor: isUploadingImage ? "not-allowed" : "pointer",
+                    }}
+                  >
                     <Upload className="w-5 h-5" />
-                    Upload Image
+                    {isUploadingImage ? "Uploading..." : "Upload Image"}
                     <input
                       type="file"
                       className="hidden"
                       accept="image/*"
                       onChange={handleImageUpload}
+                      disabled={isUploadingImage}
                     />
                   </label>
-                  <p className="text-gray-500 text-sm mt-3">PNG, JPG up to 5MB</p>
+                  <p className="text-gray-500 text-sm mt-3">
+                    PNG, JPG up to 5MB
+                  </p>
                 </div>
               )}
             </div>
@@ -244,9 +344,9 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product, onSuccess }) =
               value={formData.name.hy}
               valueRu={formData.name.ru}
               valueEn={formData.name.en}
-              onChange={(value) => handleTextChange('name', 'hy', value)}
-              onChangeRu={(value) => handleTextChange('name', 'ru', value)}
-              onChangeEn={(value) => handleTextChange('name', 'en', value)}
+              onChange={(value) => handleTextChange("name", "hy", value)}
+              onChangeRu={(value) => handleTextChange("name", "ru", value)}
+              onChangeEn={(value) => handleTextChange("name", "en", value)}
               placeholder="Enter product name in Armenian"
               placeholderRu="Enter product name in Russian"
               placeholderEn="Enter product name in English"
@@ -261,7 +361,9 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product, onSuccess }) =
               <input
                 type="number"
                 value={formData.price}
-                onChange={(e) => handleInputChange('price', Number(e.target.value))}
+                onChange={(e) =>
+                  handleInputChange("price", Number(e.target.value))
+                }
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0E99A2] focus:border-transparent"
                 placeholder="Enter price in ֏"
                 required
@@ -276,7 +378,9 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product, onSuccess }) =
               <input
                 type="number"
                 value={formData.stock}
-                onChange={(e) => handleInputChange('stock', Number(e.target.value))}
+                onChange={(e) =>
+                  handleInputChange("stock", Number(e.target.value))
+                }
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0E99A2] focus:border-transparent"
                 placeholder="Enter stock quantity"
                 required
@@ -291,7 +395,9 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product, onSuccess }) =
               <input
                 type="text"
                 value={formData.manufacturer}
-                onChange={(e) => handleInputChange('manufacturer', e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("manufacturer", e.target.value)
+                }
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0E99A2] focus:border-transparent"
                 placeholder="Enter manufacturer name"
               />
@@ -306,7 +412,10 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product, onSuccess }) =
             {/* Category */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Category {categoriesLoading && <Loader className="w-4 h-4 inline animate-spin" />}
+                Category{" "}
+                {categoriesLoading && (
+                  <Loader className="w-4 h-4 inline animate-spin" />
+                )}
               </label>
               <select
                 value={formData.category_id}
@@ -332,7 +441,9 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product, onSuccess }) =
                 </label>
                 <select
                   value={formData.subcategory_id}
-                  onChange={(e) => handleSubcategoryChange(Number(e.target.value))}
+                  onChange={(e) =>
+                    handleSubcategoryChange(Number(e.target.value))
+                  }
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0E99A2] focus:border-transparent"
                 >
                   <option value="">Select Subcategory</option>
@@ -352,9 +463,9 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product, onSuccess }) =
             value={formData.description.hy}
             valueRu={formData.description.ru}
             valueEn={formData.description.en}
-            onChange={(value) => handleTextChange('description', 'hy', value)}
-            onChangeRu={(value) => handleTextChange('description', 'ru', value)}
-            onChangeEn={(value) => handleTextChange('description', 'en', value)}
+            onChange={(value) => handleTextChange("description", "hy", value)}
+            onChangeRu={(value) => handleTextChange("description", "ru", value)}
+            onChangeEn={(value) => handleTextChange("description", "en", value)}
             placeholder="Enter description in Armenian"
             placeholderRu="Enter description in Russian"
             placeholderEn="Enter description in English"
@@ -381,9 +492,14 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product, onSuccess }) =
 
             <div className="space-y-6">
               {formData.features.map((feature, index) => (
-                <div key={index} className="border border-gray-200 rounded-2xl p-6">
+                <div
+                  key={index}
+                  className="border border-gray-200 rounded-2xl p-6"
+                >
                   <div className="flex justify-between items-center mb-4">
-                    <span className="text-sm font-medium text-gray-600">Feature {index + 1}</span>
+                    <span className="text-sm font-medium text-gray-600">
+                      Feature {index + 1}
+                    </span>
                     {formData.features.length > 1 && (
                       <button
                         type="button"
@@ -394,7 +510,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product, onSuccess }) =
                       </button>
                     )}
                   </div>
-                  
+
                   <div className="space-y-4">
                     {/* Feature Title with translations */}
                     <TranslationField
@@ -402,9 +518,15 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product, onSuccess }) =
                       value={feature.title.hy}
                       valueRu={feature.title.ru}
                       valueEn={feature.title.en}
-                      onChange={(value) => handleFeatureChange(index, 'title', 'hy', value)}
-                      onChangeRu={(value) => handleFeatureChange(index, 'title', 'ru', value)}
-                      onChangeEn={(value) => handleFeatureChange(index, 'title', 'en', value)}
+                      onChange={(value) =>
+                        handleFeatureChange(index, "title", "hy", value)
+                      }
+                      onChangeRu={(value) =>
+                        handleFeatureChange(index, "title", "ru", value)
+                      }
+                      onChangeEn={(value) =>
+                        handleFeatureChange(index, "title", "en", value)
+                      }
                       placeholder="e.g., Դեղաձև"
                       placeholderRu="e.g., Лекарственная форма"
                       placeholderEn="e.g., Dosage form"
@@ -416,9 +538,15 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product, onSuccess }) =
                       value={feature.description.hy}
                       valueRu={feature.description.ru}
                       valueEn={feature.description.en}
-                      onChange={(value) => handleFeatureChange(index, 'description', 'hy', value)}
-                      onChangeRu={(value) => handleFeatureChange(index, 'description', 'ru', value)}
-                      onChangeEn={(value) => handleFeatureChange(index, 'description', 'en', value)}
+                      onChange={(value) =>
+                        handleFeatureChange(index, "description", "hy", value)
+                      }
+                      onChangeRu={(value) =>
+                        handleFeatureChange(index, "description", "ru", value)
+                      }
+                      onChangeEn={(value) =>
+                        handleFeatureChange(index, "description", "en", value)
+                      }
                       placeholder="e.g., Ծամվող հաբեր"
                       placeholderRu="e.g., Жевательные таблетки"
                       placeholderEn="e.g., Chewable tablets"
@@ -435,15 +563,23 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ product, onSuccess }) =
           <div className="pt-4">
             <button
               type="submit"
-              disabled={createProduct.isPending || updateProduct.isPending}
-              className="w-full flex items-center justify-center gap-3 bg-[#404A3D] text-white py-4 px-6 rounded-full hover:bg-[#2d3329] transition-colors font-medium disabled:opacity-50"
+              disabled={
+                createProduct.isPending ||
+                updateProduct.isPending ||
+                isUploadingImage
+              }
+              className="w-full flex items-center justify-center gap-3 bg-[#404A3D] text-white py-4 px-6 rounded-full hover:bg-[#2d3329] transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {createProduct.isPending || updateProduct.isPending ? (
                 <Loader className="w-5 h-5 animate-spin" />
               ) : (
                 <Save className="w-5 h-5" />
               )}
-              {product ? 'Update Product' : 'Save Product'}
+              {createProduct.isPending || updateProduct.isPending
+                ? "Saving..."
+                : product
+                ? "Update Product"
+                : "Save Product"}
             </button>
           </div>
         </div>

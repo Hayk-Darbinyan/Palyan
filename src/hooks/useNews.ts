@@ -1,4 +1,9 @@
-import { keepPreviousData, useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  useQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { api } from "@/api/axios";
 
 interface NewsFeature {
@@ -71,7 +76,13 @@ interface UpdateNewsPayload extends CreateNewsPayload {
   id: string | number;
 }
 
-export type { NewsFeature, NewsAuthor, GetNewsResponse, CreateNewsPayload, UpdateNewsPayload };
+export type {
+  NewsFeature,
+  NewsAuthor,
+  GetNewsResponse,
+  CreateNewsPayload,
+  UpdateNewsPayload,
+};
 
 export const useGetNews = () => {
   return useQuery({

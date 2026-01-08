@@ -44,7 +44,6 @@ const Hero = ({ isHome }: { isHome: boolean }) => {
         }
         .animate-fade-in {
           animation: fade-in 0.6s ease-out forwards;
-          animation-delay: var(--animation-delay, 0ms);
         }
         @keyframes slide-down {
           from {
@@ -63,11 +62,11 @@ const Hero = ({ isHome }: { isHome: boolean }) => {
       <div className="w-full relative bg-transparent">
         {/* Absolute */}
 
-        <div className="hidden xl:block absolute right-[223px] top-0">
+        <div className="hidden xl:block absolute right-[223px] top-0 z-1">
           <img src={round} alt="" />
         </div>
 
-        <div className="hidden xl:block absolute right-0 top-0 w-[223px] h-[100px] bg-[#F8F7F0] rounded-bl-[30px]">
+        <div className="hidden xl:block absolute right-0 top-0 w-[223px] h-[100px] bg-[#F8F7F0] rounded-bl-[30px] z-1">
           <Button
             onClick={() => setShowContactModal(true)}
             className="absolute top-5 left-[19px] w-[209px] h-[60px] gap-px bg-[#efd45c] rounded-[30px] hover:bg-[#efd45c]/90 transition-colors flex items-center justify-center cursor-pointer"
@@ -83,51 +82,43 @@ const Hero = ({ isHome }: { isHome: boolean }) => {
           </Button>
         </div>
 
-        <div className="hidden xl:block absolute right-0 top-[100px]">
+        <div className="hidden xl:block absolute right-0 top-[100px] z-1">
           <img src={round} alt="" />
         </div>
 
         {isHome ? (
           <div
-            className="w-full rounded-[30px] pb-5 overflow-hidden min-h-[500px] md:min-h-[unset]"
+            className="w-full rounded-[30px] pb-5 overflow-hidden min-h-[500px] md:min-h-[unset] relative"
             style={{
-              background: `url(${bg}) 50% 50% / cover`,
+              background: `linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url(${bg}) 50% 50% / cover`,
             }}
           >
             <Header />
-            <div className="my-10 md:my-[198px] md:ml-[9%] w-full max-w-[1863px] flex px-5">
+            <div className="my-10 md:my-[198px] md:ml-[9%] w-auto max-w-[1863px] flex px-5">
               <div className="w-full  flex-1 flex flex-col gap-4">
-                <Button
-                  variant="outline"
-                  className="w-[201px] h-[30px] bg-transparent mt-10 rounded-[50px] border border-solid border-white animate-fade-in opacity-0 pointer-events-none"
-                >
-                  <p className="font-normal text-white text-xs  leading-[22px] whitespace-nowrap">
-                    {t("hero.button")}
-                  </p>
-                </Button>
 
                 <div
-                  className="flex-1 md:max-h-[200px] mt-[23px] flex animate-fade-in opacity-0"
-                  // style={{ "--animation-delay": "400ms" }}
+                  className="flex-1 md:max-h-[200px] mt-[23px] flex animate-fade-in"
+                  style={{ animationDelay: "400ms" }}
                 >
-                  <div className="flex items-center justify-center w-[931px] font-semibold sm:font-normal text-white text-[24px] sm:text-[50px] tracking-[0] leading-[60px]">
+                  <p className="flex items-center justify-center w-[931px] font-semibold sm:font-normal text-white text-[24px] sm:text-[50px] tracking-[0] leading-[60px]">
                     {t("hero.title")}
-                  </div>
+                  </p>
                 </div>
 
                 <div
-                  className="flex-1 md:max-h-8 mt-[25px] flex border-t border-solid border-[#ffffff80] animate-fade-in opacity-0"
-                  // style={{ "--animation-delay": "600ms" }}
+                  className="flex-1 md:max-h-8 mt-[25px] flex border-t border-solid border-[#ffffff80] animate-fade-in"
+                  style={{ animationDelay: "600ms" }}
                 >
-                  <div className="flex items-center justify-center mt-[7px] font-normal text-white text-lg leading-7">
+                  <p className="flex items-center justify-center mt-[7px] font-normal text-white text-lg leading-7">
                     {t("hero.subtitle")}
-                  </div>
+                  </p>
                 </div>
 
                 <Button
                   onClick={() => setShowContactModal(true)}
-                  className="w-[177px] h-12 mt-[25px] gap-[3px] bg-white rounded-[30px] hover:bg-white/90 transition-colors animate-fade-in opacity-0 flex items-center justify-center cursor-pointer"
-                  // style={{ "--animation-delay": "800ms" }}
+                  className="w-[177px] h-12 mt-[25px] gap-[3px] bg-white rounded-[30px] hover:bg-white/90 transition-colors animate-fade-in flex items-center justify-center cursor-pointer"
+                  style={{ animationDelay: "800ms" }}
                 >
                   <span className="font-normal text-[#404a3d] text-base tracking-[0] leading-6 whitespace-nowrap">
                     {t("hero.contactUs")}
@@ -143,9 +134,9 @@ const Hero = ({ isHome }: { isHome: boolean }) => {
           </div>
         ) : (
           <div
-            className="w-full rounded-[30px] pb-5 overflow-hidden min-h-[300px] md:min-h-[unset]"
+            className="w-full rounded-[30px] pb-5 overflow-hidden min-h-[300px] md:min-h-[unset] relative"
             style={{
-              background: `url(${bg}) 50% 50% / cover`,
+              background: `linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)), url(${bg}) 50% 50% / cover`,
             }}
           >
             <Header />

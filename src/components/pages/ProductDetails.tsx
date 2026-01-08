@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
-import { ShoppingCart } from "lucide-react";
+import { PhoneCall, ShoppingCart } from "lucide-react";
 import Hero from "../molecule/Hero";
 import slogan from "@/assets/images/slogan.jpg";
 import life from "@/assets/icons/life.svg";
-import phone from "@/assets/icons/phone.svg";
 import FilterPanel from "../molecule/FilterPanel";
 import { useGetProducts } from "@/hooks/useProducts";
 import { useCategoryStore } from "@/stores/useCategoryStore";
@@ -175,7 +174,7 @@ const ProductDetails = () => {
                   {t("footer.slogan")}
                 </h3>
                 <div className="flex items-center gap-2">
-                  <img src={phone} alt="Phone" className="w-5 h-5" />
+                  <PhoneCall className="w-5 h-5 text-[#efd45c] stroke-1" />
                   <p className="text-white text-sm lg:text-base font-medium">
                     +374 55 55 55 55
                   </p>

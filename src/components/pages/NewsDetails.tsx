@@ -2,7 +2,6 @@ import { ArrowLeft } from "lucide-react";
 import calendar from "@/assets/icons/calendar.svg";
 import fb from "@/assets/icons/fb.svg";
 import ig from "@/assets/icons/ig.svg";
-import hero from "@/assets/images/hero.png";
 import Hero from "../molecule/Hero";
 import { useNavigate, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
@@ -107,7 +106,7 @@ const NewsDetails = () => {
 
                 <div className="aspect-video rounded-2xl overflow-hidden bg-gray-100 mb-6">
                   <img
-                    src={hero}
+                    src={data.image_url as string}
                     alt="News"
                     className="w-full h-full object-cover"
                   />

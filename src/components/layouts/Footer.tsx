@@ -3,12 +3,12 @@ import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { navigationItems } from "@/constants/headerMenu";
 import mail from "@/assets/icons/mail.svg";
-import phone from "@/assets/icons/phone.svg";
 import logo from "@/assets/images/logo.svg";
 import fb from "@/assets/icons/fb.svg";
 import x from "@/assets/icons/x.svg";
 import ig from "@/assets/icons/ig.svg";
 import linkedin from "@/assets/icons/in.svg";
+import { PhoneCall } from "lucide-react";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -75,7 +75,7 @@ const Footer = () => {
                 className="flex items-center gap-3 hover:opacity-90 transition-opacity"
               >
                 <div className="flex justify-center items-center w-[50px] h-[50px] rounded-full bg-white shrink-0">
-                  <img src={phone} alt="Phone" className="w-5 h-5" />
+                  <PhoneCall className="w-5 h-5 text-[#404A3D] stroke-1" />
                 </div>
                 <span className="text-sm sm:text-[15px] leading-6 text-white whitespace-nowrap">
                   + 374(000) 000-000
@@ -118,28 +118,28 @@ const Footer = () => {
               <div className="flex gap-3 sm:gap-4">
                 <a
                   href="#"
-                  className="flex items-center justify-center w-10 h-10 bg-[#F8F7F0] rounded-full hover:bg-[#0E99A2] transition-colors group"
+                  className="flex items-center justify-center w-10 h-10 bg-[#F8F7F0] rounded-full hover:bg-[#f0f0f0] transition-colors group"
                   aria-label="Facebook"
                 >
                   <img src={fb} alt="Facebook" className="w-5 h-5" />
                 </a>
                 <a
                   href="#"
-                  className="flex items-center justify-center w-10 h-10 bg-[#F8F7F0] rounded-full hover:bg-[#0E99A2] transition-colors group"
+                  className="flex items-center justify-center w-10 h-10 bg-[#F8F7F0] rounded-full hover:bg-[#f0f0f0] transition-colors group"
                   aria-label="Twitter"
                 >
                   <img src={x} alt="Twitter" className="w-5 h-5" />
                 </a>
                 <a
                   href="#"
-                  className="flex items-center justify-center w-10 h-10 bg-[#F8F7F0] rounded-full hover:bg-[#0E99A2] transition-colors group"
+                  className="flex items-center justify-center w-10 h-10 bg-[#F8F7F0] rounded-full hover:bg-[#f0f0f0] transition-colors group"
                   aria-label="Instagram"
                 >
                   <img src={ig} alt="Instagram" className="w-5 h-5" />
                 </a>
                 <a
                   href="#"
-                  className="flex items-center justify-center w-10 h-10 bg-[#F8F7F0] rounded-full hover:bg-[#0E99A2] transition-colors group"
+                  className="flex items-center justify-center w-10 h-10 bg-[#F8F7F0] rounded-full hover:bg-[#f0f0f0] transition-colors group"
                   aria-label="LinkedIn"
                 >
                   <img src={linkedin} alt="LinkedIn" className="w-5 h-5" />
