@@ -134,13 +134,13 @@ const Header = () => {
           </div>
 
           <div
-            className="hidden xl:block"
+            className="hidden xl:block "
             onMouseEnter={() => handleCatalogHover(true)}
             onMouseLeave={() => handleCatalogHover(false)}
           >
             {/* Main Categories Menu */}
             <Card
-              className={`absolute z-50 top-[79px] left-[16.79%] w-[17.10%] bg-white rounded-[10px] border-t-[3px] border-solid border-[#efd45c] transition-all duration-300 ${
+              className={`absolute z-[9999] top-[79px] left-[16.79%] w-[17.10%] bg-white rounded-[10px] border-t-[3px] border-solid border-[#efd45c] transition-all duration-300 ${
                 showMenus
                   ? "opacity-100 visible animate-slide-down"
                   : "opacity-0 invisible"
@@ -176,7 +176,7 @@ const Header = () => {
             {hoveredCategory !== null &&
               sections[hoveredCategory]?.subsections.length > 0 && (
                 <Card
-                  className={`absolute z-50 top-[79px] left-[33.95%] w-[17.11%] bg-white rounded-[10px] border-t-[3px] border-solid border-[#efd45c] transition-all duration-300 ${
+                  className={`absolute z-[9999] top-[79px] left-[33.95%] w-[17.11%] bg-white rounded-[10px] border-t-[3px] border-solid border-[#efd45c] transition-all duration-300 ${
                     showMenus && hoveredCategory !== null
                       ? "opacity-100 visible animate-slide-down"
                       : "opacity-0 invisible"
