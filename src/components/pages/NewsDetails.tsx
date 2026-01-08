@@ -63,17 +63,17 @@ const NewsDetails = () => {
               <div className="flex flex-col items-center text-center p-4">
                 <div className="w-24 h-24 rounded-full bg-gray-200 overflow-hidden mb-4">
                   <img
-                    src={fb}
+                    src={data?.author?.image}
                     alt="Author"
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <h4 className="text-xl font-bold text-[#404A3D] mb-2">
-                  Հեղինակի Անունը
+                  {data?.author?.name[i18n.language as "hy" | "ru" | "en"]}
                 </h4>
-                <p className="text-[#5B8C51] font-medium mb-3">Անասնաբույժ</p>
+                <p className="text-[#5B8C51] font-medium mb-3">{data?.author?.position[i18n.language as "hy" | "ru" | "en"]}</p>
                 <p className="text-gray-600 text-sm mb-4">
-                  10+ տարի փորձ անասնաբուժության ոլորտում
+                  {data?.author?.bio[i18n.language as "hy" | "ru" | "en"]}
                 </p>
               </div>
             </div>
@@ -88,14 +88,14 @@ const NewsDetails = () => {
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-full bg-gray-100 overflow-hidden">
                       <img
-                        src={fb}
+                        src={data?.author?.image}
                         alt="Author"
                         className="w-full h-full object-cover"
                       />
                     </div>
                     <div>
                       <p className="font-medium text-[#404A3D]">
-                        Հեղինակի Անունը
+                        {data?.author?.name[i18n.language as "hy" | "ru" | "en"]}
                       </p>
                     </div>
                   </div>

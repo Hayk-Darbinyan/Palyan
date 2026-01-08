@@ -11,40 +11,47 @@ import {
 } from "lucide-react";
 import type { News } from "@/types/admin";
 import TranslationField from "../admin/TranslationField";
+import { useCreateNews, useUpdateNews } from "@/hooks/useNews";
+import type { CreateNewsPayload, UpdateNewsPayload } from "@/hooks/useNews";
+import { uploadToCloudinary } from "@/utils/cloudinaryUpload";
 
 interface AddNewsFormProps {
   news?: News;
+  onSuccess?: () => void;
 }
 
-const AddNewsForm: React.FC<AddNewsFormProps> = ({ news }) => {
-const [formData, setFormData] = useState<News>({
-  id: news?.id || '',
-  title: news?.title || { hy: '', ru: '', en: '' },
-  image: news?.image || '',
-  author: {
-    name: news?.author?.name || { hy: '', ru: '', en: '' },
-    position: news?.author?.position || { hy: '', ru: '', en: '' },
-    bio: news?.author?.bio || { hy: '', ru: '', en: '' },
-    image: news?.author?.image || ''
-  },
-  date: news?.date || new Date().toISOString().split('T')[0],
-  features: news?.features || [{ 
-    id: '1', 
-    title: { hy: '', ru: '', en: '' },
-    description: { hy: '', ru: '', en: '' }
-  }],
-  createdAt: news?.createdAt || '',
-  updatedAt: news?.updatedAt || ''
-});
+const AddNewsForm: React.FC<AddNewsFormProps> = ({ news, onSuccess }) => {
+  const createNewsMutation = useCreateNews();
+  const updateNewsMutation = useUpdateNews();
 
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [formData, setFormData] = useState<News>({
+    id: news?.id || '',
+    title: news?.title || { hy: '', ru: '', en: '' },
+    image: news?.image || '',
+    author: {
+      name: news?.author?.name || { hy: '', ru: '', en: '' },
+      position: news?.author?.position || { hy: '', ru: '', en: '' },
+      bio: news?.author?.bio || { hy: '', ru: '', en: '' },
+      image: news?.author?.image || ''
+    },
+    date: news?.date || new Date().toISOString().split('T')[0],
+    features: news?.features || [{ 
+      id: '1', 
+      title: { hy: '', ru: '', en: '' },
+      description: { hy: '', ru: '', en: '' }
+    }],
+    createdAt: news?.createdAt || '',
+    updatedAt: news?.updatedAt || ''
+  });
+
   const [imagePreview, setImagePreview] = useState<string>(news?.image || "");
-  const [authorImageFile, setAuthorImageFile] = useState<File | null>(null);
   const [authorImagePreview, setAuthorImagePreview] = useState<string>(
     news?.author?.image || ""
   );
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [isUploadingAuthorImage, setIsUploadingAuthorImage] = useState(false);
 
   const handleInputChange = (field: keyof News, value: string | number) => {
     setFormData({ ...formData, [field]: value });
@@ -139,25 +146,34 @@ const [formData, setFormData] = useState<News>({
     setFormData({ ...formData, features: newSubtitles });
   };
 
-  const handleImageUpload = (
+  const handleImageUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
     type: "news" | "author"
   ) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
+      try {
         if (type === "news") {
-          setImageFile(file);
-          setImagePreview(reader.result as string);
-          handleTextChange("image", "", reader.result as string);
+          setIsUploadingImage(true);
+          const imageUrl = await uploadToCloudinary(file);
+          setImagePreview(imageUrl);
+          handleTextChange("image", "", imageUrl);
         } else {
-          setAuthorImageFile(file);
-          setAuthorImagePreview(reader.result as string);
-          handleAuthorChange("image", "", reader.result as string);
+          setIsUploadingAuthorImage(true);
+          const imageUrl = await uploadToCloudinary(file);
+          setAuthorImagePreview(imageUrl);
+          handleAuthorChange("image", "", imageUrl);
         }
-      };
-      reader.readAsDataURL(file);
+      } catch (error) {
+        console.error("Image upload failed:", error);
+        alert("Failed to upload image. Please try again.");
+      } finally {
+        if (type === "news") {
+          setIsUploadingImage(false);
+        } else {
+          setIsUploadingAuthorImage(false);
+        }
+      }
     }
   };
 
@@ -175,19 +191,63 @@ const [formData, setFormData] = useState<News>({
     setTags(newTags);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(
-      "News data:",
-      formData,
-      "Image files:",
-      imageFile,
-      authorImageFile,
-      "Tags:",
-      tags
-    );
-    // API call here
-    alert(news ? "News updated successfully!" : "News added successfully!");
+
+    // Validate required fields
+    if (!formData.title.hy || !formData.title.ru || !formData.title.en) {
+      alert("Please fill in the news title in all languages");
+      return;
+    }
+
+    if (!formData.image) {
+      alert("Please upload a news image");
+      return;
+    }
+
+    if (!formData.author.name.hy || !formData.author.name.ru || !formData.author.name.en) {
+      alert("Please fill in the author name in all languages");
+      return;
+    }
+
+    try {
+      // Create payload with proper types
+      const newsPayload = {
+        title: formData.title,
+        image_url: formData.image,
+        author: {
+          name: formData.author.name,
+          position: formData.author.position,
+          bio: formData.author.bio,
+          image: formData.author.image,
+        },
+        published_at: formData.date,
+        features: formData.features.map(feature => ({
+          title: feature.title,
+          description: feature.description,
+        })),
+      };
+
+      if (news?.id) {
+        // Update existing news
+        const updatePayload: UpdateNewsPayload = {
+          id: news.id,
+          ...newsPayload,
+        };
+        await updateNewsMutation.mutateAsync(updatePayload);
+        alert("News updated successfully!");
+      } else {
+        // Create new news
+        const createPayload: CreateNewsPayload = newsPayload;
+        await createNewsMutation.mutateAsync(createPayload);
+        alert("News published successfully!");
+      }
+
+      onSuccess?.();
+    } catch (error) {
+      console.error("Error submitting news:", error);
+      alert("Failed to submit news. Please try again.");
+    }
   };
 
   return (
@@ -219,7 +279,6 @@ const [formData, setFormData] = useState<News>({
                   type="button"
                   onClick={() => {
                     setImagePreview("");
-                    setImageFile(null);
                     handleTextChange("image", "", "");
                   }}
                   className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600"
@@ -230,14 +289,15 @@ const [formData, setFormData] = useState<News>({
             ) : (
               <div>
                 <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <label className="cursor-pointer inline-flex items-center gap-2 bg-[#0E99A2] text-white px-6 py-3 rounded-full hover:bg-[#0d8a92] transition-colors">
+                <label className="cursor-pointer inline-flex items-center gap-2 bg-[#0E99A2] text-white px-6 py-3 rounded-full hover:bg-[#0d8a92] transition-colors disabled:opacity-50 disabled:cursor-not-allowed" style={{ opacity: isUploadingImage ? 0.5 : 1, cursor: isUploadingImage ? 'not-allowed' : 'pointer' }}>
                   <Upload className="w-5 h-5" />
-                  Upload News Image
+                  {isUploadingImage ? "Uploading..." : "Upload News Image"}
                   <input
                     type="file"
                     className="hidden"
                     accept="image/*"
                     onChange={(e) => handleImageUpload(e, "news")}
+                    disabled={isUploadingImage}
                   />
                 </label>
                 <p className="text-gray-500 text-sm mt-3">PNG, JPG up to 5MB</p>
@@ -306,7 +366,6 @@ const [formData, setFormData] = useState<News>({
                       type="button"
                       onClick={() => {
                         setAuthorImagePreview("");
-                        setAuthorImageFile(null);
                         handleAuthorChange("image", "", "");
                       }}
                       className="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
@@ -316,14 +375,15 @@ const [formData, setFormData] = useState<News>({
                   </div>
                 ) : (
                   <div>
-                    <label className="cursor-pointer inline-flex items-center gap-2 text-[#0E99A2] hover:text-[#0d8a92]">
+                    <label className="cursor-pointer inline-flex items-center gap-2 text-[#0E99A2] hover:text-[#0d8a92]" style={{ opacity: isUploadingAuthorImage ? 0.5 : 1, cursor: isUploadingAuthorImage ? 'not-allowed' : 'pointer' }}>
                       <Upload className="w-5 h-5" />
-                      Upload Author Image
+                      {isUploadingAuthorImage ? "Uploading..." : "Upload Author Image"}
                       <input
                         type="file"
                         className="hidden"
                         accept="image/*"
                         onChange={(e) => handleImageUpload(e, "author")}
+                        disabled={isUploadingAuthorImage}
                       />
                     </label>
                   </div>
@@ -510,10 +570,15 @@ const [formData, setFormData] = useState<News>({
         <div className="pt-4">
           <button
             type="submit"
-            className="w-full flex items-center justify-center gap-3 bg-[#5B8C51] text-white py-4 px-6 rounded-full hover:bg-[#4a7a43] transition-colors font-medium"
+            disabled={createNewsMutation.isPending || updateNewsMutation.isPending}
+            className="w-full flex items-center justify-center gap-3 bg-[#5B8C51] text-white py-4 px-6 rounded-full hover:bg-[#4a7a43] transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Save className="w-5 h-5" />
-            {news ? "Update News Article" : "Publish News Article"}
+            {createNewsMutation.isPending || updateNewsMutation.isPending
+              ? "Saving..."
+              : news
+              ? "Update News Article"
+              : "Publish News Article"}
           </button>
         </div>
       </div>

@@ -2,8 +2,8 @@ import { keepPreviousData, useQuery, useMutation, useQueryClient } from "@tansta
 import { api } from "@/api/axios";
 
 interface NewsFeature {
-  id: number;
-  news_id: number;
+  id: number | string;
+  news_id?: number | string;
   title: {
     en: string;
     ru: string;
@@ -16,6 +16,25 @@ interface NewsFeature {
   };
 }
 
+interface NewsAuthor {
+  bio: {
+    hy: string;
+    ru: string;
+    en: string;
+  };
+  image: string;
+  name: {
+    hy: string;
+    ru: string;
+    en: string;
+  };
+  position: {
+    hy: string;
+    ru: string;
+    en: string;
+  };
+}
+
 interface GetNewsResponse {
   id: number;
   title: {
@@ -23,8 +42,8 @@ interface GetNewsResponse {
     ru: string;
     hy: string;
   };
-  image_url: null;
-  author_id: null;
+  image_url: string | null;
+  author: NewsAuthor;
   published_at: string;
   created_at: string;
   updated_at: string;
@@ -35,6 +54,24 @@ interface GetNewsResponse {
   };
   features: NewsFeature[];
 }
+
+interface CreateNewsPayload {
+  title: {
+    en: string;
+    ru: string;
+    hy: string;
+  };
+  image_url: string;
+  author: NewsAuthor;
+  published_at: string;
+  features: Omit<NewsFeature, "id" | "news_id">[];
+}
+
+interface UpdateNewsPayload extends CreateNewsPayload {
+  id: string | number;
+}
+
+export type { NewsFeature, NewsAuthor, GetNewsResponse, CreateNewsPayload, UpdateNewsPayload };
 
 export const useGetNews = () => {
   return useQuery({
@@ -62,7 +99,7 @@ export const useCreateNews = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (newNews: Partial<GetNewsResponse>) => {
+    mutationFn: async (newNews: CreateNewsPayload) => {
       const response = await api.post("/admin/news", newNews);
       return response.data;
     },
@@ -76,7 +113,7 @@ export const useUpdateNews = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, ...news }: Partial<GetNewsResponse> & { id: number }) => {
+    mutationFn: async ({ id, ...news }: UpdateNewsPayload) => {
       const response = await api.put(`/admin/news/${id}`, news);
       return response.data;
     },
