@@ -6,6 +6,7 @@ import {
   BrowserRouter,
   type BrowserRouterProps,
 } from "react-router";
+import MainLayout from "@/components/layouts/MainLayout";
 
 const Home = lazy(() => import("@/components/pages/Home"));
 const Catalog = lazy(() => import("@/components/pages/Catalog"));
@@ -25,14 +26,16 @@ export const AppRoutes = ({ Router = BrowserRouter }: AppRoutesProps) => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/catalog" element={<Catalog />} />
-        <Route path="/catalog/:id" element={<ProductDetails />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/news" element={<News />} />
-        <Route path="/news/:id" element={<NewsDetails />} />
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/catalog" element={<Catalog />} />
+          <Route path="/catalog/:id" element={<ProductDetails />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/news/:id" element={<NewsDetails />} />
+          <Route path="/faq" element={<FAQ />} />
+        </Route>
         <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/faq" element={<FAQ />} />
       </Routes>
     </Router>
   );

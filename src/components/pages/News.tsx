@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import Hero from "../molecule/Hero";
 import arrow from "@/assets/icons/arrow.svg";
 import calendar from "@/assets/icons/calendar.svg";
 import { useGetNews } from "@/hooks/useNews";
@@ -12,7 +11,6 @@ const News = () => {
   const navigate = useNavigate();
   return (
     <div className="min-h-screen pt-7 px-2 sm:px-6 flex flex-col gap-8 bg-[#F8F7F0]">
-      <Hero isHome={false} />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {data?.map((news) => (
             <div className="w-full max-w-md flex flex-col gap-4">

@@ -2,7 +2,6 @@ import { ArrowLeft, CircleUserRound } from "lucide-react";
 import calendar from "@/assets/icons/calendar.svg";
 import fb from "@/assets/icons/fb.svg";
 import ig from "@/assets/icons/ig.svg";
-import Hero from "../molecule/Hero";
 import { useNavigate, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 import { useGetNewsById } from "@/hooks/useNews";
@@ -18,8 +17,6 @@ const NewsDetails = () => {
   console.log(data);
   return (
     <div className="min-h-screen bg-[#F8F7F0] pt-7 px-2 sm:px-4 lg:px-6">
-      <Hero isHome={false} />
-
       <div className="max-w-7xl mx-auto py-6 lg:py-8">
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
           <aside className="lg:w-1/4">

@@ -5,7 +5,6 @@ import emailjs from "@emailjs/browser";
 import { useCartStore } from "@/stores/useCartStore";
 import CartItem from "@/components/molecule/CartItem";
 import OrderSummary from "@/components/molecule/OrderSummary";
-import Hero from "../molecule/Hero";
 import { EMAILJS_CONFIG } from "@/config/emailjsConfig";
 
 const CartPage = () => {
@@ -114,7 +113,6 @@ const CartPage = () => {
 
   return (
     <div className="pt-7 px-2 sm:px-6 flex flex-col gap-8 bg-[#F8F7F0] min-h-screen">
-      <Hero isHome={false} />
       <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8 justify-between">
           {/* Cart Items Section */}

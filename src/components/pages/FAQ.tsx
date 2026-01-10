@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown, ChevronUp, Mail, Phone, MessageCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import Hero from '../molecule/Hero';
 
 interface FAQItem {
   id: string;
@@ -49,8 +48,6 @@ const FaqPage = () => {
 
   return (
     <div className="min-h-screen pt-7 px-2 sm:px-6 flex flex-col gap-8 bg-[#F8F7F0] pb-16">
-      {/* Hero Section */}
-      <Hero isHome={false} />
 
       {/* FAQ Content - Flex row on large screens, column on small */}
       <div className="flex flex-col lg:flex-row gap-8 max-w-7xl mx-auto w-full">

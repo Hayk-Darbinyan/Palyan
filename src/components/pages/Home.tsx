@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 import AnimalCard from "../molecule/AnimalCard";
-import Hero from "../molecule/Hero";
 import we from "@/assets/images/we.png";
 import round from "@/assets/icons/round.svg";
 import leaf from "@/assets/icons/leaf.svg";
@@ -10,8 +9,8 @@ import { services } from "@/constants/services";
 import Benefits from "../molecule/Benefits";
 import target from "@/assets/images/target.png";
 import StatsCard from "../atom/StatCard";
-import Footer from "../layouts/Footer";
 import Partners from "../molecule/Partners";
+import NewsSection from "../molecule/NewsSection";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -24,10 +23,6 @@ const Home = () => {
   }>;
   return (
     <div className="bg-[#f8f7f0] pt-7">
-      <section className="w-full px-5">
-        <Hero isHome={true} />
-      </section>
-
       {/* Animal Cards */}
       <section className="w-full px-5 mt-10">
         <div className="flex flex-col gap-10">
@@ -208,7 +203,19 @@ const Home = () => {
         </div>
       </section>
 
-      <Footer />
+      <section className="w-full py-16 px-4">
+        <div className="flex flex-col gap-2 mb-8">
+          <Button
+            variant="default"
+            className="w-full max-w-56 inline-flex items-center gap-2 px-6 py-2 h-[30px] rounded-full bg-white shadow-sm border border-gray-200 pointer-events-none text-sm leading-6 text-[#666666] font-normal"
+            aria-label="Section label"
+          >
+            <img src={leaf} alt="" className="w-5 h-5" aria-hidden="true" />
+            <span>{t("benefits.iconText")}</span>
+          </Button>
+        </div>
+        <NewsSection />
+      </section>
     </div>
   );
 };

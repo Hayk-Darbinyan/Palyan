@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 import { PhoneCall, ShoppingCart } from "lucide-react";
-import Hero from "../molecule/Hero";
 import slogan from "@/assets/images/slogan.jpg";
 import life from "@/assets/icons/life.svg";
 import FilterPanel from "../molecule/FilterPanel";
@@ -83,7 +82,6 @@ const ProductDetails = () => {
   if (loading || productsLoading) {
     return (
       <div className="min-h-screen bg-[#F8F7F0] pt-7 px-2 sm:px-4 lg:px-6">
-        <Hero isHome={false} />
         <div className="max-w-7xl mx-auto py-6 lg:py-8">
           <div className="flex justify-center items-center py-20">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#EFD45C]"></div>
@@ -96,7 +94,6 @@ const ProductDetails = () => {
   if (!product) {
     return (
       <div className="min-h-screen bg-[#F8F7F0] pt-7 px-2 sm:px-4 lg:px-6">
-        <Hero isHome={false} />
         <div className="max-w-7xl mx-auto py-6 lg:py-8">
           <div className="text-center py-20">
             <h2 className="text-2xl font-bold text-[#404A3D] mb-4">
@@ -117,8 +114,6 @@ const ProductDetails = () => {
   const rawProduct = product.rawProduct;
   return (
     <div className="min-h-screen bg-[#F8F7F0] pt-7 px-2 sm:px-4 lg:px-6">
-      <Hero isHome={false} />
-
       <div className="max-w-7xl mx-auto py-6 lg:py-8">
         {/* Mobile Back Navigation */}
         <button
