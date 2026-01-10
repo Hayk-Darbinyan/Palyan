@@ -17,7 +17,7 @@ const News = () => {
         {data?.map((news) => (
             <div className="w-full max-w-md flex flex-col gap-4">
               <div className="relative rounded-[30px]">
-                <img src={news.image_url} alt="" className="h-83 object-cover rounded-[30px]" />
+                <img src={news.image_url as string} alt="" className="h-83 object-cover rounded-[30px]" />
                 <div className="absolute bottom-0 right-0 rounded-full bg-[#EFD45C] w-12.5 h-12.5 flex items-center justify-center cursor-pointer"
                   onClick={() => navigate(`/news/${news.id}`)}
                 >
