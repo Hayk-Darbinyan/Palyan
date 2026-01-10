@@ -62,7 +62,7 @@ const NewsDetails = () => {
                 {t("newsDetails.author")}
               </h3>
               <div className="flex flex-col items-center text-center p-4">
-                <div className="w-24 h-24 rounded-full bg-gray-200 overflow-hidden mb-4">
+                <div className="w-24 h-24 rounded-full overflow-hidden mb-4">
                   {data?.author?.image ? (
                     <img
                       src={data.author?.image}
@@ -70,7 +70,7 @@ const NewsDetails = () => {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <CircleUserRound className="w-24 h-24 text-[#0e99a2]" />
+                    <CircleUserRound className="w-24 h-24 text-[#0e99a2] stroke-1" />
                   )}
                 </div>
                 <h4 className="text-xl font-bold text-[#404A3D] mb-2">
@@ -91,31 +91,6 @@ const NewsDetails = () => {
             <div className="bg-white rounded-2xl lg:rounded-[30px] p-6 lg:p-8 shadow-sm">
               {/* News Header */}
               <div className="mb-10">
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-gray-100 overflow-hidden">
-                      {data?.author?.image ? (
-                        <img
-                          src={data.author?.image}
-                          alt="Author"
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <CircleUserRound className="w-12 h-12 text-[#0e99a2]" />
-                      )}
-                    </div>
-                    <div>
-                      <p className="font-medium text-[#404A3D]">
-                        {
-                          data?.author?.name[
-                            i18n.language as "hy" | "ru" | "en"
-                          ]
-                        }
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
                 <h1 className="text-3xl lg:text-4xl font-bold text-[#404A3D] mb-4">
                   {data?.title[i18n.language as "hy" | "ru" | "en"]}
                 </h1>

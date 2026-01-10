@@ -128,7 +128,7 @@ const ProductList: React.FC<ProductListProps> = ({ onEdit }) => {
                       <Edit2 className="w-4 h-4" />
                     </button>
                     <button
-                      onClick={() => window.open(`/product/${product.id}`, "_blank")}
+                      onClick={() => window.open(`/catalog/${product.id}`, "_blank")}
                       className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
                       title="View"
                     >
