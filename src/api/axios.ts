@@ -9,6 +9,9 @@ export const api = axios.create({
 api.interceptors.request.use((config) => {
   if (!config.url) return config;
 
+  // Set Content-Type for all requests
+  config.headers['Content-Type'] = 'application/json';
+
   if (config.url.startsWith("/admin")) {
     const token = localStorage.getItem("adminToken");
 
