@@ -51,9 +51,6 @@ const NewsList: React.FC<NewsListProps> = ({ onEdit }) => {
                 Date
               </th>
               <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">
-                Created
-              </th>
-              <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">
                 Actions
               </th>
             </tr>
@@ -94,14 +91,6 @@ const NewsList: React.FC<NewsListProps> = ({ onEdit }) => {
                     <Calendar className="w-4 h-4" />
                     <span className="text-sm">
                       {new Date(news.published_at).toLocaleDateString()}
-                    </span>
-                  </div>
-                </td>
-                <td className="py-4 px-4">
-                  <div className="flex items-center gap-2 text-gray-500">
-                    <Calendar className="w-4 h-4" />
-                    <span className="text-sm">
-                      {new Date(news.created_at).toLocaleDateString()}
                     </span>
                   </div>
                 </td>

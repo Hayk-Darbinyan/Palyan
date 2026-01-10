@@ -175,7 +175,7 @@ const FaqPage = () => {
                   <Phone className="w-5 h-5 lg:w-6 lg:h-6 text-white" />
                 </div>
                 <div className="text-left">
-                  <p className="text-sm text-gray-500">Call us</p>
+                  <p className="text-sm text-gray-500">{t('header.contact.call')}</p>
                   <p className="text-base lg:text-lg font-semibold text-[#404A3D]">+374 00 000000</p>
                 </div>
               </a>
@@ -188,7 +188,7 @@ const FaqPage = () => {
                   <Mail className="w-5 h-5 lg:w-6 lg:h-6 text-white" />
                 </div>
                 <div className="text-left">
-                  <p className="text-sm text-gray-500">Email us</p>
+                  <p className="text-sm text-gray-500">{t('header.contact.email_us')}</p>
                   <p className="text-base lg:text-lg font-semibold text-[#404A3D]">info@palyan.am</p>
                 </div>
               </a>

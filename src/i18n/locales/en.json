@@ -9,7 +9,8 @@
     },
     "contact": {
       "call": "Call",
-      "button": "Contacts"
+      "button": "Contacts",
+      "email_us": "Email us"
     }
   },
   "hero": {
