@@ -73,7 +73,7 @@ export interface News {
     ru: string;
     en: string;
   }
-  image: string;
+  image_url: string;
   author: NewsAuthor;
   date: string;
   features: NewsFeatures[];
