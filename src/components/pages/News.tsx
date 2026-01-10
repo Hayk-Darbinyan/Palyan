@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 import Hero from "../molecule/Hero";
 import arrow from "@/assets/icons/arrow.svg";
 import calendar from "@/assets/icons/calendar.svg";
-import test from "@/assets/images/we.png";
 import { useGetNews } from "@/hooks/useNews";
 import { formatDate } from "@/utils/formatDate";
 import { useNavigate } from "react-router";
@@ -18,7 +17,7 @@ const News = () => {
         {data?.map((news) => (
             <div className="w-full max-w-md flex flex-col gap-4">
               <div className="relative rounded-[30px]">
-                <img src={test} alt="" className="h-83 object-cover rounded-[30px]" />
+                <img src={news.image_url} alt="" className="h-83 object-cover rounded-[30px]" />
                 <div className="absolute bottom-0 right-0 rounded-full bg-[#EFD45C] w-12.5 h-12.5 flex items-center justify-center cursor-pointer"
                   onClick={() => navigate(`/news/${news.id}`)}
                 >

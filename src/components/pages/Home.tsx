@@ -11,13 +11,10 @@ import Benefits from "../molecule/Benefits";
 import target from "@/assets/images/target.png";
 import StatsCard from "../atom/StatCard";
 import Footer from "../layouts/Footer";
+import Partners from "../molecule/Partners";
 
 const Home = () => {
   const { t } = useTranslation();
-  const stats = [
-    { percentage: 90, label: t("target.target1") },
-    { percentage: 78, label: t("target.target2") },
-  ];
   const animalTypes = t("animalType.animals", {
     returnObjects: true,
   }) as Array<{
@@ -47,7 +44,9 @@ const Home = () => {
       </section>
 
       {/* Partners */}
-      <section className="w-full px-5"></section>
+      <section className="w-full px-5">
+        <Partners />
+      </section>
 
       {/* Who We Are */}
       <section className="w-full py-16 px-4">
@@ -204,71 +203,6 @@ const Home = () => {
               >
                 {t("target.description")}
               </p>
-
-              {/* Stats */}
-              <div
-                className="mt-6 sm:mt-8 md:mt-10 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-6 md:gap-8 -translate-y-4 animate-fade-in opacity-0"
-                // style={{ "--animation-delay": "800ms" }}
-              >
-                {stats.map((stat, index) => (
-                  <div
-                    key={index}
-                    className="flex flex-col sm:flex-row items-center sm:items-start gap-4"
-                  >
-                    {/* Circular Progress */}
-                    <div className="relative shrink-0">
-                      <svg
-                        width="100"
-                        height="100"
-                        viewBox="0 0 120 120"
-                        className="w-[100px] h-[100px] sm:w-[110px] sm:h-[110px] md:w-[120px] md:h-[120px]"
-                      >
-                        {/* Background Circle */}
-                        <circle
-                          cx="60"
-                          cy="60"
-                          r="54"
-                          fill="none"
-                          stroke="rgba(255,255,255,0.2)"
-                          strokeWidth="4"
-                        />
-                        {/* Progress Circle */}
-                        <circle
-                          cx="60"
-                          cy="60"
-                          r="54"
-                          fill="none"
-                          stroke="#FFFFFF"
-                          strokeWidth="4"
-                          strokeDasharray={`${
-                            (stat.percentage / 100) * 339.292
-                          } 339.292`}
-                          strokeLinecap="round"
-                          transform="rotate(-90 60 60)"
-                          style={{
-                            transition: "stroke-dasharray 1s ease-in-out",
-                          }}
-                        />
-                      </svg>
-
-                      {/* Percentage Label */}
-                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full w-[70px] h-[70px] sm:w-[75px] sm:h-[75px] md:w-[90px] md:h-[90px] flex items-center justify-center shadow-lg">
-                        <span className="font-semibold text-xl sm:text-2xl md:text-[22px] leading-none text-[#404A3D]">
-                          {stat.percentage}
-                        </span>
-                        <span className="font-semibold text-sm sm:text-base md:text-[15px] leading-none text-[#404A3D] ml-0.5 -mb-1">
-                          %
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Label */}
-                    <p className="font-medium text-base sm:text-lg md:text-xl leading-tight sm:leading-relaxed text-white text-center sm:text-left sm:pt-8">
-                      {stat.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </div>

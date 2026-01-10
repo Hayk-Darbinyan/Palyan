@@ -1,4 +1,4 @@
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, CircleUserRound } from "lucide-react";
 import calendar from "@/assets/icons/calendar.svg";
 import fb from "@/assets/icons/fb.svg";
 import ig from "@/assets/icons/ig.svg";
@@ -15,7 +15,7 @@ const NewsDetails = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   if (!data) return null;
-
+  console.log(data);
   return (
     <div className="min-h-screen bg-[#F8F7F0] pt-7 px-2 sm:px-4 lg:px-6">
       <Hero isHome={false} />
@@ -58,19 +58,27 @@ const NewsDetails = () => {
 
             {/* Author Info */}
             <div className="bg-white rounded-2xl lg:rounded-[30px] p-6 shadow-sm mb-6">
-              <h3 className="text-lg font-bold text-[#404A3D] mb-4">{t("newsDetails.author")}</h3>
+              <h3 className="text-lg font-bold text-[#404A3D] mb-4">
+                {t("newsDetails.author")}
+              </h3>
               <div className="flex flex-col items-center text-center p-4">
                 <div className="w-24 h-24 rounded-full bg-gray-200 overflow-hidden mb-4">
-                  <img
-                    src={data?.author?.image}
-                    alt="Author"
-                    className="w-full h-full object-cover"
-                  />
+                  {data?.author?.image ? (
+                    <img
+                      src={data.author?.image}
+                      alt="Author"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <CircleUserRound className="w-24 h-24 text-[#0e99a2]" />
+                  )}
                 </div>
                 <h4 className="text-xl font-bold text-[#404A3D] mb-2">
                   {data?.author?.name[i18n.language as "hy" | "ru" | "en"]}
                 </h4>
-                <p className="text-[#5B8C51] font-medium mb-3">{data?.author?.position[i18n.language as "hy" | "ru" | "en"]}</p>
+                <p className="text-[#5B8C51] font-medium mb-3">
+                  {data?.author?.position[i18n.language as "hy" | "ru" | "en"]}
+                </p>
                 <p className="text-gray-600 text-sm mb-4">
                   {data?.author?.bio[i18n.language as "hy" | "ru" | "en"]}
                 </p>
@@ -86,15 +94,23 @@ const NewsDetails = () => {
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-full bg-gray-100 overflow-hidden">
-                      <img
-                        src={data?.author?.image}
-                        alt="Author"
-                        className="w-full h-full object-cover"
-                      />
+                      {data?.author?.image ? (
+                        <img
+                          src={data.author?.image}
+                          alt="Author"
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <CircleUserRound className="w-12 h-12 text-[#0e99a2]" />
+                      )}
                     </div>
                     <div>
                       <p className="font-medium text-[#404A3D]">
-                        {data?.author?.name[i18n.language as "hy" | "ru" | "en"]}
+                        {
+                          data?.author?.name[
+                            i18n.language as "hy" | "ru" | "en"
+                          ]
+                        }
                       </p>
                     </div>
                   </div>
@@ -139,7 +155,9 @@ const NewsDetails = () => {
                 <div className="flex flex-col lg:flex-row items-center justify-end gap-6">
                   {/* Social Sharing */}
                   <div className="flex items-center gap-4">
-                    <span className="text-gray-600 font-medium">{t("newsDetails.share")}</span>
+                    <span className="text-gray-600 font-medium">
+                      {t("newsDetails.share")}
+                    </span>
                     <div className="flex items-center gap-3">
                       <a
                         href="#"

@@ -214,11 +214,11 @@ const ProductDetails = () => {
 
                     {/* CTA Button */}
                     <button
-                      className="w-full lg:w-auto bg-[#404A3D] hover:bg-[#2d3329] text-white py-4 px-8 rounded-full flex items-center justify-center gap-3 transition-all duration-200 font-medium group"
+                      className="w-full lg:w-auto bg-[#404A3D] hover:bg-[#2d3329] text-white py-4 px-8 rounded-full flex items-center justify-center gap-3 transition-all duration-200 font-medium group cursor-pointer"
                       onClick={handleAddToCart}
                     >
                       <ShoppingCart className="w-5 h-5" />
-                      <span>ԳՆԵԼ ՀԻՄԱ</span>
+                      <span>{t("products.buyNow")}</span>
                     </button>
                   </div>
 

@@ -125,10 +125,10 @@
     "addres": "Yerevan, Malatia-Sebastia district"
   },
   "newsDetails": {
-    "backToNews": "Նորություններ",
-    "publishedAt": "Հրապարակման ամսաթիվ",
-    "author": "Հեղինակ",
-    "share": "Կիսվել"
+    "backToNews": "News",
+    "publishedAt": "Publish date",
+    "author": "Author",
+    "share": "Share"
   },
   "cart": {
     "each": "Each",
@@ -139,7 +139,9 @@
     "enterEmail": "Your email address",
     "goToCheckout": "Proceed to Checkout",
     "emptyTitle": "Your cart is empty",
-    "browseProducts": "Add products"
+    "browseProducts": "Add products",
+    "addToCart": "Add to Cart",
+    "added": "Added to cart"
   },
   "contact": {
     "title": "Contact Us",
@@ -170,9 +172,10 @@
     "checkoutError": "Failed to send order. Please try again."
   },
   "products": {
-    "title": "Կատալոգ",
-    "clearAll": "Մաքրել բոլորը",
-    "noResults": "Պրոդուկտներ չեն գտնվել"
+    "title": "Catalog",
+    "clearAll": "Clear All",
+    "noResults": "Products not found",
+    "buyNow": "Buy Now"
   },
   "faq": {
     "title": "Frequently Asked Questions",

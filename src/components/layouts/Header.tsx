@@ -95,7 +95,7 @@ const Header = () => {
       <div className="w-full h-[100px] flex items-center justify-between">
         <div className="flex">
           <div
-            className="w-[139px] h-[45px] mx-10"
+            className="w-[139px] h-[45px] mx-6 cursor-pointer"
             onClick={() => navigate("/")}
           >
             <img src={logo} alt="Palyan" className="w-full h-full" />
@@ -103,11 +103,11 @@ const Header = () => {
 
           <div className="hidden xl:flex justify-center items-center">
             <nav>
-              <div className="flex items-center h-full gap-6">
+              <div className="flex items-center h-full gap-5">
                 {navigationItems.map((item, index) => (
                   <React.Fragment key={index}>
                     <button
-                      className="h-[25px] font-normal text-sm text-center tracking-[0] leading-[100px] whitespace-nowrap flex items-center justify-center hover:opacity-80 transition-opacity"
+                      className="h-[25px] font-normal text-sm text-center tracking-[0] leading-[100px] whitespace-nowrap flex items-center justify-center hover:opacity-80 transition-opacity cursor-pointer"
                       onMouseEnter={() =>
                         item.hasMenu && handleCatalogHover(true)
                       }
@@ -140,7 +140,7 @@ const Header = () => {
           >
             {/* Main Categories Menu */}
             <Card
-              className={`absolute z-[9999] top-[79px] left-[16.79%] w-[17.10%] bg-white rounded-[10px] border-t-[3px] border-solid border-[#efd45c] transition-all duration-300 ${
+              className={`absolute z-9999 top-[79px] left-[16.79%] w-[17.10%] bg-white rounded-[10px] border-t-[3px] border-solid border-[#efd45c] transition-all duration-300 ${
                 showMenus
                   ? "opacity-100 visible animate-slide-down"
                   : "opacity-0 invisible"
@@ -176,7 +176,7 @@ const Header = () => {
             {hoveredCategory !== null &&
               sections[hoveredCategory]?.subsections.length > 0 && (
                 <Card
-                  className={`absolute z-[9999] top-[79px] left-[33.95%] w-[17.11%] bg-white rounded-[10px] border-t-[3px] border-solid border-[#efd45c] transition-all duration-300 ${
+                  className={`absolute z-9999 top-[79px] left-[33.95%] w-[17.11%] bg-white rounded-[10px] border-t-[3px] border-solid border-[#efd45c] transition-all duration-300 ${
                     showMenus && hoveredCategory !== null
                       ? "opacity-100 visible animate-slide-down"
                       : "opacity-0 invisible"

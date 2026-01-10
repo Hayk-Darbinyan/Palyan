@@ -65,7 +65,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
             <button
               key={language.code}
               onClick={() => changeLanguage(language.code as Language)}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors flex-1 justify-center ${
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors flex-1 justify-center cursor-pointer ${
                 selectedLang === language.code
                   ? "bg-[#0E99A2] text-white"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -91,7 +91,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors group"
+        className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors group cursor-pointer"
         aria-label="Select language"
         aria-expanded={isOpen}
         aria-haspopup="true"
@@ -120,7 +120,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
               <button
                 key={language.code}
                 onClick={() => changeLanguage(language.code as Language)}
-                className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-gray-50 ${
+                className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-gray-50 cursor-pointer ${
                   selectedLang === language.code ? "bg-[#F8F7F0]" : ""
                 }`}
                 role="menuitem"

@@ -210,17 +210,6 @@ const ProductFilterSystem = () => {
                         selectedSectionId={selectedSectionId}
                       />
                     </div>
-
-                    {/* Creator Filter */}
-
-                    <button
-                      onClick={closeMobileFilters}
-                      className="w-full bg-[#EFD45C] text-[#404A3D] py-3 rounded-full font-medium sticky bottom-0"
-                    >
-                      {t("products.showCount", {
-                        count: filteredProducts.length,
-                      })}
-                    </button>
                   </div>
                 </div>
               </div>

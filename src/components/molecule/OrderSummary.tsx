@@ -86,7 +86,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ onCheckout, isLoading = fal
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="test@test.com"
+            placeholder="your@email.com"
             className="flex-1 px-4 py-3 rounded-[20px] focus:outline-none focus:ring-2 focus:ring-blue-500 bg-[#F0F0F0]"
           />
         </div>

@@ -266,15 +266,27 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news, onSuccess }) => {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-3">
             News Main Image
+            {news?.image && <span className="text-blue-500 ml-2 text-xs font-normal">(Existing image loaded)</span>}
           </label>
           <div className="border-2 border-dashed border-gray-300 rounded-2xl p-6 text-center">
             {imagePreview ? (
               <div className="relative">
-                <img
-                  src={imagePreview}
-                  alt="News preview"
-                  className="w-full h-64 object-cover rounded-xl"
-                />
+                <div className="bg-gray-100 rounded-xl overflow-hidden">
+                  <img
+                    src={imagePreview}
+                    alt="News preview"
+                    className="w-full h-64 object-cover rounded-xl"
+                    onError={(e) => {
+                      console.error("Image failed to load:", imagePreview);
+                      (e.target as HTMLImageElement).src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23ddd' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23999' font-family='Arial'%3EImage failed to load%3C/text%3E%3C/svg%3E";
+                    }}
+                  />
+                </div>
+                {news && (
+                  <span className="absolute top-4 left-4 bg-blue-500 text-white text-xs px-3 py-1 rounded-full">
+                    Existing Image
+                  </span>
+                )}
                 <button
                   type="button"
                   onClick={() => {
@@ -353,15 +365,27 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news, onSuccess }) => {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Author Image
+                {news?.author?.image && <span className="text-blue-500 ml-2 text-xs font-normal">(Existing image loaded)</span>}
               </label>
               <div className="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center">
                 {authorImagePreview ? (
                   <div className="relative inline-block">
-                    <img
-                      src={authorImagePreview}
-                      alt="Author preview"
-                      className="w-32 h-32 object-cover rounded-full"
-                    />
+                    <div className="relative w-32 h-32">
+                      <img
+                        src={authorImagePreview}
+                        alt="Author preview"
+                        className="w-32 h-32 object-cover rounded-full"
+                        onError={(e) => {
+                          console.error("Author image failed to load:", authorImagePreview);
+                          (e.target as HTMLImageElement).src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Ccircle cx='64' cy='64' r='64' fill='%23ddd'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23999' font-family='Arial' font-size='12'%3ENo Image%3C/text%3E%3C/svg%3E";
+                        }}
+                      />
+                    </div>
+                    {news && (
+                      <span className="block mt-3 text-xs text-blue-500 font-medium">
+                        Existing Image
+                      </span>
+                    )}
                     <button
                       type="button"
                       onClick={() => {

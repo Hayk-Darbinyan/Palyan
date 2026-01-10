@@ -73,7 +73,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       >
         {/* Sidebar Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-[#404A3D]">Մենյու</h2>
+          <h2 className="text-xl font-semibold text-[#404A3D]">{t("footer.menu")}</h2>
           <button
             onClick={onClose}
             className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
@@ -99,7 +99,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
             {navigationItems.map((item, index) => (
               <div key={index}>
                 {item.hasMenu ? (
-                  <button className="w-full flex items-center justify-between py-3 text-left font-medium text-[#404A3D] hover:text-[#0E99A2] transition-colors">
+                  <button className="w-full flex items-center justify-between py-3 text-left font-medium text-[#404A3D] hover:text-[#0E99A2] transition-colors cursor-pointer">
                     <span onClick={() => handleNavigationClick(item.route)}>
                       {t(item.text)}
                     </span>
@@ -125,7 +125,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                 ) : (
                   <button
                     onClick={() => handleNavigationClick(item.route)}
-                    className="w-full py-3 text-left font-medium text-[#404A3D] hover:text-[#0E99A2] transition-colors"
+                    className="w-full py-3 text-left font-medium text-[#404A3D] hover:text-[#0E99A2] transition-colors cursor-pointer"
                   >
                     {t(item.text)}
                   </button>
@@ -137,7 +137,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                     {sections.map((section, sectionIndex) => (
                       <div key={section.id}>
                         <button
-                          className={`w-full flex items-center justify-between py-2 text-left text-sm transition-colors ${
+                          className={`w-full flex items-center justify-between py-2 text-left text-sm transition-colors cursor-pointer ${
                             section.active
                               ? "text-[#0079a6] font-medium"
                               : "text-[#999999] hover:text-[#404A3D]"
@@ -184,7 +184,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                                         subsection
                                       )
                                     }
-                                    className="w-full py-2 text-left text-sm text-[#999999] hover:text-[#404A3D] transition-colors"
+                                    className="w-full py-2 text-left text-sm text-[#999999] hover:text-[#404A3D] transition-colors cursor-pointer"
                                   >
                                     {subsection.name}
                                   </button>
@@ -216,7 +216,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                 </svg>
               </div>
               <div>
-                <p className="text-xs text-[#999999]">Զանգահարել</p>
+                <p className="text-xs text-[#999999]">{t("header.contact.call")}</p>
                 <p className="text-base font-medium text-[#404A3D]">
                   +374(00)000-000
                 </p>

@@ -26,7 +26,7 @@ const Footer = () => {
                 {navigationItems.map((item, index) => (
                   <React.Fragment key={index}>
                     <button
-                      className="text-xs sm:text-sm md:text-[14px] leading-6 md:leading-[25px] whitespace-nowrap flex items-center justify-center hover:opacity-80 transition-opacity"
+                      className="text-xs sm:text-sm md:text-[14px] leading-6 md:leading-[25px] whitespace-nowrap flex items-center justify-center hover:opacity-80 transition-opacity cursor-pointer"
                       onClick={() => navigate(item.route)}
                     >
                       <span
@@ -49,7 +49,7 @@ const Footer = () => {
                 {navigationItems.map((item, index) => (
                   <React.Fragment key={index}>
                     <button
-                      className="text-sm leading-6 whitespace-nowrap hover:opacity-80 transition-opacity"
+                      className="text-sm leading-6 whitespace-nowrap hover:opacity-80 transition-opacity cursor-pointer"
                       onClick={() => navigate(item.route)}
                     >
                       <span
@@ -83,14 +83,14 @@ const Footer = () => {
               </a>
 
               <a
-                href="mailto:palyan@gmail.com"
+                href="mailto:info@palyan.am"
                 className="flex items-center gap-3 hover:opacity-90 transition-opacity"
               >
                 <div className="flex justify-center items-center w-[50px] h-[50px] rounded-full bg-white shrink-0">
                   <img src={mail} alt="Mail" className="w-5 h-5" />
                 </div>
                 <span className="text-sm sm:text-[15px] leading-6 text-white break-all sm:break-normal">
-                  palyan@gmail.com
+                  info@palyan.am
                 </span>
               </a>
             </div>
@@ -165,7 +165,8 @@ const Footer = () => {
                     {navigationItems.map((item, index) => (
                       <button
                         key={index}
-                        className="text-left text-sm md:text-[15px] leading-6 md:leading-[26px] text-[#666666] hover:text-[#0E99A2] transition-colors"
+                        className="text-left text-sm md:text-[15px] leading-6 md:leading-[26px] text-[#666666] hover:text-[#0E99A2] transition-colors cursor-pointer"
+                        onClick={() => navigate(item.route)}
                       >
                         {t(item.text)}
                       </button>

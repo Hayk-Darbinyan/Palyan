@@ -88,7 +88,7 @@ const ProductCard = ({ product }: { product: ProductCardProps }) => {
           </div>
         </TooltipTrigger>
         <TooltipContent
-          side="right"
+          side="top"
           sideOffset={10}
           className="bg-white px-2 py-1 rounded shadow-md"
         >
