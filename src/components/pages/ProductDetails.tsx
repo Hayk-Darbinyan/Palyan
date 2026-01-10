@@ -147,7 +147,7 @@ const ProductDetails = () => {
             {/* Filter Panel */}
             <div className="bg-white rounded-2xl lg:rounded-[30px] shadow-sm lg:shadow-none">
               <FilterPanel
-                title={t("catalog.title")}
+                title={t("products.title")}
                 items={sections.map((s) => ({ id: s.id, name: s.section }))}
                 category="sections"
                 onSectionSelect={setSelectedSectionId}
