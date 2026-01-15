@@ -42,12 +42,19 @@ const NewsDetails = () => {
           property="og:description"
           content={data?.title[i18n.language as "hy" | "ru" | "en"]}
         />
-        <meta property="og:image" content={data?.image_url as string} />
+        <meta
+          property="og:image"
+          content={data?.image_url && String(data.image_url).startsWith('http') 
+            ? String(data.image_url) 
+            : `${window.location.origin}${data?.image_url}`}
+        />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta
           property="og:image:secure_url"
-          content={data?.image_url as string}
+          content={data?.image_url && String(data.image_url).startsWith('http') 
+            ? String(data.image_url) 
+            : `${window.location.origin}${data?.image_url}`}
         />
         <meta property="og:image:type" content="image/jpeg" />
       </Helmet>

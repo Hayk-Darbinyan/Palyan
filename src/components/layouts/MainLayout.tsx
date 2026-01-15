@@ -3,7 +3,6 @@ import Hero from "../molecule/Hero";
 import Footer from "./Footer";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
-import hero from "@/assets/images/hero.png";
 
 const MainLayout = () => {
   const location = useLocation();
@@ -25,7 +24,7 @@ const MainLayout = () => {
           <meta property="og:description" content={t("hero.title")} />
           <meta
             property="og:image"
-            content={`${window.location.origin}${hero}`}
+            content="https://palyan.am/hero.png"
           />
           <meta property="og:image:width" content="1200" />
           <meta property="og:image:height" content="630" />
