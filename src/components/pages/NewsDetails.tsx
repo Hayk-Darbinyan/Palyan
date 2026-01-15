@@ -29,10 +29,27 @@ const NewsDetails = () => {
       <Helmet>
         <title>{data?.title[i18n.language as "hy" | "ru" | "en"]}</title>
         <meta
+          name="description"
+          content={data?.title[i18n.language as "hy" | "ru" | "en"]}
+        />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={window.location.href} />
+        <meta
           property="og:title"
           content={data?.title[i18n.language as "hy" | "ru" | "en"]}
         />
+        <meta
+          property="og:description"
+          content={data?.title[i18n.language as "hy" | "ru" | "en"]}
+        />
         <meta property="og:image" content={data?.image_url as string} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta
+          property="og:image:secure_url"
+          content={data?.image_url as string}
+        />
+        <meta property="og:image:type" content="image/jpeg" />
       </Helmet>
       <div className="min-h-screen bg-[#F8F7F0] pt-7 px-2 sm:px-4 lg:px-6">
         <div className="max-w-7xl mx-auto py-6 lg:py-8">

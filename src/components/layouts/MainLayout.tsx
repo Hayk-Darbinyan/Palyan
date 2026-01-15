@@ -10,15 +10,29 @@ const MainLayout = () => {
   const pathname = location.pathname.split("/")[1];
   const isHome = pathname === "";
   const { t } = useTranslation();
+  const isNewsDetail =
+    pathname === "news" && location.pathname.split("/").length > 2;
 
   return (
     <>
-      <Helmet>
-        <title>Palyan Animal Health</title>
-        <meta name="description" content={t("hero.title")} />
-        <meta property="og:image" content={hero} />
-        <meta property="og:type" content="website" />
-      </Helmet>
+      {!isNewsDetail && (
+        <Helmet>
+          <title>Palyan Animal Health</title>
+          <meta name="description" content={t("hero.title")} />
+
+          {/* Make sure image URL is absolute */}
+          <meta property="og:title" content="Palyan Animal Health" />
+          <meta property="og:description" content={t("hero.title")} />
+          <meta
+            property="og:image"
+            content={`${window.location.origin}${hero}`}
+          />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content={window.location.href} />
+        </Helmet>
+      )}
       <div className="bg-[#f8f7f0]">
         <div className="pt-7 px-2 sm:px-6">
           <Hero isHome={isHome} />
