@@ -70,7 +70,7 @@ const ProductCard = ({ product }: { product: ProductCardProps }) => {
             </div>{" "}
           </div>
           <div className="w-full border-t border-[#404A3D1A] pt-5">
-            <p className="text-xs leading-5 text-[#666666]">
+            <p className="text-xs leading-5 text-[#666666] max-w-[calc(100%-1.5rem)]">
               {product.subsection}
             </p>
           </div>

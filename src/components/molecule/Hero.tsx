@@ -69,7 +69,7 @@ const Hero = ({ isHome }: { isHome: boolean }) => {
         <div className="hidden xl:block absolute right-0 top-0 w-[223px] h-[100px] bg-[#F8F7F0] rounded-bl-[30px] z-1">
           <Button
             onClick={() => setShowContactModal(true)}
-            className="absolute top-5 left-[19px] w-[200px] h-[60px] gap-px bg-[#efd45c] rounded-[30px] hover:bg-[#efd45c]/90 transition-colors flex items-center justify-center cursor-pointer"
+            className="absolute top-5 left-[19px] w-50 h-15 gap-px bg-[#efd45c] rounded-[30px] hover:bg-[#efd45c]/90 transition-colors flex items-center justify-center cursor-pointer"
           >
             <span className="font-normal text-[#404a3d] text-base tracking-[0] leading-6 whitespace-nowrap">
               {t("header.contact.button")}
@@ -117,7 +117,7 @@ const Hero = ({ isHome }: { isHome: boolean }) => {
 
                 <Button
                   onClick={() => setShowContactModal(true)}
-                  className="w-[187px] h-12 mt-[25px] gap-[3px] bg-white rounded-[30px] hover:bg-white/90 transition-colors animate-fade-in flex items-center justify-center cursor-pointer"
+                  className="w-50 h-12 mt-[25px] gap-[3px] bg-white rounded-[30px] hover:bg-white/90 transition-colors animate-fade-in flex items-center justify-center cursor-pointer"
                   style={{ animationDelay: "800ms" }}
                 >
                   <span className="font-normal text-[#404a3d] text-base tracking-[0] leading-6 whitespace-nowrap">

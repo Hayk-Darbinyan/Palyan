@@ -76,7 +76,7 @@ const Footer = () => {
                   <PhoneCall className="w-5 h-5 text-[#404A3D] stroke-1" />
                 </div>
                 <span className="text-sm sm:text-[15px] leading-6 text-white whitespace-nowrap">
-                  + 374(000) 000-000
+                  +37441802020
                 </span>
               </a>
 

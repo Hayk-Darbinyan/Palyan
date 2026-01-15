@@ -3,7 +3,6 @@ import { useNavigate } from "react-router";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import leaf from "@/assets/icons/leaf.svg";
 import { useFilterStore } from "@/stores/useFilterStore";
-import { useCategoryStore } from "@/stores/useCategoryStore";
 import SubsectionPanel from "./SubsectionPanel";
 
 type FilterCategory = "creators" | "sections";
@@ -31,7 +30,6 @@ const FilterPanel = ({
 }: FilterPanelProps) => {
   const [expanded, setExpanded] = useState(true);
   const { selectedSectionId: storeSelectedSectionId, toggleSection, toggleCreator } = useFilterStore();
-  const sections = useCategoryStore((state) => state.sections);
   const navigate = useNavigate();
 
   const currentSectionId = selectedSectionId ?? storeSelectedSectionId;
@@ -63,10 +61,6 @@ const FilterPanel = ({
     return false;
   };
 
-  const getSubsectionCount = (sectionId: number) => {
-    const section = sections.find((s) => s.id === sectionId);
-    return section ? section.subsections.length : 0;
-  };
   return (
     <div className="bg-white rounded-[30px] p-7.5 flex flex-col gap-4">
       <button
@@ -110,11 +104,6 @@ const FilterPanel = ({
                       {item.name}
                     </button>
                   </div>
-                  {category === "sections" && (
-                    <div className="shrink-0 min-w-5 h-5 px-1.5 bg-[#0E99A2] rounded-full flex items-center justify-center font-medium text-[11px] leading-0.5 text-[#FFFFFF]">
-                      {getSubsectionCount(item.id)}
-                    </div>
-                  )}
                 </div>
 
                 {category === "sections" && currentSectionId === item.id && !details && (
