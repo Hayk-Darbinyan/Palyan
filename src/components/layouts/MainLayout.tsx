@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from "react-router";
 import Hero from "../molecule/Hero";
 import Footer from "./Footer";
-import { Helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import hero from "@/assets/images/hero.png";
 

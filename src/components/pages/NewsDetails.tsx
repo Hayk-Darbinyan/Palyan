@@ -12,7 +12,7 @@ import {
   shareOnInstagram,
   shareUniversal,
 } from "@/utils/share";
-import { Helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet";
 
 const NewsDetails = () => {
   const { id } = useParams<{ id: string }>();
