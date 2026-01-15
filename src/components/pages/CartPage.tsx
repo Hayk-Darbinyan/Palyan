@@ -113,11 +113,11 @@ const CartPage = () => {
 
   return (
     <div className="pt-7 px-2 sm:px-6 flex flex-col gap-8 bg-[#F8F7F0] min-h-screen">
-      <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="w-full max-w-7xl mx-auto sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8 justify-between">
           {/* Cart Items Section */}
           <div className="lg:w-2/3">
-            <div className="bg-white rounded-2xl shadow-sm p-4 lg:p-6">
+            <div className="bg-white rounded-2xl shadow-sm p-1 lg:p-6">
               <div className="space-y-6">
                 {items.length > 0 ? (
                   items.map((item) => <CartItem key={item.id} item={item} />)

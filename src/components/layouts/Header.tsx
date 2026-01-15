@@ -225,7 +225,7 @@ const Header = () => {
             <div>
               <p className="font-medium text-base leading-[100%] text-white">
                 {t("header.contact.call")} <br />
-                +374(00)000-000
+                +37441802020
               </p>
             </div>
           </div>

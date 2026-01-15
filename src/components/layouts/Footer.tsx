@@ -5,9 +5,7 @@ import { navigationItems } from "@/constants/headerMenu";
 import mail from "@/assets/icons/mail.svg";
 import logo from "@/assets/images/logo.svg";
 import fb from "@/assets/icons/fb.svg";
-import x from "@/assets/icons/x.svg";
 import ig from "@/assets/icons/ig.svg";
-import linkedin from "@/assets/icons/in.svg";
 import { PhoneCall } from "lucide-react";
 
 const Footer = () => {
@@ -69,9 +67,9 @@ const Footer = () => {
             </nav>
 
             {/* Contact Information */}
-            <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-full lg:w-auto justify-center lg:justify-end">
+            <div className="flex flex-col items-start sm:flex-row sm:items-center gap-4 sm:gap-6 w-full lg:w-auto justify-center lg:justify-end">
               <a
-                href="tel:+374000000000"
+                href="tel:+37441802020"
                 className="flex items-center gap-3 hover:opacity-90 transition-opacity"
               >
                 <div className="flex justify-center items-center w-[50px] h-[50px] rounded-full bg-white shrink-0">
@@ -117,32 +115,20 @@ const Footer = () => {
               {/* Social Media */}
               <div className="flex gap-3 sm:gap-4">
                 <a
-                  href="#"
+                  href="https://www.facebook.com/profile.php?id=61580016521788&notif_id=1768380292837464&notif_t=profile_plus_admin_invite&ref=notif"
                   className="flex items-center justify-center w-10 h-10 bg-[#F8F7F0] rounded-full hover:bg-[#f0f0f0] transition-colors group"
                   aria-label="Facebook"
+                  target="_blank"
                 >
                   <img src={fb} alt="Facebook" className="w-5 h-5" />
                 </a>
                 <a
-                  href="#"
-                  className="flex items-center justify-center w-10 h-10 bg-[#F8F7F0] rounded-full hover:bg-[#f0f0f0] transition-colors group"
-                  aria-label="Twitter"
-                >
-                  <img src={x} alt="Twitter" className="w-5 h-5" />
-                </a>
-                <a
-                  href="#"
+                  href="https://www.instagram.com/palyananimalhealth/"
                   className="flex items-center justify-center w-10 h-10 bg-[#F8F7F0] rounded-full hover:bg-[#f0f0f0] transition-colors group"
                   aria-label="Instagram"
+                  target="_blank"
                 >
                   <img src={ig} alt="Instagram" className="w-5 h-5" />
-                </a>
-                <a
-                  href="#"
-                  className="flex items-center justify-center w-10 h-10 bg-[#F8F7F0] rounded-full hover:bg-[#f0f0f0] transition-colors group"
-                  aria-label="LinkedIn"
-                >
-                  <img src={linkedin} alt="LinkedIn" className="w-5 h-5" />
                 </a>
               </div>
             </div>

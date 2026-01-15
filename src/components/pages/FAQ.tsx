@@ -165,7 +165,7 @@ const FaqPage = () => {
             
             <div className="flex flex-col lg:flex-row items-center justify-center gap-6">
               <a
-                href="tel:+37400000000"
+                href="tel:+37441802020"
                 className="flex items-center gap-4 px-6 py-4 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow group w-full lg:w-auto"
               >
                 <div className="w-10 h-10 lg:w-12 lg:h-12 bg-[#0E99A2] rounded-full flex items-center justify-center group-hover:bg-[#0d8a92] transition-colors shrink-0">
@@ -173,7 +173,7 @@ const FaqPage = () => {
                 </div>
                 <div className="text-left">
                   <p className="text-sm text-gray-500">{t('header.contact.call')}</p>
-                  <p className="text-base lg:text-lg font-semibold text-[#404A3D]">+374 00 000000</p>
+                  <p className="text-base lg:text-lg font-semibold text-[#404A3D]">+37441802020</p>
                 </div>
               </a>
               

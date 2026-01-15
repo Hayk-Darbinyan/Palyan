@@ -171,7 +171,7 @@ const ProductDetails = () => {
                 <div className="flex items-center gap-2">
                   <PhoneCall className="w-5 h-5 text-[#efd45c] stroke-1" />
                   <p className="text-white text-sm lg:text-base font-medium">
-                    +374 55 55 55 55
+                    +37441802020
                   </p>
                 </div>
               </div>

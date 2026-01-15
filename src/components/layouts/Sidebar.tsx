@@ -218,7 +218,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
               <div>
                 <p className="text-xs text-[#999999]">{t("header.contact.call")}</p>
                 <p className="text-base font-medium text-[#404A3D]">
-                  +374(00)000-000
+                  +37441802020
                 </p>
               </div>
             </div>

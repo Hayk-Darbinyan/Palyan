@@ -43,12 +43,12 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
   const contactInfo = {
     info: {
       email: 'info@palyan.am',
-      phone: '+374 (00) 000-000',
+      phone: '+37441802020',
       label: t('contact.generalInfo'),
     },
     sales: {
       email: 'sales@palyan.am',
-      phone: '+374 (11) 111-111',
+      phone: '+37441802020',
       label: t('contact.salesDept'),
     },
   };

@@ -211,8 +211,11 @@ const Home = () => {
             aria-label="Section label"
           >
             <img src={leaf} alt="" className="w-5 h-5" aria-hidden="true" />
-            <span>{t("benefits.iconText")}</span>
+            <span>{t("newsSection.iconText")}</span>
           </Button>
+          <p className="lg:w-1/2 text-3xl sm:text-[45px] leading-15 text-[#404A3D]">
+            {t("newsSection.title")}
+          </p>
         </div>
         <NewsSection />
       </section>

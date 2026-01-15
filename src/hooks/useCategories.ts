@@ -16,7 +16,10 @@ export function useCategories() {
       return res.data;
     },
     staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
     refetchOnWindowFocus: false,
+    retry: 2,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
   });
 
   useEffect(() => {

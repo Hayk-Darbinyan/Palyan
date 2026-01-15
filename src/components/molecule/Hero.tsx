@@ -117,7 +117,7 @@ const Hero = ({ isHome }: { isHome: boolean }) => {
 
                 <Button
                   onClick={() => setShowContactModal(true)}
-                  className="w-[177px] h-12 mt-[25px] gap-[3px] bg-white rounded-[30px] hover:bg-white/90 transition-colors animate-fade-in flex items-center justify-center cursor-pointer"
+                  className="w-[187px] h-12 mt-[25px] gap-[3px] bg-white rounded-[30px] hover:bg-white/90 transition-colors animate-fade-in flex items-center justify-center cursor-pointer"
                   style={{ animationDelay: "800ms" }}
                 >
                   <span className="font-normal text-[#404a3d] text-base tracking-[0] leading-6 whitespace-nowrap">

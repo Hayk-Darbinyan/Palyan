@@ -64,7 +64,7 @@
       }
     ]
   },
-  "manufacturer": "manufacturer",
+  "manufacturer": "Manufacturer",
   "whoWeAre": {
     "title": "Who We Are",
     "description": " \"Palyan\" Limited Liability Company (LLC) specializes in the wholesale import and sale of veterinary vaccines and drugs, offering high-quality and safe products approved by global manufacturers, as we are convinced that animal health begins with the right medication. We import only those veterinary drugs that have passed international quality standards and are approved by experienced specialists. We collaborate with veterinary clinics, farms, and veterinary specialists, providing effective solutions in line with market demands.",
@@ -114,6 +114,10 @@
     "target1": "lorem",
     "target2": "lorem"
   },
+    "newsSection": {
+    "iconText": "News",
+    "title": "Latest News"
+  },
   "footer": {
     "description": "The company was founded in 2025, and its employees have many years of experience and expertise in this field.",
     "slogan": "Healthy animals - sustainable business",
@@ -157,7 +161,7 @@
     "emailAddress": "Email Address",
     "emailPlaceholder": "your@email.com",
     "phoneNumber": "Phone Number",
-    "phonePlaceholder": "+374 (00) 000-000",
+    "phonePlaceholder": "+37441802020",
     "subject": "Subject",
     "subjectPlaceholder": "How can we help?",
     "message": "Message",

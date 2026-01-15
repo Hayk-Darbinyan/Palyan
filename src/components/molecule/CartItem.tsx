@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Minus, Plus, Trash2 } from 'lucide-react';
 import { useCartStore } from '@/stores/useCartStore';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'sonner';
 
 interface CartItemProps {
   item: {
@@ -58,7 +57,6 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
     setIsRemoving(true);
     setTimeout(() => {
       removeItem(item.product.id);
-      toast.success(t('cart.removed'));
     }, 300);
   };
 
@@ -87,8 +85,6 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
           <button
             onClick={handleRemove}
             className="text-[#FF3333] hover:text-red-700 transition-colors ml-4"
-            aria-label={t('cart.remove')}
-            title={t('cart.remove')}
           >
             <Trash2 className="w-5 h-5" />
           </button>
