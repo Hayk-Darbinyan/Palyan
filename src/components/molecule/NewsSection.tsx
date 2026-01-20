@@ -24,7 +24,6 @@ const NewsSection = () => {
       } else {
         setItemsPerPage(3); // desktop
       }
-      setCurrentPage(0); // Reset to first page on resize
     };
 
     handleResize(); // Set initial value

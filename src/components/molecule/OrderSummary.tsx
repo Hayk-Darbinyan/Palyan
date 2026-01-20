@@ -11,7 +11,7 @@ interface OrderSummaryProps {
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({ onCheckout, isLoading = false }) => {
   const { t } = useTranslation();
-  const { items, subtotal, deliveryFee, total } = useCartStore();
+  const { items, subtotal, total } = useCartStore();
   const [email, setEmail] = useState("");
 
   const handleCheckout = () => {
@@ -46,17 +46,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ onCheckout, isLoading = fal
             {t("cart.items")} ({itemCount})
           </span>
           <span className="font-bold text-xl leading-[100%] text-black">
-            ${subtotal.toFixed(2)}
-          </span>
-        </div>
-
-        {/* Delivery Fee */}
-        <div className="flex justify-between items-center">
-          <span className="text-[20px] leading-[100%] text-[#00000099]">
-            {t("cart.deliveryFee")}
-          </span>
-          <span className="font-bold text-xl leading-[100%] text-black">
-            ${deliveryFee.toFixed(2)}
+            ֏{subtotal.toFixed(2)}
           </span>
         </div>
 
@@ -67,7 +57,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ onCheckout, isLoading = fal
               {t("cart.total")}
             </span>
             <span className="font-bold text-2xl leading-[100%] text-black">
-              ${total.toFixed(2)}
+              ֏{total.toFixed(2)}
             </span>
           </div>
         </div>

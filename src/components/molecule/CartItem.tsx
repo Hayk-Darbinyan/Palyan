@@ -99,10 +99,10 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-baseline gap-2">
             <div className="text-2xl font-bold text-black">
-              ${subtotal.toFixed(2)}
+              ֏{subtotal.toFixed(2)}
             </div>
             <div className="text-sm text-gray-500">
-              (${item.product.price.toFixed(2)} {t('cart.each')})
+              (֏{item.product.price.toFixed(2)} {t('cart.each')})
             </div>
           </div>
           

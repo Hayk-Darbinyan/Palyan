@@ -203,7 +203,7 @@ const ProductDetails = () => {
                         {product.name}
                       </h1>
                       <div className="text-2xl font-bold text-[#404A3D]">
-                        ${product.price.toFixed(2)}
+                        ֏{product.price.toFixed(2)}
                       </div>
                     </div>
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Edit2, Trash2, Eye, DollarSign, Calendar, Loader } from "lucide-react";
+import { Edit2, Trash2, Eye, Calendar, Loader } from "lucide-react";
 import { useGetProducts, useDeleteProduct } from "@/hooks/useProducts";
 import type { Product } from "@/types/product";
 
@@ -98,8 +98,7 @@ const ProductList: React.FC<ProductListProps> = ({ onEdit }) => {
                 </td>
                 <td className="py-4 px-4">
                   <div className="flex items-center gap-2">
-                    <DollarSign className="w-4 h-4 text-gray-400" />
-                    <span className="font-medium">
+\                    <span className="font-medium">
                       {product.price?.toLocaleString()} ֏
                     </span>
                   </div>

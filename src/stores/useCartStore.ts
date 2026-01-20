@@ -8,7 +8,7 @@ export const useCartStore = create<CartState>()(
       items: [],
       subtotal: 0,
       discount: 0,
-      deliveryFee: 15, // Fixed delivery fee
+      deliveryFee: 0, // Fixed delivery fee
       total: 0,
 
       // Helper to recalculate totals

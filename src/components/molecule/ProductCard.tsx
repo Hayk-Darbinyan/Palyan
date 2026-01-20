@@ -65,7 +65,7 @@ const ProductCard = ({ product }: { product: ProductCardProps }) => {
             </h3>
             <div className="bg-white/80 backdrop-blur-md px-3 py-1 rounded-lg">
               <span className="text-[#404A3D] font-bold text-lg">
-                ${product.price}
+                ֏{product.price}
               </span>
             </div>{" "}
           </div>
