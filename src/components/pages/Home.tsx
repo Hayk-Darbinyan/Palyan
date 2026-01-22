@@ -11,6 +11,7 @@ import target from "@/assets/images/target.png";
 import StatsCard from "../atom/StatCard";
 import Partners from "../molecule/Partners";
 import NewsSection from "../molecule/NewsSection";
+import { useEffect } from "react";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -21,6 +22,9 @@ const Home = () => {
     name: string;
     description: string;
   }>;
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="bg-[#f8f7f0] pt-7">
       {/* Animal Cards */}

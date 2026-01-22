@@ -19,35 +19,41 @@ const ProductDetails = () => {
   const { id } = useParams<{ id: string }>();
   const { addItem } = useCartStore();
   const { clearFilters, toggleSection } = useFilterStore();
-  const [selectedSectionId, setSelectedSectionId] = useState<number | null>(null);
+  const [selectedSectionId, setSelectedSectionId] = useState<number | null>(
+    null,
+  );
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState<any>(null);
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   // Get data from hooks
   const { data: backendProducts, isLoading: productsLoading } =
     useGetProducts();
   const backendCategories = useCategoryStore(
-    (state) => state.backendCategories
+    (state) => state.backendCategories,
   );
   const currentLanguage = i18n.language as "hy" | "ru" | "en";
   const sections = useCategoryStore((state) => state.sections);
 
   useEffect(() => {
     if (backendProducts && backendCategories && id) {
-      const foundProduct = backendProducts.find((p: Product) => p.id === parseInt(id));
+      const foundProduct = backendProducts.find(
+        (p: Product) => p.id === parseInt(id),
+      );
 
       if (foundProduct) {
         const transformedProducts = transformProducts(
           [foundProduct],
           backendCategories,
-          currentLanguage
+          currentLanguage,
         );
 
         setProduct(transformedProducts[0]);
 
         // Auto-select the product's category
         const productCategory = backendCategories.find(
-          (cat) => cat.id === foundProduct.category_id
+          (cat) => cat.id === foundProduct.category_id,
         );
 
         if (productCategory) {

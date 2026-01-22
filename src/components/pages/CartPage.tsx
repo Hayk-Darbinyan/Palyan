@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import emailjs from "@emailjs/browser";
@@ -16,6 +16,9 @@ const CartPage = () => {
     type: "success" | "error";
     text: string;
   } | null>(null);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleCheckout = async (userEmail: string) => {
     setCheckoutLoading(true);
@@ -35,13 +38,13 @@ const CartPage = () => {
             (item) =>
               `${item.product.name}\nPrice: $${item.product.price}\nQuantity: ${
                 item.quantity
-              }\nSubtotal: $${(item.product.price * item.quantity).toFixed(2)}`
+              }\nSubtotal: $${(item.product.price * item.quantity).toFixed(2)}`,
           )
           .join("\n\n");
 
         const totalPrice = items.reduce(
           (sum, item) => sum + item.product.price * item.quantity,
-          0
+          0,
         );
 
         // Prepare email parameters with all fields
@@ -52,7 +55,7 @@ const CartPage = () => {
 
           // Subject line (if using variable in template)
           subject: `New Order - ${items.length} items - $${totalPrice.toFixed(
-            2
+            2,
           )}`,
 
           // Template variables
@@ -75,7 +78,7 @@ const CartPage = () => {
         await emailjs.send(
           EMAILJS_CONFIG.serviceId,
           EMAILJS_CONFIG.confirmationTemplateId,
-          templateParams
+          templateParams,
         );
 
         setCheckoutMessage({

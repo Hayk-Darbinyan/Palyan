@@ -34,7 +34,8 @@ const NewsSection = () => {
   const totalNews = data?.length || 0;
   const totalPages = Math.ceil(totalNews / itemsPerPage);
   const startIndex = currentPage * itemsPerPage;
-  const displayedNews = data?.slice(startIndex, startIndex + itemsPerPage) || [];
+  const displayedNews =
+    data?.slice(startIndex, startIndex + itemsPerPage) || [];
 
   const handlePrevious = () => {
     setCurrentPage((prev) => (prev > 0 ? prev - 1 : totalPages - 1));
@@ -74,8 +75,9 @@ const NewsSection = () => {
             <div className="relative rounded-[30px]">
               <img
                 src={news.image_url as string}
+                onClick={() => navigate(`/news/${news.id}`)}
                 alt=""
-                className="w-full h-83 object-cover rounded-[30px]"
+                className="w-full h-83 object-cover rounded-[30px] cursor-pointer"
               />
               <div
                 className="absolute bottom-0 right-0 rounded-full bg-[#EFD45C] w-12.5 h-12.5 flex items-center justify-center cursor-pointer hover:bg-[#f0e373] transition-colors"

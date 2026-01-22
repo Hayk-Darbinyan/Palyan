@@ -53,12 +53,12 @@
         "description": "Medications for fish"
       },
       {
-        "key": "rabbit",
+        "key": "catDog",
         "name": "Small companion animals",
         "description": "Dogs, cats"
       },
       {
-        "key": "spider",
+        "key": "rabbit",
         "name": "Decorative animals",
         "description": "Rabbits, guinea pigs, hamsters, chinchillas, birds"
       }

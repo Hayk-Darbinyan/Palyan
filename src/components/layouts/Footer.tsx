@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { navigationItems } from "@/constants/headerMenu";
 import mail from "@/assets/icons/mail.svg";
@@ -11,6 +11,20 @@ import { PhoneCall } from "lucide-react";
 const Footer = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const pathname = useLocation().pathname;
+
+  const isActive = (route: string) => {
+    if (route === "/") {
+      return pathname === "/";
+    }
+
+    // catalog page + catalog/:id
+    if (route === "/catalog") {
+      return pathname.startsWith("/catalog");
+    }
+
+    return pathname === route;
+  };
   return (
     <footer>
       {/* Top Section - Teal Background */}
@@ -29,7 +43,7 @@ const Footer = () => {
                     >
                       <span
                         className={
-                          item.active ? "text-[#efd45c]" : "text-white"
+                          isActive(item.route) ? "text-[#efd45c]" : "text-white"
                         }
                       >
                         {t(item.text)}
@@ -52,7 +66,7 @@ const Footer = () => {
                     >
                       <span
                         className={
-                          item.active ? "text-[#efd45c]" : "text-white"
+                          isActive(item.route) ? "text-[#efd45c]" : "text-white"
                         }
                       >
                         {t(item.text)}

@@ -1,19 +1,19 @@
-import { CLOUDINARY_CONFIG } from "@/config/cloudinaryConfig";
+import { IMAGEKIT_CONFIG } from "@/config/cloudinaryConfig";
 
 export const uploadToCloudinary = async (file: File): Promise<string> => {
-  if (!CLOUDINARY_CONFIG.cloudName || !CLOUDINARY_CONFIG.uploadPreset) {
+  if (!IMAGEKIT_CONFIG.publicKey || !IMAGEKIT_CONFIG.urlEndpoint) {
     throw new Error(
-      "Cloudinary configuration is missing. Please set VITE_CLOUDINARY_CLOUD_NAME and VITE_CLOUDINARY_UPLOAD_PRESET in your environment variables."
+      "ImageKit configuration is missing. Please set VITE_IMAGEKIT_PUBLIC_KEY and VITE_IMAGEKIT_URL_ENDPOINT in your environment variables."
     );
   }
 
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("upload_preset", CLOUDINARY_CONFIG.uploadPreset);
+  formData.append("publicKey", IMAGEKIT_CONFIG.publicKey);
 
   try {
     const response = await fetch(
-      `https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/image/upload`,
+      `https://upload.imagekit.io/api/v1/files/upload`,
       {
         method: "POST",
         body: formData,
@@ -21,13 +21,13 @@ export const uploadToCloudinary = async (file: File): Promise<string> => {
     );
 
     if (!response.ok) {
-      throw new Error("Failed to upload image to Cloudinary");
+      throw new Error("Failed to upload image to ImageKit");
     }
 
     const data = await response.json();
-    return data.secure_url;
+    return data.url;
   } catch (error) {
-    console.error("Cloudinary upload error:", error);
+    console.error("ImageKit upload error:", error);
     throw error;
   }
 };
