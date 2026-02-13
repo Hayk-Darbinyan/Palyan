@@ -44,7 +44,7 @@ const Benefits = () => {
                     className="text-6xl sm:text-7xl md:text-8xl font-bold leading-none"
                     style={{
                       color: "transparent",
-                      WebkitTextStroke: "2px #E5E5E5",
+                      WebkitTextStroke: "2px #BFBFBF",
                     }}
                   >
                     #{step.number}

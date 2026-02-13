@@ -67,7 +67,7 @@
   "manufacturer": "Manufacturer",
   "whoWeAre": {
     "title": "Who We Are",
-    "description": " \"Palyan\" Limited Liability Company (LLC) specializes in the wholesale import and sale of veterinary vaccines and drugs, offering high-quality and safe products approved by global manufacturers, as we are convinced that animal health begins with the right medication. We import only those veterinary drugs that have passed international quality standards and are approved by experienced specialists. We collaborate with veterinary clinics, farms, and veterinary specialists, providing effective solutions in line with market demands.",
+    "description": " \"Palyan\" LLC specializes in the wholesale import and sale of veterinary vaccines and drugs, offering high-quality and safe products approved by global manufacturers, as we are convinced that animal health begins with the right medication. We import only those veterinary drugs that have passed international quality standards and are approved by experienced specialists. We collaborate with veterinary clinics, farms, and veterinary specialists, providing effective solutions in line with market demands.",
     "clients": "Satisfied customers"
   },
   "services": {
@@ -110,7 +110,7 @@
   "target": {
     "iconText": "Our target",
     "title": "What is the company's target?",
-    "description": "The main objectives of  Palyan LLC are multifaceted, with its core mission being the protection and maintenance of animal health. The company aims to import and supply high-quality, safe, and effective veterinary medicines, vaccines, and animal care products, ensuring the health and well-being of both farm animals and pets.",
+    "description": "The main objectives of  \"Palyan\" LLC are multifaceted, with its core mission being the protection and maintenance of animal health. The company aims to import and supply high-quality, safe, and effective veterinary medicines, vaccines, and animal care products, ensuring the health and well-being of both farm animals and pets.",
     "target1": "lorem",
     "target2": "lorem"
   },
@@ -120,7 +120,7 @@
   },
   "footer": {
     "description": "The company was founded in 2025, and its employees have many years of experience and expertise in this field.",
-    "slogan": "Healthy animals - sustainable business",
+    "slogan": "Healthy animals, safe environment",
     "menu": "Menu",
     "workHours": "Working hours",
     "workDays": "Mon - Fri: 09:00 - 17:00",

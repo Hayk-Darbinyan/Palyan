@@ -1,33 +1,25 @@
-import { IMAGEKIT_CONFIG } from "@/config/cloudinaryConfig";
+import { api } from "@/api/axios";
+
+export interface UploadResponse {
+  url: string;
+  fileId: string;
+  thumbnail_url: string;
+}
 
 export const uploadToCloudinary = async (file: File): Promise<string> => {
-  if (!IMAGEKIT_CONFIG.publicKey || !IMAGEKIT_CONFIG.urlEndpoint) {
-    throw new Error(
-      "ImageKit configuration is missing. Please set VITE_IMAGEKIT_PUBLIC_KEY and VITE_IMAGEKIT_URL_ENDPOINT in your environment variables."
-    );
-  }
-
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("publicKey", IMAGEKIT_CONFIG.publicKey);
 
   try {
-    const response = await fetch(
-      `https://upload.imagekit.io/api/v1/files/upload`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await api.post<UploadResponse>("/admin/upload", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
-    if (!response.ok) {
-      throw new Error("Failed to upload image to ImageKit");
-    }
-
-    const data = await response.json();
-    return data.url;
+    return response.data.url;
   } catch (error) {
-    console.error("ImageKit upload error:", error);
+    console.error("Image upload error:", error);
     throw error;
   }
 };
