@@ -98,7 +98,7 @@ const ProductList: React.FC<ProductListProps> = ({ onEdit }) => {
                 </td>
                 <td className="py-4 px-4">
                   <div className="flex items-center gap-2">
-\                    <span className="font-medium">
+                    <span className="font-medium">
                       {product.price?.toLocaleString()} ֏
                     </span>
                   </div>

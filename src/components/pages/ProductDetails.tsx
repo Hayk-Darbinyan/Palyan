@@ -103,13 +103,13 @@ const ProductDetails = () => {
         <div className="max-w-7xl mx-auto py-6 lg:py-8">
           <div className="text-center py-20">
             <h2 className="text-2xl font-bold text-[#404A3D] mb-4">
-              {t("errors.productNotFound")}
+              {t("products.noResults")}
             </h2>
             <button
               onClick={() => navigate("/catalog")}
               className="bg-[#404A3D] text-white py-2 px-6 rounded-full hover:bg-[#2d3329] transition-colors"
             >
-              {t("actions.backToCatalog")}
+              {t("products.title")}
             </button>
           </div>
         </div>
@@ -139,7 +139,7 @@ const ProductDetails = () => {
               d="M10 19l-7-7m0 0l7-7m-7 7h18"
             />
           </svg>
-          <span>{t("actions.back")}</span>
+          <span>{t("products.title")}</span>
         </button>
 
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
@@ -192,7 +192,7 @@ const ProductDetails = () => {
               <div className="flex flex-col lg:flex-row gap-8 mb-8">
                 {/* Product Image */}
                 <div className="lg:w-2/5">
-                  <div className="aspect-square rounded-2xl overflow-hidden flex items-center justify-center p-4 lg:p-8 bg-gray-50">
+                  <div className="aspect-square rounded-2xl overflow-hidden flex items-center justify-center p-4 lg:p-8 bg-white">
                     <img
                       src={product.image}
                       alt={product.name}
@@ -229,6 +229,18 @@ const ProductDetails = () => {
                       {rawProduct.description[currentLanguage] ||
                         rawProduct.description.hy}
                     </p>
+
+                    {/* Manufacturer */}
+                    {rawProduct.manufacturer && (
+                      <div className="mt-4 pt-4 border-t border-gray-100">
+                        <p className="text-sm text-gray-600">
+                          <span className="font-semibold text-[#404A3D]">
+                            {t("manufacturer")}:
+                          </span>{" "}
+                          {rawProduct.manufacturer}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

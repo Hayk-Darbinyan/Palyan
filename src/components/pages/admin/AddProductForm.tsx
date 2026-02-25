@@ -18,8 +18,8 @@ interface FormData {
     ru: string;
     en: string;
   };
-  price: number;
-  stock: number;
+  price: number | "";
+  stock: number | "";
   description: {
     hy: string;
     ru: string;
@@ -91,6 +91,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({
       ) || null
     );
   const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState<BackendProduct | undefined>(product);
 
   useEffect(() => {
     if (categories && product?.category_id) {
@@ -99,8 +100,11 @@ const AddProductForm: React.FC<AddProductFormProps> = ({
       );
       setSelectedCategory(found || null);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categories, product?.category_id]);
+
+  useEffect(() => {
+    setCurrentProduct(product);
+  }, [product]);
 
   const handleInputChange = (
     field: keyof Omit<FormData, "name" | "description" | "features">,
@@ -208,12 +212,12 @@ const AddProductForm: React.FC<AddProductFormProps> = ({
       return;
     }
 
-    if (formData.price <= 0) {
+    if (formData.price === "" || Number(formData.price) <= 0) {
       alert("Please enter a valid price");
       return;
     }
 
-    if (formData.stock < 0) {
+    if (formData.stock === "" || Number(formData.stock) < 0) {
       alert("Stock quantity cannot be negative");
       return;
     }
@@ -240,8 +244,13 @@ const AddProductForm: React.FC<AddProductFormProps> = ({
     }
 
     try {
+      const price = typeof formData.price === 'string' ? 0 : Number(formData.price);
+      const stock = typeof formData.stock === 'string' ? 0 : Number(formData.stock);
+
       const submitData = {
         ...formData,
+        price,
+        stock,
         category_id: Number(formData.category_id),
         subcategory_id: formData.subcategory_id
           ? Number(formData.subcategory_id)
@@ -249,17 +258,18 @@ const AddProductForm: React.FC<AddProductFormProps> = ({
         types_id: formData.types_id ? Number(formData.types_id) : 1,
       };
 
-      if (product?.id) {
+      if (currentProduct?.id) {
         await updateProduct.mutateAsync({
           ...submitData,
-          id: product.id,
-          created_at: product.created_at,
+          id: currentProduct.id,
+          created_at: currentProduct.created_at,
         } as BackendProduct);
         alert("Product updated successfully!");
       } else {
-        await createProduct.mutateAsync(
+        const createdProduct = await createProduct.mutateAsync(
           submitData as Omit<BackendProduct, "id" | "created_at">
         );
+        setCurrentProduct(createdProduct as BackendProduct);
         alert("Product created successfully!");
       }
 
@@ -277,7 +287,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({
     >
       <div className="mb-8">
         <h2 className="text-2xl lg:text-3xl font-bold text-[#404A3D] mb-2">
-          {product ? "Edit Product" : "Add New Product"}
+          {currentProduct ? "Edit Product" : "Add New Product"}
         </h2>
       </div>
 
@@ -359,11 +369,14 @@ const AddProductForm: React.FC<AddProductFormProps> = ({
                 Price (֏)
               </label>
               <input
-                type="number"
-                value={formData.price}
-                onChange={(e) =>
-                  handleInputChange("price", Number(e.target.value))
-                }
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                value={formData.price === "" ? "" : formData.price}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/[^0-9]/g, "");
+                  handleInputChange("price", value === "" ? "" : Number(value));
+                }}
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0E99A2] focus:border-transparent"
                 placeholder="Enter price in ֏"
                 required
@@ -376,11 +389,14 @@ const AddProductForm: React.FC<AddProductFormProps> = ({
                 Stock Quantity
               </label>
               <input
-                type="number"
-                value={formData.stock}
-                onChange={(e) =>
-                  handleInputChange("stock", Number(e.target.value))
-                }
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                value={formData.stock === "" ? "" : formData.stock}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/[^0-9]/g, "");
+                  handleInputChange("stock", value === "" ? "" : Number(value));
+                }}
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0E99A2] focus:border-transparent"
                 placeholder="Enter stock quantity"
                 required
@@ -577,7 +593,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({
               )}
               {createProduct.isPending || updateProduct.isPending
                 ? "Saving..."
-                : product
+                : currentProduct
                 ? "Update Product"
                 : "Save Product"}
             </button>

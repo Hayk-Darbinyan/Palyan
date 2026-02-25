@@ -119,7 +119,7 @@ const ProductFilterSystem = () => {
               onClick={() => window.location.reload()}
               className="mt-4 text-[#404A3D] underline hover:text-[#2d3329]"
             >
-              {t("actions.retry")}
+              {"Try Again"}
             </button>
           </div>
         ) : (

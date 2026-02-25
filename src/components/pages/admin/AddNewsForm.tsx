@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Save,
   Upload,
@@ -52,6 +52,7 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news, onSuccess }) => {
   const [tagInput, setTagInput] = useState("");
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [isUploadingAuthorImage, setIsUploadingAuthorImage] = useState(false);
+  const [currentNews, setCurrentNews] = useState<News | undefined>(news);
 
   const handleInputChange = (field: keyof News, value: string | number) => {
     setFormData({ ...formData, [field]: value });
@@ -62,7 +63,9 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news, onSuccess }) => {
     lang: "hy" | "ru" | "en" | "",
     value: string
   ) => {
-    if (field === "image" || field === "date") {
+    if (field === "image") {
+      setFormData({ ...formData, image_url: value });
+    } else if (field === "date") {
       setFormData({ ...formData, [field]: value });
     } else {
       setFormData({
@@ -191,6 +194,10 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news, onSuccess }) => {
     setTags(newTags);
   };
 
+  useEffect(() => {
+    setCurrentNews(news);
+  }, [news]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -228,10 +235,10 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news, onSuccess }) => {
         })),
       };
 
-      if (news?.id) {
+      if (currentNews?.id) {
         // Update existing news
         const updatePayload: UpdateNewsPayload = {
-          id: news.id,
+          id: currentNews.id,
           ...newsPayload,
         };
         await updateNewsMutation.mutateAsync(updatePayload);
@@ -239,7 +246,8 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news, onSuccess }) => {
       } else {
         // Create new news
         const createPayload: CreateNewsPayload = newsPayload;
-        await createNewsMutation.mutateAsync(createPayload);
+        const createdNews = await createNewsMutation.mutateAsync(createPayload);
+        setCurrentNews(createdNews as News);
         alert("News published successfully!");
       }
 
@@ -257,7 +265,7 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news, onSuccess }) => {
     >
       <div className="mb-8">
         <h2 className="text-2xl lg:text-3xl font-bold text-[#404A3D] mb-2">
-          {news ? "Edit News Article" : "Add News Article"}
+          {currentNews ? "Edit News Article" : "Add News Article"}
         </h2>
       </div>
 
@@ -576,7 +584,7 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news, onSuccess }) => {
             <Save className="w-5 h-5" />
             {createNewsMutation.isPending || updateNewsMutation.isPending
               ? "Saving..."
-              : news
+              : currentNews
               ? "Update News Article"
               : "Publish News Article"}
           </button>
