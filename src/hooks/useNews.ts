@@ -76,6 +76,16 @@ interface UpdateNewsPayload extends CreateNewsPayload {
   id: string | number;
 }
 
+export interface PaginatedNewsResponse {
+  data: GetNewsResponse[];
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+    itemsPerPage: number;
+  };
+}
+
 export type {
   NewsFeature,
   NewsAuthor,
@@ -84,11 +94,11 @@ export type {
   UpdateNewsPayload,
 };
 
-export const useGetNews = () => {
+export const useGetNews = (page: number = 1) => {
   return useQuery({
-    queryKey: ["news"],
-    queryFn: async (): Promise<GetNewsResponse[]> => {
-      const response = await api.get("/news");
+    queryKey: ["news", page],
+    queryFn: async (): Promise<PaginatedNewsResponse> => {
+      const response = await api.get("/news", { params: { page, limit: 24 } });
       return response.data;
     },
     placeholderData: keepPreviousData,

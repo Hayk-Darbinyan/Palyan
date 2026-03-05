@@ -6,8 +6,9 @@ import SubsectionPanel from "../molecule/SubsectionPanel";
 import { useFilterStore } from "@/stores/useFilterStore";
 import ProductCard from "../molecule/ProductCard";
 import { useCategoryStore } from "@/stores/useCategoryStore";
-import { useGetProducts } from "@/hooks/useProducts";
+import { useGetProducts, type PaginatedResponse } from "@/hooks/useProducts";
 import { transformProducts } from "@/utils/productTransform";
+import Pagination from "../atom/Pagination";
 
 const ProductFilterSystem = () => {
   const { t } = useTranslation();
@@ -21,9 +22,22 @@ const ProductFilterSystem = () => {
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [mobileFiltersAnimating, setMobileFiltersAnimating] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Get products from backend
-  const { data: backendProducts, isLoading, error } = useGetProducts();
+  const { data: response, isLoading, error } = useGetProducts(currentPage) as {
+    data: PaginatedResponse | undefined;
+    isLoading: boolean;
+    error: any;
+  };
+
+  const backendProducts = response?.data || [];
+  const pagination = response?.pagination || {
+    currentPage: 1,
+    totalPages: 1,
+    totalItems: 0,
+    itemsPerPage: 24,
+  };
 
   // Get sections as array with id and name
   const sectionsList = storeSections.map((item) => ({
@@ -32,8 +46,9 @@ const ProductFilterSystem = () => {
   }));
 
   useEffect(() => {
-    // No need to set selected section state here - we'll use the store state
-  }, [storeSections]);
+    // Reset to page 1 when filters change
+    setCurrentPage(1);
+  }, [creators, selectedSectionId, selectedSubsectionIds]);
 
   const allProducts = transformProducts(
     backendProducts || [],

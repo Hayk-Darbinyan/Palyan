@@ -70,7 +70,7 @@ const NewsSection = () => {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {displayedNews.map((news) => (
+        {/* {displayedNews.map((news) => (
           <div key={news.id} className="w-full flex flex-col gap-4">
             <div className="relative rounded-[30px]">
               <img
@@ -98,7 +98,7 @@ const NewsSection = () => {
               </p>
             </div>
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
   );

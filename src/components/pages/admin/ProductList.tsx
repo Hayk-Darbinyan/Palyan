@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Edit2, Trash2, Eye, Calendar, Loader } from "lucide-react";
-import { useGetProducts, useDeleteProduct } from "@/hooks/useProducts";
+import { useGetProducts, useDeleteProduct, type PaginatedResponse } from "@/hooks/useProducts";
+import Pagination from "@/components/atom/Pagination";
 import type { Product } from "@/types/product";
 
 interface ProductListProps {
@@ -8,8 +9,21 @@ interface ProductListProps {
 }
 
 const ProductList: React.FC<ProductListProps> = ({ onEdit }) => {
-  const { data: products, isLoading } = useGetProducts();
+  const [currentPage, setCurrentPage] = useState(1);
+  const { data: response, isLoading } = useGetProducts(currentPage) as {
+    data: PaginatedResponse<Product> | undefined;
+    isLoading: boolean;
+  };
   const deleteProduct = useDeleteProduct();
+
+  const products = response?.data || [];
+  const pagination = response?.pagination || {
+    currentPage: 1,
+    totalPages: 1,
+    totalItems: 0,
+    itemsPerPage: 24,
+  };
+
   const [localProducts, setLocalProducts] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -39,12 +53,19 @@ const ProductList: React.FC<ProductListProps> = ({ onEdit }) => {
     );
   }
 
+  const getRowNumber = (index: number) => {
+    return (pagination.currentPage - 1) * pagination.itemsPerPage + index + 1;
+  };
+
   return (
     <div className="bg-white rounded-2xl lg:rounded-[30px] p-6 shadow-sm">
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
             <tr className="border-b border-gray-200">
+              <th className="text-left py-3 px-4 text-sm font-medium text-gray-600 w-12">
+                #
+              </th>
               <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">
                 Product
               </th>
@@ -66,11 +87,14 @@ const ProductList: React.FC<ProductListProps> = ({ onEdit }) => {
             </tr>
           </thead>
           <tbody>
-            {localProducts && localProducts.map((product) => (
+            {localProducts && localProducts.map((product, index) => (
               <tr
                 key={product.id}
                 className="border-b border-gray-100 hover:bg-gray-50"
               >
+                <td className="py-4 px-4 text-sm font-medium text-gray-600">
+                  {getRowNumber(index)}
+                </td>
                 <td className="py-4 px-4">
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-lg bg-gray-100 overflow-hidden shrink-0">
@@ -158,6 +182,14 @@ const ProductList: React.FC<ProductListProps> = ({ onEdit }) => {
           <p className="text-gray-500">No products found. Add your first product!</p>
         </div>
       )}
+
+      <Pagination
+        currentPage={pagination.currentPage}
+        totalItems={pagination.totalItems}
+        itemsPerPage={pagination.itemsPerPage}
+        onPageChange={setCurrentPage}
+        isLoading={isLoading}
+      />
     </div>
   );
 };

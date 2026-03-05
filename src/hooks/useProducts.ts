@@ -3,11 +3,23 @@ import { api } from "@/api/axios";
 import { keepPreviousData } from "@tanstack/react-query";
 import type { Product } from "@/types/product";
 
-export const useGetProducts = () => {
+export interface PaginatedResponse<T> {
+  data: T[];
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+    itemsPerPage: number;
+  };
+}
+
+export const useGetProducts = (page: number = 1) => {
   return useQuery({
-    queryKey: ["products"],
+    queryKey: ["products", page],
     queryFn: async () => {
-      const response = await api.get("/products");
+      const response = await api.get<PaginatedResponse<Product>>("/products", {
+        params: { page, limit: 24 },
+      });
       return response.data;
     },
     placeholderData: keepPreviousData,

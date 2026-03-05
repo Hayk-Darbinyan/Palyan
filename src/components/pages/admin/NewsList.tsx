@@ -1,14 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { Edit2, Trash2, Eye, Calendar, Loader } from "lucide-react";
-import { useGetNews, useDeleteNews } from "@/hooks/useNews";
+import { useGetNews, useDeleteNews, type PaginatedNewsResponse } from "@/hooks/useNews";
+import Pagination from "@/components/atom/Pagination";
 
 interface NewsListProps {
   onEdit: (news: any) => void;
 }
 
 const NewsList: React.FC<NewsListProps> = ({ onEdit }) => {
-  const { data: newsList, isLoading } = useGetNews();
+  const [currentPage, setCurrentPage] = useState(1);
+  const { data: response, isLoading } = useGetNews(currentPage) as {
+    data: PaginatedNewsResponse | undefined;
+    isLoading: boolean;
+  };
   const deleteNews = useDeleteNews();
+
+  const newsList = response?.data || [];
+  const pagination = response?.pagination || {
+    currentPage: 1,
+    totalPages: 1,
+    totalItems: 0,
+    itemsPerPage: 24,
+  };
+
   const [localNews, setLocalNews] = useState<any[]>([]);
 
   useEffect(() => {
@@ -38,12 +52,19 @@ const NewsList: React.FC<NewsListProps> = ({ onEdit }) => {
     );
   }
 
+  const getRowNumber = (index: number) => {
+    return (pagination.currentPage - 1) * pagination.itemsPerPage + index + 1;
+  };
+
   return (
     <div className="bg-white rounded-2xl lg:rounded-[30px] p-6 shadow-sm">
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
             <tr className="border-b border-gray-200">
+              <th className="text-left py-3 px-4 text-sm font-medium text-gray-600 w-12">
+                #
+              </th>
               <th className="text-left py-3 px-4 text-sm font-medium text-gray-600">
                 News Article
               </th>
@@ -56,11 +77,14 @@ const NewsList: React.FC<NewsListProps> = ({ onEdit }) => {
             </tr>
           </thead>
           <tbody>
-            {localNews && localNews.map((news) => (
+            {localNews && localNews.map((news, index) => (
               <tr
                 key={news.id}
                 className="border-b border-gray-100 hover:bg-gray-50"
               >
+                <td className="py-4 px-4 text-sm font-medium text-gray-600">
+                  {getRowNumber(index)}
+                </td>
                 <td className="py-4 px-4">
                   <div className="flex items-center gap-3">
                     <div className="w-16 h-16 rounded-lg bg-gray-100 overflow-hidden shrink-0">
@@ -135,6 +159,14 @@ const NewsList: React.FC<NewsListProps> = ({ onEdit }) => {
           <p className="text-gray-500">No news articles found. Add your first article!</p>
         </div>
       )}
+
+      <Pagination
+        currentPage={pagination.currentPage}
+        totalItems={pagination.totalItems}
+        itemsPerPage={pagination.itemsPerPage}
+        onPageChange={setCurrentPage}
+        isLoading={isLoading}
+      />
     </div>
   );
 };
