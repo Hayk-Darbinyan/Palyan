@@ -4,19 +4,30 @@ import calendar from "@/assets/icons/calendar.svg";
 import { useGetNews } from "@/hooks/useNews";
 import { formatDate } from "@/utils/formatDate";
 import { useNavigate } from "react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Pagination from "@/components/atom/Pagination";
 
 const News = () => {
-  const { data } = useGetNews();
+  const [currentPage, setCurrentPage] = useState(1);
+  const { data } = useGetNews(currentPage);
   const { i18n } = useTranslation();
   const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const newsItems = data?.data || [];
+  const pagination = data?.pagination || {
+    currentPage: 1,
+    totalPages: 1,
+    totalItems: 0,
+    itemsPerPage: 6,
+  };
+
   return (
     <div className="min-h-screen pt-7 px-2 sm:px-6 flex flex-col gap-8 bg-[#F8F7F0]">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {data?.map((news) => (
+        {newsItems?.map((news) => (
           <div className="w-full max-w-md flex flex-col gap-4">
             <div className="relative rounded-[30px]">
               <img
@@ -46,6 +57,15 @@ const News = () => {
           </div>
         ))}
       </div>
+
+      {/* Pagination */}
+      <Pagination
+        currentPage={pagination.currentPage}
+        totalItems={pagination.totalItems}
+        itemsPerPage={pagination.itemsPerPage}
+        onPageChange={(page) => setCurrentPage(page)}
+        isLoading={false}
+      />
     </div>
   );
 };

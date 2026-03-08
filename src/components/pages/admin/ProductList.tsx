@@ -54,11 +54,16 @@ const ProductList: React.FC<ProductListProps> = ({ onEdit }) => {
   }
 
   const getRowNumber = (index: number) => {
-    return (pagination.currentPage - 1) * pagination.itemsPerPage + index + 1;
+    return pagination.totalItems - ((pagination.currentPage - 1) * pagination.itemsPerPage + index);
   };
 
   return (
     <div className="bg-white rounded-2xl lg:rounded-[30px] p-6 shadow-sm">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-lg font-semibold text-[#404A3D]">
+          Products ({pagination.totalItems})
+        </h2>
+      </div>
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>

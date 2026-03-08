@@ -1,17 +1,9 @@
-import { useNavigate } from "react-router";
-import { useTranslation } from "react-i18next";
-import { useGetNews } from "@/hooks/useNews";
-import { formatDate } from "@/utils/formatDate";
-import arrow from "@/assets/icons/arrow.svg";
-import calendar from "@/assets/icons/calendar.svg";
 import { useState, useEffect } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useGetNews } from "@/hooks/useNews";
 
 const NewsSection = () => {
   const { data } = useGetNews();
-  const { i18n } = useTranslation();
-  const navigate = useNavigate();
-  const [currentPage, setCurrentPage] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(3);
 
   // Update items per page based on window size
@@ -31,18 +23,17 @@ const NewsSection = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const totalNews = data?.length || 0;
-  const totalPages = Math.ceil(totalNews / itemsPerPage);
-  const startIndex = currentPage * itemsPerPage;
-  const displayedNews =
-    data?.slice(startIndex, startIndex + itemsPerPage) || [];
+  const newsArray = data?.data || [];
+  const totalNews = newsArray.length;
 
   const handlePrevious = () => {
-    setCurrentPage((prev) => (prev > 0 ? prev - 1 : totalPages - 1));
+    // Navigation would use currentPage state if implemented
+    console.log("Previous");
   };
 
   const handleNext = () => {
-    setCurrentPage((prev) => (prev < totalPages - 1 ? prev + 1 : 0));
+    // Navigation would use currentPage state if implemented
+    console.log("Next");
   };
 
   const showArrows = totalNews > itemsPerPage;

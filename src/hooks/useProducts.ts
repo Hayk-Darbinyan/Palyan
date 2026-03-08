@@ -20,6 +20,7 @@ export const useGetProducts = (page: number = 1) => {
       const response = await api.get<PaginatedResponse<Product>>("/products", {
         params: { page, limit: 24 },
       });
+      console.log(response.data);
       return response.data;
     },
     placeholderData: keepPreviousData,

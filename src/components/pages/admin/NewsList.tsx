@@ -53,11 +53,16 @@ const NewsList: React.FC<NewsListProps> = ({ onEdit }) => {
   }
 
   const getRowNumber = (index: number) => {
-    return (pagination.currentPage - 1) * pagination.itemsPerPage + index + 1;
+    return pagination.totalItems - ((pagination.currentPage - 1) * pagination.itemsPerPage + index);
   };
 
   return (
     <div className="bg-white rounded-2xl lg:rounded-[30px] p-6 shadow-sm">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-lg font-semibold text-[#404A3D]">
+          News ({pagination.totalItems})
+        </h2>
+      </div>
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
@@ -84,6 +89,7 @@ const NewsList: React.FC<NewsListProps> = ({ onEdit }) => {
               >
                 <td className="py-4 px-4 text-sm font-medium text-gray-600">
                   {getRowNumber(index)}
+
                 </td>
                 <td className="py-4 px-4">
                   <div className="flex items-center gap-3">

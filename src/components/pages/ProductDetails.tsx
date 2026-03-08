@@ -38,7 +38,8 @@ const ProductDetails = () => {
 
   useEffect(() => {
     if (backendProducts && backendCategories && id) {
-      const foundProduct = backendProducts.find(
+      const productsArray = backendProducts.data || [];
+      const foundProduct = productsArray.find(
         (p: Product) => p.id === parseInt(id),
       );
 

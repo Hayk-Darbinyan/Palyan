@@ -8,6 +8,7 @@ import ProductCard from "../molecule/ProductCard";
 import { useCategoryStore } from "@/stores/useCategoryStore";
 import { useGetProducts, type PaginatedResponse } from "@/hooks/useProducts";
 import { transformProducts } from "@/utils/productTransform";
+import type { Product } from "@/types/product";
 import Pagination from "../atom/Pagination";
 
 const ProductFilterSystem = () => {
@@ -26,7 +27,7 @@ const ProductFilterSystem = () => {
 
   // Get products from backend
   const { data: response, isLoading, error } = useGetProducts(currentPage) as {
-    data: PaginatedResponse | undefined;
+    data: PaginatedResponse<Product> | undefined;
     isLoading: boolean;
     error: any;
   };
@@ -51,7 +52,7 @@ const ProductFilterSystem = () => {
   }, [creators, selectedSectionId, selectedSubsectionIds]);
 
   const allProducts = transformProducts(
-    backendProducts || [],
+    backendProducts,
     backendCategories,
     currentLanguage
   );
@@ -253,6 +254,16 @@ const ProductFilterSystem = () => {
                   </p>
                 </div>
               )}
+
+                <div className="w-full">
+                  <Pagination
+                    currentPage={pagination.currentPage}
+                    totalItems={pagination.totalItems}
+                    itemsPerPage={pagination.itemsPerPage}
+                    onPageChange={(page) => setCurrentPage(page)}
+                    isLoading={isLoading}
+                  />
+                </div>
             </main>
           </div>
         )}

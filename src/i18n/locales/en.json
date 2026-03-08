@@ -64,6 +64,11 @@
       }
     ]
   },
+  "errors":
+  {
+    "loading": "Page not found",
+    "404": "Page not found"
+  },
   "manufacturer": "Manufacturer",
   "whoWeAre": {
     "title": "Who We Are",

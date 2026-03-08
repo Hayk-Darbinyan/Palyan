@@ -68,7 +68,7 @@ const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <div className="flex items-center justify-center gap-2 mt-8 mb-4">
+    <div className="flex items-center justify-center gap-2 mt-8 mb-4 w-full">
       <button
         onClick={handlePrevious}
         disabled={currentPage === 1 || isLoading}
@@ -105,10 +105,6 @@ const Pagination: React.FC<PaginationProps> = ({
       >
         <ChevronRight className="w-5 h-5" />
       </button>
-
-      <span className="ml-4 text-sm text-gray-600">
-        Page {currentPage} of {totalPages}
-      </span>
     </div>
   );
 };
