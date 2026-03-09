@@ -15,6 +15,10 @@ const News = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
 
   const newsItems = data?.data || [];
   const pagination = data?.pagination || {

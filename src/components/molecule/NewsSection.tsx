@@ -1,10 +1,18 @@
 import { useState, useEffect } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useGetNews } from "@/hooks/useNews";
+import { formatDate } from "@/utils/formatDate";
+import arrow from "@/assets/icons/arrow.svg";
+import calendar from "@/assets/icons/calendar.svg";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 
 const NewsSection = () => {
+  const { i18n } = useTranslation();
+  const navigate = useNavigate();
   const { data } = useGetNews();
   const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [currentPage, setCurrentPage] = useState(0);
 
   // Update items per page based on window size
   useEffect(() => {
@@ -26,14 +34,17 @@ const NewsSection = () => {
   const newsArray = data?.data || [];
   const totalNews = newsArray.length;
 
+  // Calculate displayed news for current page
+  const startIndex = currentPage * itemsPerPage;
+  const displayedNews = newsArray.slice(startIndex, startIndex + itemsPerPage);
+
   const handlePrevious = () => {
-    // Navigation would use currentPage state if implemented
-    console.log("Previous");
+    setCurrentPage((prev) => Math.max(prev - 1, 0));
   };
 
   const handleNext = () => {
-    // Navigation would use currentPage state if implemented
-    console.log("Next");
+    const maxPage = Math.ceil(totalNews / itemsPerPage);
+    setCurrentPage((prev) => (prev + 1) % maxPage);
   };
 
   const showArrows = totalNews > itemsPerPage;
@@ -61,7 +72,7 @@ const NewsSection = () => {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* {displayedNews.map((news) => (
+        {displayedNews.map((news) => (
           <div key={news.id} className="w-full flex flex-col gap-4">
             <div className="relative rounded-[30px]">
               <img
@@ -89,7 +100,7 @@ const NewsSection = () => {
               </p>
             </div>
           </div>
-        ))} */}
+        ))}
       </div>
     </div>
   );

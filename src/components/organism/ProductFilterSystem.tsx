@@ -31,6 +31,10 @@ const ProductFilterSystem = () => {
     isLoading: boolean;
     error: any;
   };
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
 
   const backendProducts = response?.data || [];
   const pagination = response?.pagination || {

@@ -30,6 +30,10 @@ const NewsList: React.FC<NewsListProps> = ({ onEdit }) => {
       setLocalNews(newsList);
     }
   }, [newsList]);
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
 
   const handleDelete = async (id: number) => {
     if (window.confirm('Are you sure you want to delete this news article?')) {

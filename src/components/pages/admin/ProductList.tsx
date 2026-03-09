@@ -31,6 +31,10 @@ const ProductList: React.FC<ProductListProps> = ({ onEdit }) => {
       setLocalProducts(products);
     }
   }, [products]);
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
 
   const handleDelete = async (id: number) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
