@@ -328,6 +328,8 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news, onSuccess }) => {
             placeholder="Enter news title in Armenian"
             placeholderRu="Enter news title in Russian"
             placeholderEn="Enter news title in English"
+            textarea
+            rows={1}
             required
           />
 
@@ -545,6 +547,8 @@ const AddNewsForm: React.FC<AddNewsFormProps> = ({ news, onSuccess }) => {
                     placeholder="e.g., Պարազիտների դեմ պայքարի ժամանակակից մեթոդներ"
                     placeholderRu="e.g., Современные методы борьбы с паразитами"
                     placeholderEn="e.g., Modern methods of parasite control"
+                    textarea
+                    rows={1}
                   />
 
                   {/* Subtitle Description with translations */}

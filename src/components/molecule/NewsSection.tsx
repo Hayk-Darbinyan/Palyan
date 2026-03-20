@@ -95,7 +95,7 @@ const NewsSection = () => {
                   {formatDate(news.published_at).date}
                 </p>
               </div>
-              <p className="text-[28px] leading-9.5 text-[#404A3D]">
+              <p className="text-[28px] leading-9.5 text-[#404A3D] whitespace-pre-line">
                 {news.title[i18n.language as "hy" | "ru" | "en"]}
               </p>
             </div>

@@ -210,6 +210,27 @@ const Footer = () => {
             </div>
           </div>
         </div>
+
+        {/* Copyright & Powered By Section */}
+        <div className="w-full border-t border-gray-100">
+          <div className="max-w-[1524px] mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p className="text-sm text-[#666666]">
+              © {new Date().getFullYear()} {t("footer.copyright")}
+            </p>
+            <div className="flex items-center gap-1.5 text-sm text-[#666666]">
+              <span>{t("footer.poweredBy")}</span>
+              <a 
+                href="https://granat.am" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-[#0E99A2] font-semibold hover:opacity-80 transition-opacity"
+              >
+                {t("footer.developerName")}
+              </a>
+              <span>{t("footer.poweredBySuffix")}</span>
+            </div>
+          </div>
+        </div>
       </div>
     </footer>
   );

@@ -60,7 +60,7 @@ const ProductCard = ({ product }: { product: ProductCardProps }) => {
             </p>
           </div>
           <div className="w-full flex flex-col sm:flex-row justify-between items-center">
-            <h3 className="text-xl sm:text-2xl leading-8 text-[#404A3D]">
+            <h3 className="text-xl sm:text-2xl leading-8 text-[#404A3D] whitespace-pre-line">
               {product.rawProduct?.name[currentLanguage]}
             </h3>
             <div className="bg-white/80 backdrop-blur-md px-3 py-1 rounded-lg">

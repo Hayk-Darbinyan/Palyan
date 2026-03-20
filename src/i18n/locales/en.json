@@ -132,7 +132,11 @@
     "sat": "Sat. non working day",
     "sun": "Sun. non working day",
     "ourAddres": "Our address",
-    "addres": "Yerevan, Malatia-Sebastia district"
+    "addres": "Yerevan, Malatia-Sebastia district",
+    "poweredBy": "Powered by",
+    "developerName": "Granat",
+    "poweredBySuffix": "",
+    "copyright": "Palyan LLC. All rights reserved."
   },
   "newsDetails": {
     "backToNews": "News",

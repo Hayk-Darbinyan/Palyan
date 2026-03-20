@@ -206,7 +206,7 @@ const ProductDetails = () => {
                 <div className="lg:w-3/5">
                   <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
                     <div className="flex-1">
-                      <h1 className="text-2xl lg:text-3xl font-bold text-[#404A3D] mb-3">
+                      <h1 className="text-2xl lg:text-3xl font-bold text-[#404A3D] mb-3 whitespace-pre-line">
                         {product.name}
                       </h1>
                       <div className="text-2xl font-bold text-[#404A3D]">
@@ -254,7 +254,7 @@ const ProductDetails = () => {
                     key={feature.id}
                     className="pt-8 border-t border-gray-100"
                   >
-                    <h3 className="text-xl lg:text-2xl font-semibold text-[#404A3D] mb-4">
+                    <h3 className="text-xl lg:text-2xl font-semibold text-[#404A3D] mb-4 whitespace-pre-line">
                       {feature.title[currentLanguage] || feature.title.hy}
                     </h3>
                     <p className="text-gray-600 text-sm">

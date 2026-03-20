@@ -89,8 +89,8 @@ const Pagination: React.FC<PaginationProps> = ({
                 ? "bg-[#0E99A2] text-white font-medium"
                 : page === "..."
                   ? "cursor-default text-gray-400"
-                  : "text-gray-600 hover:bg-gray-100"
-            } disabled:cursor-not-allowed`}
+                  : "text-gray-600 hover:bg-gray-200"
+            } disabled:cursor-not-allowed cursor-pointer`}
           >
             {page}
           </button>

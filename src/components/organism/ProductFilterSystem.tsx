@@ -6,9 +6,8 @@ import SubsectionPanel from "../molecule/SubsectionPanel";
 import { useFilterStore } from "@/stores/useFilterStore";
 import ProductCard from "../molecule/ProductCard";
 import { useCategoryStore } from "@/stores/useCategoryStore";
-import { useGetProducts, type PaginatedResponse } from "@/hooks/useProducts";
+import { useGetProducts } from "@/hooks/useProducts";
 import { transformProducts } from "@/utils/productTransform";
-import type { Product } from "@/types/product";
 import Pagination from "../atom/Pagination";
 
 const ProductFilterSystem = () => {
@@ -26,11 +25,11 @@ const ProductFilterSystem = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   // Get products from backend
-  const { data: response, isLoading, error } = useGetProducts(currentPage) as {
-    data: PaginatedResponse<Product> | undefined;
-    isLoading: boolean;
-    error: any;
-  };
+  const { data: response, isLoading, isFetching, error } = useGetProducts(currentPage, {
+    category_id: selectedSectionId,
+    subcategory_id: selectedSubsectionIds,
+    manufacturers: creators,
+  });
   
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -66,29 +65,11 @@ const ProductFilterSystem = () => {
     setTimeout(() => setMobileFiltersOpen(false), 300);
   };
 
-  const getFilteredProducts = () => {
-    return allProducts.filter((product) => {
-      // Filter by section (categoryId)
-      const sectionMatch =
-        selectedSectionId === null || product.category_id === selectedSectionId;
-
-      // Filter by subsection (subcategoryId)
-      const subsectionMatch =
-        selectedSubsectionIds.length === 0 ||
-        (product.subcategory_id !== null && selectedSubsectionIds.includes(product.subcategory_id));
-
-      // Filter by creators
-      const creatorMatch =
-        creators.length === 0 || creators.includes(product.manufacturer);
-
-      return sectionMatch && subsectionMatch && creatorMatch;
-    });
-  };
-
   const activeFilterCount =
     creators.length + (selectedSectionId ? 1 : 0) + selectedSubsectionIds.length;
 
-  const filteredProducts = getFilteredProducts();
+  // Since filtering is now done by the backend, we use allProducts directly
+  const filteredProducts = allProducts;
 
   return (
     <div className="min-h-screen lg:p-8">
@@ -236,7 +217,14 @@ const ProductFilterSystem = () => {
             )}
 
             {/* Main Content */}
-            <main className="flex-1 pt-4 lg:pt-18">
+            <main className="flex-1 pt-4 lg:pt-18 relative">
+              {/* Subtle Loading Overlay for grid when fetching new data */}
+              {isFetching && !isLoading && (
+                <div className="absolute top-0 right-0 p-4 z-10">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#EFD45C]"></div>
+                </div>
+              )}
+
               {/* Subsection Panel - Desktop */}
               <div className="hidden xl:block xl:sticky">
                 {selectedSectionId && (
@@ -244,14 +232,18 @@ const ProductFilterSystem = () => {
                 )}
               </div>
 
-              {/* Products Grid */}
-              <div className="grid grid-cols-2 xl:grid-cols-3 gap-3 lg:gap-6">
+              {/* Products Grid with transition effect */}
+              <div 
+                className={`grid grid-cols-2 xl:grid-cols-3 gap-3 lg:gap-6 transition-opacity duration-300 ${
+                  isFetching ? "opacity-50" : "opacity-100"
+                }`}
+              >
                 {filteredProducts.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
 
-              {filteredProducts.length === 0 && !isLoading && (
+              {filteredProducts.length === 0 && !isLoading && !isFetching && (
                 <div className="text-center py-12 bg-white rounded-[20px]">
                   <p className="text-[#999999] text-lg">
                     {t("products.noResults")}
@@ -259,7 +251,14 @@ const ProductFilterSystem = () => {
                 </div>
               )}
 
-                <div className="w-full">
+              {/* Show a skeleton-like space or minimal loader when no products and fetching */}
+              {filteredProducts.length === 0 && isFetching && (
+                <div className="flex justify-center items-center py-24">
+                   <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#EFD45C]"></div>
+                </div>
+              )}
+
+                <div className={`w-full transition-opacity duration-300 ${isFetching ? "opacity-50 pointer-events-none" : "opacity-100"}`}>
                   <Pagination
                     currentPage={pagination.currentPage}
                     totalItems={pagination.totalItems}

@@ -360,6 +360,8 @@ const AddProductForm: React.FC<AddProductFormProps> = ({
               placeholder="Enter product name in Armenian"
               placeholderRu="Enter product name in Russian"
               placeholderEn="Enter product name in English"
+              textarea
+              rows={1}
               required
             />
 
@@ -546,6 +548,8 @@ const AddProductForm: React.FC<AddProductFormProps> = ({
                       placeholder="e.g., Դեղաձև"
                       placeholderRu="e.g., Лекарственная форма"
                       placeholderEn="e.g., Dosage form"
+                      textarea
+                      rows={1}
                     />
 
                     {/* Feature Description with translations */}

@@ -13,12 +13,35 @@ export interface PaginatedResponse<T> {
   };
 }
 
-export const useGetProducts = (page: number = 1) => {
+export const useGetProducts = (
+  page: number = 1,
+  filters?: {
+    category_id?: number | null;
+    subcategory_id?: number[] | null;
+    manufacturers?: string[] | null;
+  }
+) => {
   return useQuery({
-    queryKey: ["products", page],
+    queryKey: ["products", page, filters],
     queryFn: async () => {
+      const params: Record<string, string | number | null | undefined> = { page, limit: 24 };
+      
+      if (filters?.category_id) {
+        params.category_id = filters.category_id;
+      }
+      
+      if (filters?.subcategory_id && filters.subcategory_id.length > 0) {
+        // Pass as comma-separated or multiple params depending on backend
+        // Here we'll try passing the first one or comma-separated if supported
+        params.subcategory_id = filters.subcategory_id.join(',');
+      }
+      
+      if (filters?.manufacturers && filters.manufacturers.length > 0) {
+        params.manufacturer = filters.manufacturers.join(',');
+      }
+
       const response = await api.get<PaginatedResponse<Product>>("/products", {
-        params: { page, limit: 24 },
+        params,
       });
       console.log(response.data);
       return response.data;

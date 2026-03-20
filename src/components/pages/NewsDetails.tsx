@@ -96,7 +96,7 @@ const NewsDetails = () => {
             <div className="bg-white rounded-2xl lg:rounded-[30px] p-6 lg:p-8 shadow-sm">
               {/* News Header */}
               <div className="mb-10">
-                <h1 className="text-3xl lg:text-4xl font-bold text-[#404A3D] mb-4">
+                <h1 className="text-3xl lg:text-4xl font-bold text-[#404A3D] mb-4 whitespace-pre-line">
                   {data?.title[i18n.language as "hy" | "ru" | "en"]}
                 </h1>
 
@@ -114,7 +114,7 @@ const NewsDetails = () => {
                 {/* Subtitle 1 with description */}
                 {data.features.map((feature) => (
                   <div>
-                    <h2 className="text-2xl lg:text-3xl font-bold text-[#0E99A2] mb-6">
+                    <h2 className="text-2xl lg:text-3xl font-bold text-[#0E99A2] mb-6 whitespace-pre-line">
                       {feature.title[i18n.language as "hy" | "ru" | "en"]}
                     </h2>
                     <div className="space-y-4 text-gray-700 leading-relaxed">

@@ -46,6 +46,11 @@ const TranslationField: React.FC<TranslationFieldProps> = ({
         <textarea
           value={val}
           onChange={(e) => changeHandler?.(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.stopPropagation();
+            }
+          }}
           rows={rows}
           className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0E99A2] focus:border-transparent ${langLabels[lang].color}`}
           placeholder={placeholderText}
