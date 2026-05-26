@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { X } from "lucide-react";
+import { useState, useEffect, useMemo, useRef } from "react";
+import { X, Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import FilterPanel from "../molecule/FilterPanel";
 import SubsectionPanel from "../molecule/SubsectionPanel";
@@ -9,11 +9,18 @@ import { useCategoryStore } from "@/stores/useCategoryStore";
 import { useGetProducts } from "@/hooks/useProducts";
 import { transformProducts } from "@/utils/productTransform";
 import Pagination from "../atom/Pagination";
+import { debounce } from "@/utils/debounce";
 
 const ProductFilterSystem = () => {
   const { t } = useTranslation();
-  const { creators, selectedSectionId, selectedSubsectionIds, clearFilters } =
-    useFilterStore();
+  const { 
+    creators, 
+    selectedSectionId, 
+    selectedSubsectionIds, 
+    search,
+    setSearch,
+    clearFilters 
+  } = useFilterStore();
   const storeSections = useCategoryStore((state) => state.sections);
   const backendCategories = useCategoryStore(
     (state) => state.backendCategories
@@ -23,13 +30,40 @@ const ProductFilterSystem = () => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [mobileFiltersAnimating, setMobileFiltersAnimating] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  
+  // Local search term for the input
+  const [localSearchTerm, setLocalSearchTerm] = useState(search);
+  const skipSync = useRef(false);
 
-  // Get products from backend
-  const { data: response, isLoading, isFetching, error } = useGetProducts(currentPage, {
+  // Use a debounced function instead of a hook to break the loop
+  const debouncedSetSearch = useMemo(
+    () => debounce((value: string) => setSearch(value), 500),
+    [setSearch]
+  );
+
+  // Sync local search with store search (e.g. when filters are cleared)
+  useEffect(() => {
+    if (!skipSync.current && search !== localSearchTerm) {
+      setLocalSearchTerm(search);
+    }
+    skipSync.current = false;
+  }, [search]);
+
+  const handleSearchChange = (value: string) => {
+    skipSync.current = true;
+    setLocalSearchTerm(value);
+    debouncedSetSearch(value);
+  };
+
+  const filters = useMemo(() => ({
     category_id: selectedSectionId,
     subcategory_id: selectedSubsectionIds,
     manufacturers: creators,
-  });
+    search: search,
+  }), [selectedSectionId, selectedSubsectionIds, creators, search]);
+
+  // Get products from backend
+  const { data: response, isLoading, isFetching, error } = useGetProducts(currentPage, filters);
   
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -52,7 +86,7 @@ const ProductFilterSystem = () => {
   useEffect(() => {
     // Reset to page 1 when filters change
     setCurrentPage(1);
-  }, [creators, selectedSectionId, selectedSubsectionIds]);
+  }, [creators, selectedSectionId, selectedSubsectionIds, search]);
 
   const allProducts = transformProducts(
     backendProducts,
@@ -91,22 +125,44 @@ const ProductFilterSystem = () => {
 
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-6 flex items-center justify-between">
-          {/* Mobile Filter Button */}
-          <button
-            onClick={() => {
-              setMobileFiltersOpen(true);
-              setTimeout(() => setMobileFiltersAnimating(true), 10);
-            }}
-            className="lg:hidden bg-[#EFD45C] text-[#404A3D] px-4 py-2 rounded-full flex items-center gap-2"
-          >
-            {t("products.title")}
-            {activeFilterCount > 0 && (
-              <span className="bg-[#404A3D] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                {activeFilterCount}
-              </span>
-            )}
-          </button>
+        <div className="mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-4 w-full md:w-auto">
+            {/* Mobile Filter Button */}
+            <button
+              onClick={() => {
+                setMobileFiltersOpen(true);
+                setTimeout(() => setMobileFiltersAnimating(true), 10);
+              }}
+              className="lg:hidden bg-[#EFD45C] text-[#404A3D] px-4 py-2 rounded-full flex items-center gap-2 whitespace-nowrap"
+            >
+              {t("products.title")}
+              {activeFilterCount > 0 && (
+                <span className="bg-[#404A3D] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                  {activeFilterCount}
+                </span>
+              )}
+            </button>
+
+            {/* Search Input */}
+            <div className="relative flex-1 md:w-80 lg:w-96">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                value={localSearchTerm}
+                onChange={(e) => handleSearchChange(e.target.value)}
+                placeholder={t("products.searchPlaceholder") || "Search products..."}
+                className="w-full pl-11 pr-4 py-2.5 rounded-full border border-gray-200 focus:outline-none focus:border-[#EFD45C] focus:ring-1 focus:ring-[#EFD45C] transition-all bg-white shadow-sm"
+              />
+              {localSearchTerm && (
+                <button
+                  onClick={() => handleSearchChange("")}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+          </div>
         </div>
 
         {isLoading ? (
@@ -127,12 +183,12 @@ const ProductFilterSystem = () => {
           <div className="flex gap-6">
             {/* Desktop Filters Sidebar */}
             <aside className="hidden lg:block w-80 shrink-0 space-y-6 sticky top-8 self-start">
-              {activeFilterCount > 0 ? (
+              {activeFilterCount > 0 || search ? (
                 <button
                   onClick={clearFilters}
                   className="w-full bg-[#404A3D] text-white py-3 rounded-full hover:bg-[#2d3329] transition-colors"
                 >
-                  {t("products.clearAll")} ({activeFilterCount})
+                  {t("products.clearAll")} ({activeFilterCount + (search ? 1 : 0)})
                 </button>
               ) : (
                 <button className="w-full py-3 opacity-0" disabled>
@@ -187,12 +243,12 @@ const ProductFilterSystem = () => {
                       </button>
                     </div>
 
-                    {activeFilterCount > 0 && (
+                    {(activeFilterCount > 0 || search) && (
                       <button
                         onClick={clearFilters}
                         className="w-full bg-[#404A3D] text-white py-3 rounded-full"
                       >
-                        {t("products.clearAll")} ({activeFilterCount})
+                        {t("products.clearAll")} ({activeFilterCount + (search ? 1 : 0)})
                       </button>
                     )}
 
@@ -217,7 +273,7 @@ const ProductFilterSystem = () => {
             )}
 
             {/* Main Content */}
-            <main className="flex-1 pt-4 lg:pt-18 relative">
+            <main className="flex-1 pt-4 lg:pt-0 relative">
               {/* Subtle Loading Overlay for grid when fetching new data */}
               {isFetching && !isLoading && (
                 <div className="absolute top-0 right-0 p-4 z-10">
@@ -231,6 +287,19 @@ const ProductFilterSystem = () => {
                   <SubsectionPanel sectionId={selectedSectionId} />
                 )}
               </div>
+
+              {/* Pagination at top */}
+              {pagination.totalPages > 1 && (
+                <div className={`w-full mb-6 transition-opacity duration-300 ${isFetching ? "opacity-50 pointer-events-none" : "opacity-100"}`}>
+                  <Pagination
+                    currentPage={pagination.currentPage}
+                    totalItems={pagination.totalItems}
+                    itemsPerPage={pagination.itemsPerPage}
+                    onPageChange={(page) => setCurrentPage(page)}
+                    isLoading={isLoading}
+                  />
+                </div>
+              )}
 
               {/* Products Grid with transition effect */}
               <div 
@@ -258,7 +327,9 @@ const ProductFilterSystem = () => {
                 </div>
               )}
 
-                <div className={`w-full transition-opacity duration-300 ${isFetching ? "opacity-50 pointer-events-none" : "opacity-100"}`}>
+              {/* Pagination at bottom */}
+              {pagination.totalPages > 1 && (
+                <div className={`w-full mt-6 transition-opacity duration-300 ${isFetching ? "opacity-50 pointer-events-none" : "opacity-100"}`}>
                   <Pagination
                     currentPage={pagination.currentPage}
                     totalItems={pagination.totalItems}
@@ -267,6 +338,7 @@ const ProductFilterSystem = () => {
                     isLoading={isLoading}
                   />
                 </div>
+              )}
             </main>
           </div>
         )}

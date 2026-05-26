@@ -189,7 +189,8 @@
     "title": "Catalog",
     "clearAll": "Clear All",
     "noResults": "Products not found",
-    "buyNow": "Buy Now"
+    "buyNow": "Buy Now",
+    "searchPlaceholder": "Search by product name..."
   },
   "faq": {
     "title": "Frequently Asked Questions",

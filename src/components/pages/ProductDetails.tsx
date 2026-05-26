@@ -5,11 +5,11 @@ import { PhoneCall, ShoppingCart } from "lucide-react";
 import slogan from "@/assets/images/slogan.jpg";
 import life from "@/assets/icons/life.svg";
 import FilterPanel from "../molecule/FilterPanel";
-import { useGetProducts } from "@/hooks/useProducts";
+import { useGetProductById } from "@/hooks/useProducts";
 import { useCategoryStore } from "@/stores/useCategoryStore";
 import { useCartStore } from "@/stores/useCartStore";
 import { useFilterStore } from "@/stores/useFilterStore";
-import { transformProducts } from "@/utils/productTransform";
+import { transformProduct } from "@/utils/productTransform";
 import { toast } from "sonner";
 import type { Product } from "@/types/product";
 
@@ -22,49 +22,48 @@ const ProductDetails = () => {
   const [selectedSectionId, setSelectedSectionId] = useState<number | null>(
     null,
   );
-  const [loading, setLoading] = useState(true);
-  const [product, setProduct] = useState<any>(null);
+  
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   // Get data from hooks
-  const { data: backendProducts, isLoading: productsLoading } =
-    useGetProducts();
+  const { data: foundProduct, isLoading: productLoading } = useGetProductById(
+    parseInt(id!),
+  );
   const backendCategories = useCategoryStore(
     (state) => state.backendCategories,
   );
   const currentLanguage = i18n.language as "hy" | "ru" | "en";
   const sections = useCategoryStore((state) => state.sections);
 
+  const [product, setProduct] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    if (backendProducts && backendCategories && id) {
-      const productsArray = backendProducts.data || [];
-      const foundProduct = productsArray.find(
-        (p: Product) => p.id === parseInt(id),
+    if (foundProduct && backendCategories) {
+      const transformed = transformProduct(
+        foundProduct,
+        backendCategories,
+        currentLanguage,
       );
 
-      if (foundProduct) {
-        const transformedProducts = transformProducts(
-          [foundProduct],
-          backendCategories,
-          currentLanguage,
-        );
+      setProduct(transformed);
 
-        setProduct(transformedProducts[0]);
+      // Auto-select the product's category
+      const productCategory = backendCategories.find(
+        (cat) => cat.id === foundProduct.category_id,
+      );
 
-        // Auto-select the product's category
-        const productCategory = backendCategories.find(
-          (cat) => cat.id === foundProduct.category_id,
-        );
-
-        if (productCategory) {
-          setSelectedSectionId(productCategory.id);
-        }
+      if (productCategory) {
+        setSelectedSectionId(productCategory.id);
       }
-
+      
+      setLoading(false);
+    } else if (!productLoading && !foundProduct) {
       setLoading(false);
     }
-  }, [backendProducts, backendCategories, id, currentLanguage]);
+  }, [foundProduct, backendCategories, currentLanguage, productLoading]);
 
   const handleAddToCart = () => {
     const cartProduct = {
@@ -86,7 +85,7 @@ const ProductDetails = () => {
     navigate("/catalog");
   };
 
-  if (loading || productsLoading) {
+  if (loading || productLoading) {
     return (
       <div className="min-h-screen bg-[#F8F7F0] pt-7 px-2 sm:px-4 lg:px-6">
         <div className="max-w-7xl mx-auto py-6 lg:py-8">

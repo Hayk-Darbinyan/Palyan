@@ -1,10 +1,12 @@
-import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useState, useEffect, useMemo, useRef } from "react";
+import { useNavigate, useLocation } from "react-router";
 import { navigationItems } from "@/constants/headerMenu";
 import { useFilterStore } from "@/stores/useFilterStore";
 import { useTranslation } from "react-i18next";
 import LanguageSelector from "../molecule/LanguageSelector";
 import { useCategoryStore } from "@/stores/useCategoryStore";
+import { Search, X } from "lucide-react";
+import { debounce } from "@/utils/debounce";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -16,9 +18,46 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   const [expandedSection, setExpandedSection] = useState<number | null>(null);
 
   const navigate = useNavigate();
-  const { toggleSection: toggleSectionFilter, toggleSubsection } = useFilterStore();
+  const location = useLocation();
+  const pathname = location.pathname;
+  const { toggleSection: toggleSectionFilter, toggleSubsection, search, setSearch } = useFilterStore();
   const { t } = useTranslation();
   
+  const [localSearchTerm, setLocalSearchTerm] = useState(search);
+  const skipSync = useRef(false);
+
+  // Use a debounced function instead of a hook to break the loop
+  const debouncedSetSearch = useMemo(
+    () => debounce((value: string) => setSearch(value), 500),
+    [setSearch]
+  );
+
+  // Sync local search with store search (when updated externally or on navigation)
+  useEffect(() => {
+    if (!pathname.startsWith("/catalog")) {
+      setLocalSearchTerm("");
+    } else if (!skipSync.current) {
+      setLocalSearchTerm(search);
+    }
+    skipSync.current = false;
+  }, [search, pathname]);
+
+  const handleSearchChange = (value: string) => {
+    skipSync.current = true;
+    setLocalSearchTerm(value);
+    debouncedSetSearch(value);
+    if (value && !pathname.startsWith("/catalog")) {
+      navigate("/catalog");
+      onClose();
+    }
+  };
+
+  const handleClearSearch = () => {
+    skipSync.current = true;
+    setLocalSearchTerm("");
+    setSearch("");
+  };
+
   // Get sections from the store
   const sections = useCategoryStore((state) => state.sections);
 
@@ -79,21 +118,34 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
             className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
             aria-label="Close menu"
           >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
+            <X className="w-6 h-6 text-[#404A3D]" />
           </button>
         </div>
 
         {/* Sidebar Content */}
         <div className="overflow-y-auto h-[calc(100%-80px)]">
+          {/* Search in Sidebar */}
+          <div className="p-6 border-b border-gray-200">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                value={localSearchTerm}
+                onChange={(e) => handleSearchChange(e.target.value)}
+                placeholder={t("products.searchPlaceholder") || "Search products..."}
+                className="w-full pl-10 pr-10 py-2.5 rounded-full border border-gray-200 focus:outline-none focus:border-[#EFD45C] focus:ring-1 focus:ring-[#EFD45C] transition-all"
+              />
+              {localSearchTerm && (localSearchTerm !== "") && (
+                <button
+                  onClick={handleClearSearch}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+          </div>
+
           {/* Navigation Items */}
           <div className="p-6 border-b border-gray-200">
             {navigationItems.map((item, index) => (

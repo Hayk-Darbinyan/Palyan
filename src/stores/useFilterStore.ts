@@ -6,11 +6,13 @@ interface FilterState {
   selectedSectionId: number | null;
   selectedSubsectionIds: number[];
   creators: string[];
+  search: string;
   
   // Methods
   toggleSection: (sectionId: number) => void;
   toggleSubsection: (subsectionId: number) => void;
   toggleCreator: (creatorName: string) => void;
+  setSearch: (search: string) => void;
   clearFilters: () => void;
 }
 
@@ -20,6 +22,7 @@ export const useFilterStore = create<FilterState>()(
       selectedSectionId: null,
       selectedSubsectionIds: [],
       creators: [],
+      search: "",
 
       toggleSection: (sectionId) =>
         set((state) => {
@@ -58,11 +61,14 @@ export const useFilterStore = create<FilterState>()(
           return { creators: newCreators };
         }),
 
+      setSearch: (search) => set({ search }),
+
       clearFilters: () =>
         set({
           selectedSectionId: null,
           selectedSubsectionIds: [],
           creators: [],
+          search: "",
         }),
     }),
     {

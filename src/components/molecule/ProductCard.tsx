@@ -79,7 +79,7 @@ const ProductCard = ({ product }: { product: ProductCardProps }) => {
 
       {/* Add to Cart Button */}
       <Tooltip>
-        <TooltipTrigger>
+        <TooltipTrigger asChild>
           <div
             className="absolute bottom-0 right-0 bg-[#EFD45C] flex justify-center items-center w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-tl-2xl transition-colors hover:bg-[#e6c94a] cursor-pointer"
             onClick={handleAddToCart}

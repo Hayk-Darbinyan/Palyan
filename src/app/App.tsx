@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AppRoutes } from "@/routes/Routes";
 import { Toaster } from "@/components/atom/Toaster";
+import { TooltipProvider } from "@/components/atom/Tooltip";
 import { api } from "@/api/axios";
 
 const queryClient = new QueryClient({
@@ -35,12 +36,14 @@ function App() {
   }, []);
 
   return (
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
         <div className="app">
           <AppRoutes />
           <Toaster richColors visibleToasts={1} />
         </div>
-      </QueryClientProvider>
+      </TooltipProvider>
+    </QueryClientProvider>
   );
 }
 

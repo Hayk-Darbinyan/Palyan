@@ -51,10 +51,12 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   }, []);
 
   useEffect(() => {
-    const savedLang = localStorage.getItem("selectedLanguage") || "hy";
-    i18n.changeLanguage(savedLang);
+    const savedLang = (localStorage.getItem("selectedLanguage") as Language) || "hy";
+    if (i18n.language !== savedLang) {
+      i18n.changeLanguage(savedLang);
+    }
     document.documentElement.lang = savedLang;
-  }, [i18n]);
+  }, []); // Only run once on mount
 
   // Mobile variant - Simple buttons row
   if (variant === "mobile") {

@@ -19,6 +19,7 @@ export const useGetProducts = (
     category_id?: number | null;
     subcategory_id?: number[] | null;
     manufacturers?: string[] | null;
+    search?: string;
   }
 ) => {
   return useQuery({
@@ -28,6 +29,10 @@ export const useGetProducts = (
       
       if (filters?.category_id) {
         params.category_id = filters.category_id;
+      }
+
+      if (filters?.search) {
+        params.search = filters.search;
       }
       
       if (filters?.subcategory_id && filters.subcategory_id.length > 0) {
