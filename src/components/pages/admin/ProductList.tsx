@@ -23,7 +23,6 @@ const ProductList: React.FC<ProductListProps> = ({ onEdit }) => {
     totalItems: 0,
     itemsPerPage: 24,
   };
-  console.log(response)
 
   const [localProducts, setLocalProducts] = useState<Product[]>([]);
 

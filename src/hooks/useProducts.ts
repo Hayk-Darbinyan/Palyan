@@ -48,7 +48,6 @@ export const useGetProducts = (
       const response = await api.get<PaginatedResponse<Product>>("/products", {
         params,
       });
-      console.log(response.data);
       return response.data;
     },
     placeholderData: keepPreviousData,

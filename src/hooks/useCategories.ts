@@ -14,7 +14,6 @@ export function useCategories() {
     queryFn: async () => {
       const res = await api.get("/categories");
       
-      console.log(res.data)
       return res.data;
     },
     staleTime: 1000 * 60 * 5,

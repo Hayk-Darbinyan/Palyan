@@ -1,14 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/api/axios";
+import type { AuthResponse, User } from "@/types/admin";
 
 interface LoginCredentials {
   username: string;
   password: string;
 }
 
-interface AuthResponse {
-  access_token: string;
-  token_type: "bearer";
+interface ChangePasswordData {
+  current_password: string;
+  new_password: string;
 }
 
 // Helper function to check if token exists
@@ -22,6 +23,7 @@ const setAuthHeader = (token: string, tokenType: string = "Bearer") => {
 // Helper function to clear auth
 const clearAuth = () => {
   localStorage.removeItem("adminToken");
+  localStorage.removeItem("adminRefreshToken");
   delete api.defaults.headers.common["Authorization"];
 };
 
@@ -40,53 +42,94 @@ const loginRequest = async (credentials: LoginCredentials): Promise<AuthResponse
   return response.data;
 };
 
+const changePasswordRequest = async (data: ChangePasswordData) => {
+  const response = await api.post("/auth/change-password", data);
+  return response.data;
+};
+
+const getMeRequest = async (): Promise<User> => {
+  const response = await api.get<User>("/auth/me");
+  return response.data;
+};
+
 export const useAuth = () => {
   const queryClient = useQueryClient();
 
-  // Check authentication status
-  const { data: isAuthenticated = false, isLoading: loading } = useQuery({
+  // Check authentication status and role via /auth/me
+  const { data: authData, isLoading: loading, isError } = useQuery({
     queryKey: ["auth"],
-    queryFn: () => {
+    queryFn: async () => {
       const token = getStoredToken();
-      if (token) {
-        setAuthHeader(token);
-        return true;
+      if (!token) {
+        return {
+          isAuthenticated: false,
+          isSuperAdmin: false,
+          user: null
+        };
       }
-      return false;
+
+      try {
+        setAuthHeader(token);
+        const user = await getMeRequest();
+        return {
+          isAuthenticated: true,
+          isSuperAdmin: user.is_super_admin,
+          user: user
+        };
+      } catch (error) {
+        clearAuth();
+        return {
+          isAuthenticated: false,
+          isSuperAdmin: false,
+          user: null
+        };
+      }
     },
-    staleTime: Infinity, // Auth status doesn't go stale
+    staleTime: 5 * 60 * 1000, // 5 minutes
     retry: false,
   });
 
   // Login mutation
   const loginMutation = useMutation({
     mutationFn: loginRequest,
-    onSuccess: (data) => {
-      const { access_token, token_type } = data;
+    onSuccess: async (data) => {
+      const { access_token, refresh_token, token_type } = data;
       
-      // Store token
+      // Store tokens
       localStorage.setItem("adminToken", access_token);
+      localStorage.setItem("adminRefreshToken", refresh_token);
       
       // Set auth header
       setAuthHeader(access_token, token_type);
       
-      // Update auth query cache
-      queryClient.setQueryData(["auth"], true);
+      // Refetch auth data to get user info from /auth/me
+      await queryClient.invalidateQueries({ queryKey: ["auth"] });
     },
-    onError: () => {
-      queryClient.setQueryData(["auth"], false);
-    },
+  });
+
+  // Change Password mutation
+  const changePasswordMutation = useMutation({
+    mutationFn: changePasswordRequest,
+    onSuccess: () => {
+      logout();
+    }
   });
 
   // Logout function
   const logout = () => {
     clearAuth();
-    queryClient.setQueryData(["auth"], false);
+    queryClient.setQueryData(["auth"], {
+      isAuthenticated: false,
+      isSuperAdmin: false,
+      user: null
+    });
     queryClient.clear(); // Clear all cached data
   };
 
   return {
-    isAuthenticated,
+    isAuthenticated: !!authData?.isAuthenticated,
+    isSuperAdmin: !!authData?.isSuperAdmin,
+    user: authData?.user,
     loading,
     error: loginMutation.isError ? "Login failed. Please try again." : null,
     login: async (credentials: LoginCredentials) => {
@@ -101,7 +144,20 @@ export const useAuth = () => {
         };
       }
     },
+    changePassword: async (data: ChangePasswordData) => {
+      try {
+        await changePasswordMutation.mutateAsync(data);
+        return { success: true };
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : "Change password failed.";
+        return { 
+          success: false, 
+          error: errorMessage
+        };
+      }
+    },
     logout,
     isLoggingIn: loginMutation.isPending,
+    isChangingPassword: changePasswordMutation.isPending,
   };
 };

@@ -1,3 +1,20 @@
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  is_admin: boolean;
+  is_super_admin: boolean;
+  is_verified: boolean;
+  created_at: string;
+}
+
+export interface AuthResponse {
+  access_token: string;
+  refresh_token: string;
+  token_type: string;
+  expires_in: number;
+}
+
 export interface ProductFeatures {
   id: string;
   title: {
