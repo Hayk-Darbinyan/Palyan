@@ -31,7 +31,7 @@ export const useCreateAdmin = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (userData: Omit<User, 'id' | 'is_super_admin'> & { password: string }) => {
+    mutationFn: async (userData: Pick<User, 'username' | 'email'> & { password: string }) => {
       const response = await api.post("/admin/create-admin", userData);
       return response.data;
     },

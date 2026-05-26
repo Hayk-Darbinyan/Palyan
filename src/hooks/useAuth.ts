@@ -56,7 +56,7 @@ export const useAuth = () => {
   const queryClient = useQueryClient();
 
   // Check authentication status and role via /auth/me
-  const { data: authData, isLoading: loading, isError } = useQuery({
+  const { data: authData, isLoading: loading } = useQuery({
     queryKey: ["auth"],
     queryFn: async () => {
       const token = getStoredToken();
